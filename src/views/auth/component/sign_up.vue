@@ -123,7 +123,7 @@
         <div class="col-auto ms-auto">
           <button type="submit" class="btn btn-orange" :disabled="loading">
             Create Account
-            <font-awesome-icon v-if="loading" icon="fa-solid fa-spinner" />
+            <span  v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <font-awesome-icon v-else icon="fa-solid fa-arrow-right" />
           </button>
         </div>
