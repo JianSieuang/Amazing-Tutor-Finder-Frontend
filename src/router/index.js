@@ -3,24 +3,38 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 
 // authentication views
-import Auth_layout from "../views/auth/auth_layout.vue";
-import Sign_up from "../views/auth/component/sign_up.vue";
-import Sign_in from "../views/auth/component/sign_in.vue";
-import Tutor_registration from "../views/auth/tutor_registration.vue";
+import Auth_layout from "../views/auth/AuthLayout.vue";
+import Sign_up from "../views/auth/component/SignUp.vue";
+import Sign_in from "../views/auth/component/SignIn.vue";
+import Tutor_registration from "../views/auth/TutorRegistration.vue";
 
 // admin views
-import Admin_layout from "../views/admin/admin_layout.vue";
-import Dashboard from "../views/admin/component/dashboard.vue";
-import Tutor_registration_list from "../views/admin/component/tutor_registration_list.vue";
-import Report_list from "../views/admin/component/report_list.vue";
-import Tutor_management from "../views/admin/component/tutor_management.vue";
-import Settings from "../views/admin/component/settings.vue";
+import Admin_layout from "../views/admin/AdminLayout.vue";
+import Dashboard from "../views/admin/component/Dashboard.vue";
+import Tutor_registration_list from "../views/admin/component/TutorRegistrationList.vue";
+import Report_list from "../views/admin/component/ReportList.vue";
+import Tutor_management from "../views/admin/component/TutorManagement.vue";
+import Settings from "../views/admin/component/Settings.vue";
 
-import profile_layout from "../views/user/student&parent/profile_layout.vue";
+import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
+import Default_layout from "../views/content/DefaultLayout.vue";
+import Home from "../views/content/component/Home.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path:"/",
+      component: Default_layout,
+      redirect: "/home",
+      children: [
+        {
+          path: "home",
+          name: "Home",
+          component: Home,
+        },
+      ],
+    },
     {
       path: "/auth",
       component: Auth_layout,
