@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100 d-flex flex-column">
+
     <!-- header -->
     <header_design />
 
@@ -34,7 +34,6 @@
         <router-view></router-view>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup>
