@@ -19,115 +19,121 @@ import Settings from "../views/admin/component/Settings.vue";
 import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
 import Default_layout from "../views/content/DefaultLayout.vue";
 import Home from "../views/content/component/Home.vue";
+import Setting from "../views/user/student&parent/component/Setting.vue";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path:"/",
-      component: Default_layout,
-      redirect: "/home",
-      children: [
+    history: createWebHistory(import.meta.env.BASE_URL),
+    routes: [
         {
-          path: "home",
-          name: "Home",
-          component: Home,
-        },
-      ],
-    },
-    {
-      path: "/auth",
-      component: Auth_layout,
-      redirect: "/auth/sign_in",
-      children: [
-        {
-          path: "sign_in",
-          name: "Sign_in",
-          component: Sign_in,
+            path: "/",
+            component: Default_layout,
+            redirect: "/home",
+            children: [
+                {
+                    path: "home",
+                    name: "Home",
+                    component: Home,
+                },
+            ],
         },
         {
-          path: "sign_up",
-          name: "Sign_up",
-          component: Sign_up,
-        },
-      ],
-    },
-    {
-      path: "/tutor_registration",
-      name: "Tutor_registration",
-      component: Tutor_registration,
-    },
-    {
-      path: "/admin",
-      component: Admin_layout,
-      redirect: "/admin/dashboard",
-      children: [
-        {
-          path: "dashboard",
-          name: "Dashboard",
-          component: Dashboard,
+            path: "/auth",
+            component: Auth_layout,
+            redirect: "/auth/sign_in",
+            children: [
+                {
+                    path: "sign_in",
+                    name: "Sign_in",
+                    component: Sign_in,
+                },
+                {
+                    path: "sign_up",
+                    name: "Sign_up",
+                    component: Sign_up,
+                },
+            ],
         },
         {
-          path: "tutor_registration_list",
-          name: "Tutor_Registration_List",
-          component: Tutor_registration_list,
+            path: "/tutor_registration",
+            name: "Tutor_registration",
+            component: Tutor_registration,
         },
         {
-          path: "report_list",
-          name: "Report_List",
-          component: Report_list,
+            path: "/admin",
+            component: Admin_layout,
+            redirect: "/admin/dashboard",
+            children: [
+                {
+                    path: "dashboard",
+                    name: "Dashboard",
+                    component: Dashboard,
+                },
+                {
+                    path: "tutor_registration_list",
+                    name: "Tutor_Registration_List",
+                    component: Tutor_registration_list,
+                },
+                {
+                    path: "report_list",
+                    name: "Report_List",
+                    component: Report_list,
+                },
+                {
+                    path: "tutor_management",
+                    name: "Tutor_management",
+                    component: Tutor_management,
+                },
+                {
+                    path: "settings",
+                    name: "Settings",
+                    component: Settings,
+                },
+            ],
+            meta: { requiresAuth: true, requiresAdmin: true },
         },
         {
-          path: "tutor_management",
-          name: "Tutor_management",
-          component: Tutor_management,
+            path: "/user",
+            component: profile_layout,
+            redirect: "/user/setting",
+            children: [
+                {
+                    path: "setting",
+                    name: "Setting",
+                    component: Setting,
+                },
+            ],
+            meta: { requiresAuth: true },
         },
         {
-          path: "settings",
-          name: "Settings",
-          component: Settings,
+            path: "/:pathMatch(.*)*",
+            name: "NotFound",
+            component: () => import("../views/NotFound.vue"),
         },
-      ],
-      meta: { requiresAuth: true, requiresAdmin: true }
-    },
-    {
-      path: "/user",
-      component: profile_layout,
-      meta: { requiresAuth: true },
-    },
-    {
-      path: "/:pathMatch(.*)*",
-      name: "NotFound",
-      component: () => import("../views/NotFound.vue"),
-    },
-  ],
+    ],
 });
 
 router.beforeEach(async (to, from, next) => {
-  const authStore = useAuthStore();
+    const authStore = useAuthStore();
 
-  if (
-    to.matched.some((record) => record.meta.requiresAuth) &&
-    authStore.user == null
-  ) {
-    try {
-      await authStore.fetchUser();
-      if (authStore.user != null) {
+    if (to.matched.some((record) => record.meta.requiresAuth) && authStore.user == null) {
+        try {
+            await authStore.fetchUser();
+            if (authStore.user != null) {
+                next();
+            } else {
+                next({ name: "Sign_up" });
+            }
+        } catch (error) {
+            next({ name: "Sign_up" });
+        }
+        // } else if (
+        //   to.matched.some((record) => record.meta.requiresAdmin) &&
+        //   !authStore.user?.is_admin
+        // ) {
+        //   next({ name: 'Home' })
+    } else {
         next();
-      } else {
-        next({ name: "Sign_up" });
-      }
-    } catch (error) {
-      next({ name: "Sign_up" });
     }
-  // } else if (
-  //   to.matched.some((record) => record.meta.requiresAdmin) &&
-  //   !authStore.user?.is_admin
-  // ) {
-  //   next({ name: 'Home' })
-  } else {
-    next();
-  }
 });
 
 export default router;

@@ -1,11 +1,11 @@
 <template>
-  <!-- header -->
-  <header_design />
-  <div class="flex-fill">
-    <router-view></router-view>
-  </div>
-  <!-- footer -->
-  <footer_design />
+    <!-- header -->
+    <header_design />
+    <div class="flex-fill">
+        <router-view></router-view>
+    </div>
+    <!-- footer -->
+    <footer_design />
 </template>
 
 <script setup>
