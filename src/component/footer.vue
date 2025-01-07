@@ -1,7 +1,7 @@
 <template>
   <footer
-    class="d-flex flex-column text-secondary"
-    style="background-color: #1d2026; height: 380px"
+    class="d-flex flex-column text-secondary p-3"
+    style="background-color: #1d2026;"
   >
     <div
       class="flex-fill d-flex align-items-center justify-content-center gap-3"

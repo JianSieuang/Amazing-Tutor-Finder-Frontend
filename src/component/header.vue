@@ -28,7 +28,7 @@
         >
       </div>
       <div
-        v-if="isSignIn"
+        v-else-if="isSignIn"
         class="flex-shrink-0 ms-auto d-flex align-items-center"
       >
         <p class="text-secondary mb-0 me-2">Don't have account?</p>
@@ -37,14 +37,24 @@
         >
       </div>
 
-      <img
-        v-if="authStore.user"
-        :src="placeholderImageUrl"
-        width="40"
-        height="40"
-        alt="user picture"
-        class="rounded-circle"
-      />
+
+      <RouterLink to="/user" v-else-if="authStore.user">
+        <img
+          :src="placeholderImageUrl"
+          width="40"
+          height="40"
+          alt="user picture"
+          class="rounded-circle"
+      /></RouterLink>
+
+      <div v-else class="d-flex gap-2">
+        <RouterLink to="/auth/sign_up" class="btn btn-orange" type="button">
+          Create Account</RouterLink
+        >
+        <RouterLink to="/auth/sign_in" class="btn btn-orange" type="button">
+          Login</RouterLink
+        >
+      </div>
     </div>
   </header>
 </template>
