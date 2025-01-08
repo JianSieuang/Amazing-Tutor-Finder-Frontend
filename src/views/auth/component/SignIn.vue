@@ -2,7 +2,7 @@
     <div class="main d-flex flex-column justify-content-center">
         <div class="p-3">
             <h2 class="text-center">Sign in to your account</h2>
-            <form @submit.prevent="handleLogin">
+            <form @submit.prevent="handleSignIn">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" class="form-control" id="email" v-model="email" aria-describedby="emailHelp" placeholder="Username or email address" required />
@@ -18,15 +18,15 @@
                         <label class="form-check-label" for="rememberMe">Remember Me</label>
                     </div>
                     <div class="col-auto ms-auto">
-                        <button type="submit" class="btn btn-orange" :disabled="loading">
+                        <button type="submit" class="btn btn-orange" :disabled="authStore.loading">
                             Log in
-                            <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span v-if="authStore.loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <font-awesome-icon v-else icon="fa-solid fa-arrow-right" />
                         </button>
                     </div>
                 </div>
 
-                <div v-if="error" class="text-danger mt-2">{{ error }}</div>
+                <div v-if="authStore.error" class="text-danger mt-2">{{ authStore.error }}</div>
             </form>
         </div>
     </div>
@@ -34,32 +34,24 @@
 
 <script setup>
 import { ref } from "vue";
-import { useAuthStore } from "@/stores/auth.js";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth.js";
 
-const authStore = useAuthStore();
 const router = useRouter();
+const authStore = useAuthStore();
+
 const email = ref("");
 const password = ref("");
-const loading = ref(false);
-const error = ref(null);
 const showPassword = ref(false);
 
-const handleLogin = async () => {
-    loading.value = true;
-    error.value = null;
-    try {
-        await authStore.login({ email: email.value, password: password.value });
-        if (authStore.user.role === "admin") {
-            router.push("/admin");
-        } else {
-            router.push("/");
-        }
-    } catch (err) {
-        error.value = err.response.data.message;
-    } finally {
-        loading.value = false;
-    }
+const handleSignIn = async () => {
+    await authStore.login(
+        {
+            email: email.value,
+            password: password.value,
+        },
+        router
+    );
 };
 </script>
 

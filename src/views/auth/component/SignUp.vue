@@ -1,7 +1,7 @@
 <template>
     <div class="main d-flex flex-column justify-content-center">
         <h2 class="text-center">Create your account</h2>
-        <form @submit.prevent="handleSubmit">
+        <form @submit.prevent="handleSignUp">
             <div class="row mb-3">
                 <div class="col-auto">
                     <label for="role" class="form-label">I am</label>
@@ -49,19 +49,19 @@
                 <div class="col-auto">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="AgreementCheck" required />
-                        <label class="form-check-label" for="AgreementCheck">I Agree wit all of your Terms & Conditions</label>
+                        <label class="form-check-label" for="AgreementCheck">I Agree with all of your Terms & Conditions</label>
                     </div>
                 </div>
 
                 <div class="col-auto ms-auto">
-                    <button type="submit" class="btn btn-orange" :disabled="loading">
+                    <button type="submit" class="btn btn-orange" :disabled="authStore.loading">
                         Create Account
-                        <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span v-if="authStore.loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         <font-awesome-icon v-else icon="fa-solid fa-arrow-right" />
                     </button>
                 </div>
             </div>
-            <div v-if="error" class="text-danger mt-2">{{ error }}</div>
+            <div v-if="authStore.error" class="text-danger mt-2">{{ authStore.error }}</div>
         </form>
     </div>
 </template>
@@ -69,9 +69,10 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import axios from "@/axios";
+import { useAuthStore } from "@/stores/auth.js";
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const name = ref("");
 const email = ref("");
@@ -82,37 +83,24 @@ const role = ref("student");
 // haven't use first name and last name yet
 // why, cus i dont know where to store based on the current backend design
 
-const loading = ref(false);
-const error = ref(null);
 const showPassword = ref(false);
 
-const handleSubmit = async () => {
+const handleSignUp = async () => {
     if (password.value !== confirmPassword.value) {
-        error.value = "Passwords do not match.";
+        authStore.error = "Passwords do not match.";
         return;
     }
 
-    loading.value = true;
-    error.value = null;
-
-    try {
-        await axios.get("/sanctum/csrf-cookie");
-        const response = await axios.post("/register", {
+    await authStore.register(
+        {
             name: name.value,
             email: email.value,
             password: password.value,
             password_confirmation: confirmPassword.value,
             role: role.value,
-        });
-        if (response.status === 204) {
-            router.push("/user");
-        }
-    } catch (err) {
-        error.value = err.response.data.message;
-        console.error("Registration error:", err);
-    } finally {
-        loading.value = false;
-    }
+        },
+        router
+    );
 };
 </script>
 

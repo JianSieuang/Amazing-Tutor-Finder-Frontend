@@ -28,7 +28,7 @@
                                 <router-link to="#" class="nav-link">Message</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link to="#" class="nav-link">Profile</router-link>
+                                <router-link to="/user/setting" class="nav-link">Setting</router-link>
                             </li>
                         </ul>
                     </div>
@@ -36,17 +36,18 @@
                 <router-view></router-view>
             </div>
         </div>
+        <!-- footer -->
+        <footer_design />
     </div>
-    <!-- footer -->
-    <footer_design />
 </template>
 
 <script setup>
 import header_design from "@/component/header.vue";
 import footer_design from "@/component/footer.vue";
+
 import { computed } from "vue";
-import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
 const backgroundColor = computed(() => (authStore.user.role === "student" ? "#FFEEE8" : "#FFC7B2"));
@@ -62,7 +63,6 @@ const getFirstLetter = (fullName) => {
 
 const router = useRouter();
 const signOut = async () => {
-    await authStore.logout();
-    router.push("/login");
+    await authStore.logout(router);
 };
 </script>

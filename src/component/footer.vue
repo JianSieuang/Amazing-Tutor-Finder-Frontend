@@ -1,5 +1,5 @@
 <template>
-    <footer class="d-flex flex-column text-secondary p-3" style="background-color: #1d2026">
+    <footer class="d-flex flex-column text-secondary p-3" style="background-color: #1d2026; min-height: 380px;">
         <div class="flex-fill d-flex align-items-center justify-content-center gap-3">
             <div>
                 <RouterLink to="#" class="d-flex align-items-center text-white text-decoration-none" style="background: none">
