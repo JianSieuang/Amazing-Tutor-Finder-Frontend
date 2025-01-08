@@ -10,7 +10,7 @@
             <div class="m-4 p-4 d-flex flex-column justify-content-center align-items-center">
                 <div class="bg-white rounded-3 w-75">
                     <div class="d-flex align-items-center p-4">
-                        <img v-if="authStore.user" :src="placeholderImageUrl" width="100" height="100" alt="user picture" class="rounded-circle me-3" />
+                        <img v-if="authStore.user" :src="authStore.image" width="100" height="100" alt="user picture" class="rounded-circle me-3" />
 
                         <span class="fs-5 fw-bold me-auto">{{ authStore.user.name }}</span>
                         <div class="btn" @click="signOut">Sign Out</div>
@@ -19,16 +19,10 @@
                     <div class="d-flex justify-content-center border-top border-bottom">
                         <ul class="nav my-3 gap-5">
                             <li class="nav-item">
-                                <router-link to="# " class="nav-link">Course</router-link>
-                            </li>
-                            <li class="nav-item">
                                 <router-link to="#" class="nav-link">Tutors</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link to="#" class="nav-link">Message</router-link>
-                            </li>
-                            <li class="nav-item">
-                                <router-link to="/user/setting" class="nav-link">Setting</router-link>
+                                <router-link to="/user/setting" class="nav-link">Setting & Privacy</router-link>
                             </li>
                         </ul>
                     </div>
@@ -51,15 +45,6 @@ import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
 const backgroundColor = computed(() => (authStore.user.role === "student" ? "#FFEEE8" : "#FFC7B2"));
-
-const placeholderImageUrl = computed(() => {
-    const letters = authStore.user.name ? getFirstLetter(authStore.user.name) : "";
-    return `https://via.placeholder.com/144x144/FFEEE8/FF6636/?text=${letters}&font=roboto`;
-});
-const getFirstLetter = (fullName) => {
-    const words = fullName.split(" ").slice(0, 3);
-    return words.map((name) => name.charAt(0).toUpperCase()).join("");
-};
 
 const router = useRouter();
 const signOut = async () => {

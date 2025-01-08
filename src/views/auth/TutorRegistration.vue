@@ -87,9 +87,9 @@
                 </div>
 
                 <div class="d-flex flex-row-reverse">
-                    <button type="submit" class="ms-auto btn btn-orange" :disabled="loading">
+                    <button type="submit" class="ms-auto btn btn-orange" :disabled="tutorStore.loading">
                         Save & Send to Pending
-                        <span v-if="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span v-if="tutorStore.loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>
@@ -98,9 +98,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import axios from "axios";
 import header_design from "@/component/header.vue";
+
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useTutorStore } from "@/stores/tutor.js";
+
+const router = useRouter();
+const tutorStore = useTutorStore();
 
 const fullname = ref("");
 const email = ref("");
@@ -114,7 +119,6 @@ const instagram = ref("");
 const linkedln = ref("");
 const whatsapp = ref("");
 
-const loading = ref(false);
 const imagePreview = ref("");
 
 const handleImageUpload = (event) => {
@@ -129,46 +133,20 @@ const handleImageUpload = (event) => {
 };
 
 const handleLogin = async () => {
-    loading.value = true;
-
-    try {
-        await axios.get("/sanctum/csrf-cookie");
-        const response = await axios.post(
-            "api/tutors/register",
-            {
-                fullname: fullname.value,
-                phone_number: country_code.value + phone_number.value,
-                email: email.value,
-                education_background: education_background.value,
-                profile_picture: profile_picture.value,
-                teaching_experience: teaching_experience.value,
-                about_me: about_me.value,
-                instagram: instagram.value,
-                linkedln: linkedln.value,
-                whatsapp: whatsapp.value,
-            },
-            {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }
-        );
-
-        alert("Application submitted successfully!");
-        console.log(response.data);
-    } catch (error) {
-        if (error.response) {
-            alert(error.response.data.message);
-            console.error("Server Error:", error.response);
-        } else if (error.request) {
-            alert("No response received from the server. Please check your network connection.");
-            console.error("Network Error:", error.request);
-        } else {
-            alert("An unexpected error occurred. Please try again.");
-            console.error("Request Error:", error.message);
-        }
-    } finally {
-        loading.value = false;
-    }
+    await tutorStore.register(
+        {
+            fullname: fullname.value,
+            phone_number: country_code.value + phone_number.value,
+            email: email.value,
+            education_background: education_background.value,
+            profile_picture: profile_picture.value,
+            teaching_experience: teaching_experience.value,
+            about_me: about_me.value,
+            instagram: instagram.value,
+            linkedln: linkedln.value,
+            whatsapp: whatsapp.value,
+        },
+        router
+    );
 };
 </script>

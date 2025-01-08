@@ -1,5 +1,5 @@
 <template>
-    <div class="h-100 d-flex">
+    <div class="vh-100 d-flex overflow-hidden">
         <div class="d-flex flex-column flex-shrink-0 text-secondary bg-dark" style="width: 280px">
             <RouterLink to="#" class="d-flex p-3 align-items-center text-white text-decoration-none">
                 <img src="@/assets/png/logo.png" height="40" />
@@ -11,13 +11,13 @@
                     <RouterLink to="/admin/dashboard" class="nav-link text-secondary" :class="{ active: route.name === 'Dashboard' }"><font-awesome-icon icon="fa-solid fa-chart-column" class="mx-3" />Dashboard</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/admin/tutor_registration" class="nav-link text-secondary" :class="{ active: route.name === 'Tutor_registration' }"><font-awesome-icon icon="fa-solid fa-circle-plus" class="mx-3" />Registration</RouterLink>
+                    <RouterLink to="/admin/tutor_registration_list" class="nav-link text-secondary" :class="{ active: route.name === 'Tutor_Registration_List' }"> <font-awesome-icon icon="fa-solid fa-circle-plus" class="mx-3" />Registration</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/admin/report" class="nav-link text-secondary" :class="{ active: route.name === 'Report' }"><font-awesome-icon icon="fa-solid fa-layer-group" class="mx-3" />Report</RouterLink>
+                    <RouterLink to="/admin/report_list" class="nav-link text-secondary" :class="{ active: route.name === 'Report_List' }"><font-awesome-icon icon="fa-solid fa-layer-group" class="mx-3" />Report</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/admin/tutor_management" class="nav-link text-secondary" :class="{ active: route.name === 'Tutor_management' }"><font-awesome-icon icon="fa-solid fa-comment-dots" class="mx-3" />Manage Tutor</RouterLink>
+                    <RouterLink to="/admin/tutor_management" class="nav-link text-secondary" :class="{ active: route.name === 'Tutor_Management' }"><font-awesome-icon icon="fa-solid fa-comment-dots" class="mx-3" />Manage Tutor</RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/admin/settings" class="nav-link text-secondary" :class="{ active: route.name === 'Settings' }"><font-awesome-icon icon="fa-solid fa-gear" class="mx-3" />Settings</RouterLink>
@@ -28,12 +28,15 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column flex-grow-1">
-            <header class="d-flex align-items-center" style="height: 72px; padding-left: 160px">
+        <div class="d-flex flex-column flex-grow-1" style="background-color: #f5f7fa">
+            <header class="d-flex align-items-center bg-white fw-bold" style="min-height: 72px; padding-left: 160px">
                 {{ route.name.replace(/_/g, " ") }}
             </header>
             <hr class="mt-0" />
-            <router-view></router-view>
+            <div class="overflow-auto">
+                <router-view></router-view>
+            </div>
+            
         </div>
     </div>
 </template>

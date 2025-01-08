@@ -15,11 +15,12 @@ import Tutor_registration_list from "../views/admin/component/TutorRegistrationL
 import Report_list from "../views/admin/component/ReportList.vue";
 import Tutor_management from "../views/admin/component/TutorManagement.vue";
 import Settings from "../views/admin/component/Settings.vue";
+import TutorDetails from "../views/admin/component/TutorDetails.vue";
 
 import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
 import Default_layout from "../views/content/DefaultLayout.vue";
 import Home from "../views/content/component/Home.vue";
-import Setting from "../views/user/student&parent/component/Setting.vue";
+import SettingAndPrivacy from "../views/user/student&parent/component/SettingAndPrivacy.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -52,6 +53,7 @@ const router = createRouter({
                     component: Sign_up,
                 },
             ],
+            meta: { requiresGuest: true },
         },
         {
             path: "/tutor_registration",
@@ -74,13 +76,18 @@ const router = createRouter({
                     component: Tutor_registration_list,
                 },
                 {
+                    path: "/tutor_details/:id",
+                    name: "Tutor_Details",
+                    component: TutorDetails,
+                },
+                {
                     path: "report_list",
                     name: "Report_List",
                     component: Report_list,
                 },
                 {
                     path: "tutor_management",
-                    name: "Tutor_management",
+                    name: "Tutor_Management",
                     component: Tutor_management,
                 },
                 {
@@ -98,8 +105,8 @@ const router = createRouter({
             children: [
                 {
                     path: "setting",
-                    name: "Setting",
-                    component: Setting,
+                    name: "Setting_and_Privacy",
+                    component: SettingAndPrivacy,
                 },
             ],
             meta: { requiresAuth: true },
@@ -114,15 +121,25 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
-
-    if (to.matched.some((record) => record.meta.requiresAuth) && authStore.user == null) {
+    if (to.matched.some((record) => record.meta.requiresGuest)) {
+        try {
+            await authStore.fetchUser();
+            if (authStore.user == null) {
+                next();
+            } else {
+                next({ name: "Home" });
+            }
+        } catch (error) {
+            next({ name: "Home" });
+        }
+    } else if (to.matched.some((record) => record.meta.requiresAuth) && authStore.user == null) {
         try {
             await authStore.fetchUser();
             if (authStore.user != null) {
                 next();
             } else {
                 next({ name: "Sign_up" });
-            }
+            }   
         } catch (error) {
             next({ name: "Sign_up" });
         }

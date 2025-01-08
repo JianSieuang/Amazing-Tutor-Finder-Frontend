@@ -6,16 +6,17 @@ export const useAuthStore = defineStore("auth", {
         user: null,
         loading: false,
         error: null,
+        image: null,
     }),
 
     actions: {
-        async register(credentials, router) {
+        async register(data, router) {
             this.loading = true;
             this.error = null;
 
             try {
                 await axios.get("/sanctum/csrf-cookie");
-                await axios.post("/register", credentials);
+                await axios.post("/register", data);
                 await this.fetchUser();
                 router.push("/");
             } catch (err) {
@@ -24,13 +25,13 @@ export const useAuthStore = defineStore("auth", {
             this.loading = false;
         },
 
-        async login(credentials, router) {
+        async login(data, router) {
             this.loading = true;
             this.error = null;
 
             try {
                 await axios.get("/sanctum/csrf-cookie");
-                await axios.post("/login", credentials);
+                await axios.post("/login", data);
                 await this.fetchUser();
                 if (this.user.role === "admin") {
                     router.push("/admin");
@@ -61,18 +62,31 @@ export const useAuthStore = defineStore("auth", {
                 await axios.get("/sanctum/csrf-cookie");
                 const response = await axios.get("api/user");
                 this.user = response.data;
+                await this.generateImage();
             } catch (error) {
                 this.user = null;
             }
         },
 
-        // Update user profile?? why is this here?
-        async updateUserProfile(updatedUser) {
+        async generateImage() {
+            if (this.user.image == null) {
+                const letters = this.user.name
+                    .split(" ")
+                    .slice(0, 3)
+                    .map((name) => name.charAt(0).toUpperCase())
+                    .join("");
+                this.image = `https://via.placeholder.com/144x144/FFEEE8/FF6636/?text=${letters}&font=roboto`;
+            } else {
+                this.image = this.user.image;
+            }
+        },
+
+        async editUser(data) {
             try {
-                const response = await axios.put("api/user", updatedUser);
+                const response = await axios.put("api/user", data);
                 this.user = response.data;
             } catch (error) {
-                console.error("Error updating profile:", error);
+                this.error = err.response?.data?.message || "Edit failed.";
             }
         },
     },
