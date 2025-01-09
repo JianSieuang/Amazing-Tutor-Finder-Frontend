@@ -24,14 +24,13 @@
                     </div>
                 </div>
             </div>
-            <!-- this got problem -->
-            <!-- <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6 col-md-4">
                 <div class="mb-3">
                     <label for="profile_picture" class="form-label">Profile Picture</label>
                     <br />
-                    <img :src="'localhost:8000' + tutor.image" alt="" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
+                    <img :src="'127.0.0.1:8000' + tutor.image" alt="" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
                 </div>
-            </div> -->
+            </div>
         </div>
 
         <div class="mb-3">
@@ -92,6 +91,10 @@ const tutorStore = useTutorStore();
 
 const tutor = computed(() => {
     const tutorId = router.currentRoute.value.params.id;
-    return tutorStore.pendingTutors.find((tutor) => tutor.id === parseInt(tutorId));
+    let found = tutorStore.pendingTutors.find((tutor) => tutor.id === parseInt(tutorId));
+    if (!found) {
+        found = tutorStore.tutors.find((tutor) => tutor.id === parseInt(tutorId));
+    }
+    return found;
 });
 </script>
