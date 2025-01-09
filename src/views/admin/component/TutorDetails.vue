@@ -1,5 +1,5 @@
 <template>
-    <div class="container bg-white p-5 ">
+    <div class="container bg-white p-5">
         <h4>Tutor Details</h4>
         <div class="row mb-3">
             <div class="col-sm-6 col-md-8">
@@ -77,8 +77,8 @@
         </div>
     </div>
     <div class="d-flex flex-row-reverse gap-3">
-        <div class="btn btn-orange">Approve</div>
-        <div class="btn btn-orange">Reject</div>
+        <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'Approved')">Approve</div>
+        <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'Rejected')">Reject</div>
     </div>
 </template>
 

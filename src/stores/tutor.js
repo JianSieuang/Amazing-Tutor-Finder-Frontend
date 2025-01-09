@@ -51,5 +51,16 @@ export const useTutorStore = defineStore("tutor", {
                 console.error("Error fetching pending tutors: ", error);
             }
         },
+
+        async updateStatus(id, status) {
+            console.log(id, status)
+            try {
+                this.loading = true;
+                await axios.get("/sanctum/csrf-cookie");
+                await axios.post(`api/tutors/${id}/status`, status);
+            } catch (error) {
+                console.error("Error update tutors status: ", error);
+            }
+        },
     },
 });
