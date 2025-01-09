@@ -36,7 +36,7 @@
                     </div>
                     <div class="d-flex gap-3">
                         <button v-if="isEditing" class="btn btn-orange" type="submit">Save change</button>
-                        <div type="button" class="btn btn-orange" @click="() => (isEditing = !isEditing)">
+                        <div type="button" class="btn btn-orange" @click="() => ((isEditing = !isEditing), !isEditing && cancelEditing())">
                             {{ isEditing ? "Cancel" : "Edit" }}
                         </div>
                     </div>
@@ -83,14 +83,28 @@ import { useImageStore } from "@/stores/image";
 const authStore = useAuthStore();
 const imageStore = useImageStore();
 
-const name = ref(authStore.user.name || "");
-const email = ref(authStore.user.email || "");
-const first_name = ref(authStore.user.first_name || "");
-const last_name = ref(authStore.user.last_name || "");
+const originalData = {
+    name: authStore.user.name || "",
+    email: authStore.user.email || "",
+    first_name: authStore.user.first_name || "",
+    last_name: authStore.user.last_name || "",
+};
+
+const name = ref(originalData.name);
+const email = ref(originalData.email);
+const first_name = ref(originalData.first_name);
+const last_name = ref(originalData.last_name);
 const profile_picture = ref(authStore.user.image || "");
 const imagePreview = ref(authStore.image);
-
 const isEditing = ref(false);
+
+const cancelEditing = () => {
+    name.value = originalData.name;
+    email.value = originalData.email;
+    first_name.value = originalData.first_name;
+    last_name.value = originalData.last_name;
+    isEditing.value = false;
+};
 
 const handleEditProfile = async () => {
     await authStore.editUser({
