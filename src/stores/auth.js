@@ -77,7 +77,7 @@ export const useAuthStore = defineStore("auth", {
                     .join("");
                 this.image = `https://via.placeholder.com/144x144/FFEEE8/FF6636/?text=${letters}&font=roboto`;
             } else {
-                this.image = this.user.image;
+                this.image =  `http://127.0.0.1:8000${this.user.image}`;
             }
         },
 
