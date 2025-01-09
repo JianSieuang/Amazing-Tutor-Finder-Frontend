@@ -1,5 +1,5 @@
 <template>
-    <div class="container bg-white p-5 my-4">
+    <div class="container bg-white p-5 ">
         <h4>Tutor Details</h4>
         <div class="row mb-3">
             <div class="col-sm-6 col-md-8">
@@ -46,7 +46,6 @@
 
     <div class="container bg-white p-5 my-4">
         <h4>Social Profile</h4>
-
         <div class="row mb-3">
             <div class="col">
                 <label for="instagram" class="form-label">Instagram</label>
@@ -76,6 +75,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="d-flex flex-row-reverse gap-3">
+        <div class="btn btn-orange">Approve</div>
+        <div class="btn btn-orange">Reject</div>
     </div>
 </template>
 

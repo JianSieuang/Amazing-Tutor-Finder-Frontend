@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 
 export const useTutorStore = defineStore("tutor", {
     state: () => ({
+        tutors: [],
         pendingTutors: [],
         loading: false,
         error: null,
@@ -37,6 +38,15 @@ export const useTutorStore = defineStore("tutor", {
             try {
                 const response = await axios.get("api/tutors/pending");
                 this.pendingTutors = response.data?.tutors;
+            } catch (error) {
+                console.error("Error fetching pending tutors: ", error);
+            }
+        },
+
+        async fetchTutors() {
+            try {
+                const response = await axios.get("api/tutors");
+                this.tutors = response.data?.tutors;
             } catch (error) {
                 console.error("Error fetching pending tutors: ", error);
             }

@@ -33,7 +33,7 @@
                 {{ route.name.replace(/_/g, " ") }}
             </header>
             <hr class="mt-0" />
-            <div class="overflow-auto">
+            <div class="overflow-auto p-4">
                 <router-view></router-view>
             </div>
             
