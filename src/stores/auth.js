@@ -92,6 +92,7 @@ export const useAuthStore = defineStore("auth", {
                 const response = await axios.put("api/user", data);
                 this.user = response.data;
                 alert("Edit successful!");
+                location.reload();
             } catch (error) {
                 this.error = err.response?.data?.message || "Edit failed.";
                 alert("Edit failed! Pls try again");
