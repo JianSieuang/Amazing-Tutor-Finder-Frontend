@@ -54,10 +54,8 @@ export const useAuthStore = defineStore("auth", {
             try {
                 await axios.get("/sanctum/csrf-cookie");
                 await axios.post("/logout");
-                alert("Logout successful!");
                 router.push("/");
             } catch (error) {
-                alert("Logout failed!");
                 console.error("Logout error:", error);
             } finally {
                 this.user = null;
