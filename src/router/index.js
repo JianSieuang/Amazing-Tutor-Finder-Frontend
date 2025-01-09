@@ -121,28 +121,24 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
+
+    if (!authStore.tryAuth) {
+        await authStore.fetchUser();
+    }
+
     if (to.matched.some((record) => record.meta.requiresGuest)) {
-        try {
-            await authStore.fetchUser();
-            if (authStore.user == null) {
-                next();
-            } else {
-                next({ name: "Home" });
-            }
-        } catch (error) {
+        if (authStore.user == null) {
+            next();
+        } else {
             next({ name: "Home" });
         }
     } else if (to.matched.some((record) => record.meta.requiresAuth) && authStore.user == null) {
-        try {
-            await authStore.fetchUser();
-            if (authStore.user != null) {
-                next();
-            } else {
-                next({ name: "Sign_up" });
-            }   
-        } catch (error) {
+        if (authStore.user != null) {
+            next();
+        } else {
             next({ name: "Sign_up" });
         }
+
         // } else if (
         //   to.matched.some((record) => record.meta.requiresAdmin) &&
         //   !authStore.user?.is_admin

@@ -7,6 +7,7 @@ export const useAuthStore = defineStore("auth", {
         loading: false,
         error: null,
         image: null,
+        tryAuth: false,
     }),
 
     actions: {
@@ -59,6 +60,7 @@ export const useAuthStore = defineStore("auth", {
 
         async fetchUser() {
             try {
+                this.tryAuth = true;
                 await axios.get("/sanctum/csrf-cookie");
                 const response = await axios.get("api/user");
                 this.user = response.data;
