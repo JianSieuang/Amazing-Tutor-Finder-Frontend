@@ -77,8 +77,8 @@
         </div>
     </div>
     <div class="d-flex flex-row-reverse gap-3">
-        <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'Approved')">Approve</div>
-        <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'Rejected')">Reject</div>
+        <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'approved')">Approve</div>
+        <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'rejected')">Reject</div>
     </div>
 </template>
 

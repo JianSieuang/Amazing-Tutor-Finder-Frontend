@@ -27,11 +27,11 @@
                                 <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password" v-model="password" placeholder="Create password" required />
                                 <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
                             </div>
-                            <div class="col">
-                                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                <input :type="showPassword ? 'text' : 'password'" class="form-control" id="confirmPassword" v-model="confirmPassword" placeholder="Confirm password" required />
-                                <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
-                            </div>
+                                <div class="col">
+                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                    <input :type="showPassword ? 'text' : 'password'" class="form-control" id="confirmPassword" v-model="confirmPassword" placeholder="Confirm password" required />
+                                    <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
+                                </div>
                         </div>
 
                         <div class="row mb-3 align-items-end">
@@ -169,3 +169,12 @@ const handleLogin = async () => {
     );
 };
 </script>
+
+<style>
+.hide-show-icon {
+    float: right;
+    top: -30px;
+    right: 10px;
+    cursor: pointer;
+}
+</style>

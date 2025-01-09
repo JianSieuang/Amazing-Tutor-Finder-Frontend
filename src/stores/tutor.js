@@ -53,11 +53,13 @@ export const useTutorStore = defineStore("tutor", {
         },
 
         async updateStatus(id, status) {
-            console.log(id, status)
             try {
                 this.loading = true;
                 await axios.get("/sanctum/csrf-cookie");
-                await axios.post(`api/tutors/${id}/status`, status);
+                await axios.post(`api/tutors/${id}/status`, {
+                    status: status,
+                });
+                alert("Tutor status updated successfully!");
             } catch (error) {
                 console.error("Error update tutors status: ", error);
             }
