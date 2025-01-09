@@ -23,6 +23,19 @@
 
                         <div class="row mb-3 align-items-end">
                             <div class="col">
+                                <label for="password" class="form-label">Password</label>
+                                <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password" v-model="password" placeholder="Create password" required />
+                                <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
+                            </div>
+                            <div class="col">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input :type="showPassword ? 'text' : 'password'" class="form-control" id="confirmPassword" v-model="confirmPassword" placeholder="Confirm password" required />
+                                <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-end">
+                            <div class="col">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" v-model="email" aria-describedby="emailHelp" placeholder="Email address" required />
                             </div>
@@ -108,9 +121,11 @@ const router = useRouter();
 const tutorStore = useTutorStore();
 
 const fullname = ref("");
-const email = ref("");
 const country_code = ref("+60");
 const phone_number = ref("");
+const password = ref("");
+const confirmPassword = ref("");
+const email = ref("");
 const education_background = ref("");
 const profile_picture = ref("");
 const teaching_experience = ref("");
@@ -118,6 +133,8 @@ const about_me = ref("");
 const instagram = ref("");
 const linkedln = ref("");
 const whatsapp = ref("");
+
+const showPassword = ref(false);
 
 const imagePreview = ref("");
 
@@ -137,6 +154,8 @@ const handleLogin = async () => {
         {
             fullname: fullname.value,
             phone_number: country_code.value + phone_number.value,
+            password: password.value,
+            password_confirmation: confirmPassword.value,
             email: email.value,
             education_background: education_background.value,
             profile_picture: profile_picture.value,

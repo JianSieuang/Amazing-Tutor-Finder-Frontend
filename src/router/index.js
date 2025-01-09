@@ -132,7 +132,7 @@ router.beforeEach(async (to, from, next) => {
         } else {
             next({ name: "Home" });
         }
-    } else if (to.matched.some((record) => record.meta.requiresAuth) && authStore.user == null) {
+    } else if (to.matched.some((record) => record.meta.requiresAuth)) {
         if (authStore.user != null) {
             next();
         } else {
