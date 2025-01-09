@@ -13,17 +13,18 @@ export const useImageStore = defineStore("image", {
                 await axios.get("/sanctum/csrf-cookie");
 
                 const formData = new FormData();
-                formData.append('profile_picture', data);
+                formData.append("profile_picture", data);
 
-                await axios.post(`/api/users/${id}/image`, formData, {
+                const response = await axios.post(`/api/users/${id}/image`, formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
                 });
-                alert("Image uploaded successfully!");
+                alert(response.data.message);
                 location.reload();
             } catch (error) {
-                console.log(error);
+                console.log(error.response.data);
+                alert(error.response.data.message);
             } finally {
                 this.loading = false;
             }
