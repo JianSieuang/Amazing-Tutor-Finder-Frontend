@@ -1,8 +1,8 @@
 <template>
     <header_design />
-    <div class="min-vh-100 p-4" style="background-color: #f5f7fa">
+    <div class=" p-4" style="background-color: #f5f7fa">
         <form @submit.prevent="handleLogin">
-            <div class="container bg-white p-5 my-4">
+            <div class="container bg-white p-5 my-0">
                 <h4>Tutor Registration</h4>
                 <div class="row mb-3">
                     <div class="col-sm-6 col-md-8">
@@ -21,26 +21,26 @@
                             <input type="text" class="form-control" id="phone_number" v-model="phone_number" placeholder="Your phone number" required />
                         </div>
 
-                        <div class="row mb-3 align-items-end">
-                            <div class="col">
+                        <div class="row mb-0 align-items-end flex-wrap">
+                            <div class="col-12 col-md-6 ">
                                 <label for="password" class="form-label">Password</label>
                                 <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password" v-model="password" placeholder="Create password" required />
                                 <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
                             </div>
-                                <div class="col">
+                                <div class="col-12 col-md-6 ">
                                     <label for="confirmPassword" class="form-label">Confirm Password</label>
                                     <input :type="showPassword ? 'text' : 'password'" class="form-control" id="confirmPassword" v-model="confirmPassword" placeholder="Confirm password" required />
                                     <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
                                 </div>
                         </div>
 
-                        <div class="row mb-3 align-items-end">
-                            <div class="col">
+                        <div class="row mb-0 align-items-end flex-wrap ">
+                            <div class="col-12 col-md-6 mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" v-model="email" aria-describedby="emailHelp" placeholder="Email address" required />
                             </div>
 
-                            <div class="col">
+                            <div class="col-12 col-md-6 mb-3">
                                 <label for="education_background" class="form-label">Education Background</label>
                                 <input type="text" class="form-control" id="education_background" v-model="education_background" placeholder="Education Background" />
                             </div>
@@ -69,8 +69,8 @@
             <div class="container bg-white p-5 my-4">
                 <h4>Social Profile</h4>
 
-                <div class="row mb-3">
-                    <div class="col">
+                <div class="row mb-3 flex-wrap">
+                    <div class="col-12 col-md-6 mb-3">
                         <label for="instagram" class="form-label">Instagram</label>
                         <div class="input-group">
                             <span class="input-group-text">
@@ -79,7 +79,7 @@
                             <input type="text" class="form-control" id="instagram" v-model="instagram" placeholder="Please put your Instagram link" />
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-md-6 mb-3">
                         <label for="linkedln" class="form-label">LinkedIn</label>
                         <div class="input-group">
                             <span class="input-group-text">
@@ -88,7 +88,7 @@
                             <input type="text" class="form-control" id="linkedln" v-model="linkedln" placeholder="Please put your LinkedIn link" />
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-12 col-md-6 mb-3">
                         <label for="whatsapp" class="form-label">WhatsApp</label>
                         <div class="input-group">
                             <span class="input-group-text">
@@ -171,6 +171,11 @@ const handleLogin = async () => {
 </script>
 
 <style>
+.btn-orange {
+    background-color: #ff6636;
+    color: #FFFFFF;
+    border-radius: 2px;
+}
 .hide-show-icon {
     float: right;
     top: -30px;
