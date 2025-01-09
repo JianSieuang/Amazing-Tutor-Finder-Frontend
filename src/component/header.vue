@@ -1,6 +1,6 @@
 <template>
     <header class="py-3 border-bottom bg-white">
-        <div class="px-4 d-flex flex-wrap align-items-center gap-3">
+        <div class="px-4 d-flex flex-wrap align-items-center gap-3" style="margin-left: auto; margin-right: auto; max-width: 65%;">
             <RouterLink to="/" class="d-flex align-items-center text-dark text-decoration-none">
                 <img src="@/assets/png/logo.png" height="40" />
                 <span class="fs-4 fw-bold">Amazing Tutor Finder</span>
@@ -40,3 +40,10 @@ const isSignIn = computed(() => route.name == "Sign_in");
 
 const authStore = useAuthStore();
 </script>
+
+<style scoped>
+.text-secondary{
+    font-size: 0.88rem !important;
+}
+
+</style>
