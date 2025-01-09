@@ -23,7 +23,7 @@ export const useImageStore = defineStore("image", {
                 alert(response.data.message);
                 location.reload();
             } catch (error) {
-                alert(error.response.data.message);
+                alert(error.response.data.error);
             } finally {
                 this.loading = false;
             }
