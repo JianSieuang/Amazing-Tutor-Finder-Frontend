@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex">
+    <div class="d-flex gap-5"  style="background-color: #F0F2F5;">
         <div class="flex-fill d-flex align-items-center">
             <div class="w-auto ms-auto">
                 <p class="fw-bold" style="font-size: 4vw">
@@ -15,7 +15,7 @@
         </div>
 
         <div style="width: 45%; height: 100%">
-            <img src="@/assets/png/home_page.png" alt="" class="img-fluid" style="clip-path: polygon(10% 0%, 100% 0%, 100% 90%, 1% 90%)" />
+            <img src="@/assets/png/home_page.png" alt="" class="img-fluid" style="clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 1% 100%)" />
         </div>
     </div>
 
