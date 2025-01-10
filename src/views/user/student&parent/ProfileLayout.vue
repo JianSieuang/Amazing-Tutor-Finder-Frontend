@@ -13,7 +13,7 @@
                         <img v-if="authStore.user" :src="authStore.image" width="100" height="100" alt="user picture" class="rounded-circle me-3" />
 
                         <span class="fs-5 fw-bold me-auto">{{ authStore.user.name }}</span>
-                        <div class="btn" @click="signOut">Sign Out</div>
+                        <div class="btn btn-orange-secondary px-4" @click="signOut">Sign Out</div>
                     </div>
                     <!-- navbar link -->
                     <div class="d-flex justify-content-center  border-top border-bottom">
@@ -23,7 +23,10 @@
                                     Tutors</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link to="/user/setting" class="btn px-4 py-3" :class="{ active: isActive === 'settings' }" @click="isActive = 'settings'">
+                                <router-link to="/user/setting" 
+                                class="btn px-4 py-3" 
+                                :class="{ active: $route.path === '/user/setting' }"
+                                 @click="isActive = 'settings'">
                                     Setting & Privacy</router-link>
                             </li>
                         </ul>
@@ -55,6 +58,11 @@ const signOut = async () => {
 </script>
 
 <style scoped>
+.btn-orange-secondary {
+    background-color: #FFEEE8;
+    color: #ff6636;
+    border-radius: 2px;
+}
 .nav-item .btn {
     /* padding: 0.5rem 2rem;         */
     font-size: 1rem;             

@@ -17,7 +17,7 @@
                     <RouterLink to="/admin/report_list" class="nav-link text-secondary" :class="{ active: route.name === 'Report_List' }"><font-awesome-icon icon="fa-solid fa-layer-group" class="mx-3" />Report</RouterLink>
                 </li>
                 <li>
-                    <RouterLink to="/admin/tutor_management" class="nav-link text-secondary" :class="{ active: route.name === 'Tutor_Management' }"><font-awesome-icon icon="fa-solid fa-comment-dots" class="mx-3" />Manage Tutor</RouterLink>
+                    <RouterLink to="/admin/tutor_management" class="nav-link text-secondary" :class="{ active: route.name === 'Tutor_Management' }"><font-awesome-icon icon="fa-solid fa-user-group" class="mx-3" />Manage Tutor</RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/admin/settings" class="nav-link text-secondary" :class="{ active: route.name === 'Settings' }"><font-awesome-icon icon="fa-solid fa-gear" class="mx-3" />Settings</RouterLink>
