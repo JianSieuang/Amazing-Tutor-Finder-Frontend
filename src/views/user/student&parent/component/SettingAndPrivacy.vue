@@ -67,7 +67,11 @@
                     </div>
                 </div>
 
-                <div class="col p-4">
+                <div class="col p-4" v-if="authStore.user.role == 'parent'">
+                    <span class="fs-4 fw-bold">Link Child Email</span>
+                </div>
+
+                <div class="col p-4" v-else>
                     <span class="fs-4 fw-bold">Link Parent Email</span>
                 </div>
             </div>

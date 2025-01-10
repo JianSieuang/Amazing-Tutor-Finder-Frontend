@@ -19,15 +19,20 @@
                     <div class="d-flex justify-content-center  border-top border-bottom">
                         <ul class="nav">
                             <li class="nav-item">
-                                <router-link to="#" class="btn px-4 py-3 " :class="{ active: isActive === 'tutors' }" @click="isActive = 'tutors'">
-                                    Tutors</router-link>
+                                <RouterLink to="#" class="btn px-4 py-3 " :class="{ active: isActive === 'tutors' }" @click="isActive = 'tutors'">
+                                    Tutors</RouterLink>
+                            </li>
+                            <li class="nav-item" v-if="authStore.user.role == 'parent'">
+                                <RouterLink to="#" class="btn px-4 py-3 " :class="{ active: isActive === 'purchase-history' }" @click="isActive = 'purchase-history'" >
+                                    Purchase History
+                                </RouterLink>
                             </li>
                             <li class="nav-item">
-                                <router-link to="/user/setting" 
+                                <RouterLink to="/user/setting" 
                                 class="btn px-4 py-3" 
                                 :class="{ active: $route.path === '/user/setting' }"
                                  @click="isActive = 'settings'">
-                                    Setting & Privacy</router-link>
+                                    Setting & Privacy</RouterLink>
                             </li>
                         </ul>
                     </div>
