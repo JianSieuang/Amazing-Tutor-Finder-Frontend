@@ -5,13 +5,14 @@
             <div class="d-flex gap-5 flex-wrap">
                 <div class="p-4 border d-flex flex-column">
                     <div class="position-relative">
-                        <img :src="authStore.image" class="img-fluid w-100" alt="user picture" />
+                        <img :src="imagePreview" class="img-fluid w-100" alt="user picture" />
                         <div class="w-100 text-center text-white bg-black position-absolute bottom-0 start-50 translate-middle-x p-2" style="opacity: 0.5">
-                            <div class="user-select-none" type="button" @click="updateImage">
+                            <div class="user-select-none" type="button" @click="$refs.fileInput.click()">
                                 <font-awesome-icon icon="fa-solid fa-arrow-up-from-bracket" />
                                 Update Photo
                             </div>
                         </div>
+                        <input type="file" ref="fileInput" class="d-none" @change="updateImage" accept="image/*" />
                     </div>
                     <p class="fw-light text-secondary text-center" style="max-width: 200px">Image size should be under 1MB and image ration needs to be 1:1</p>
                 </div>
@@ -19,23 +20,23 @@
                     <div class="row mb-3 align-items-end">
                         <div class="col">
                             <label class="form-label"> Full Name </label>
-                            <input type="text" class="form-control" id="first-name" placeholder="First name" :readonly="!isEditing" :disabled="!isEditing" />
+                            <input type="text" class="form-control" id="first-name" placeholder="First name" :readonly="!isEditing" :disabled="!isEditing" v-model="first_name" />
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="last-name" placeholder="Last name" :readonly="!isEditing" :disabled="!isEditing" />
+                            <input type="text" class="form-control" id="last-name" placeholder="Last name" :readonly="!isEditing" :disabled="!isEditing" v-model="last_name" />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="name" v-model="name" placeholder="Username" :readonly="!isEditing" :disabled="!isEditing" />
+                        <input type="text" class="form-control" id="name" v-model="name" placeholder="Username" :readonly="!isEditing" :disabled="!isEditing" required />
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" v-model="email" aria-describedby="emailHelp" placeholder="Email address" :readonly="!isEditing" :disabled="!isEditing" />
+                        <input type="email" class="form-control" id="email" v-model="email" aria-describedby="emailHelp" placeholder="Email address" :readonly="!isEditing" :disabled="!isEditing" required />
                     </div>
                     <div class="d-flex gap-3">
-                        <div v-if="isEditing" class="btn btn-orange">Save change</div>
-                        <div type="button" class="btn btn-orange" @click="() => (isEditing = !isEditing)">
+                        <button v-if="isEditing" class="btn btn-orange" type="submit">Save change</button>
+                        <div type="button" class="btn btn-orange" @click="() => ((isEditing = !isEditing), !isEditing && cancelEditing())">
                             {{ isEditing ? "Cancel" : "Edit" }}
                         </div>
                     </div>
@@ -77,18 +78,54 @@
 <script setup>
 import { ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
+import { useImageStore } from "@/stores/image";
 
 const authStore = useAuthStore();
+const imageStore = useImageStore();
 
-const name = ref(authStore.user.name || "");
-const email = ref(authStore.user.email || "");
+const originalData = {
+    name: authStore.user.name || "",
+    email: authStore.user.email || "",
+    first_name: authStore.user.first_name || "",
+    last_name: authStore.user.last_name || "",
+};
 
+const name = ref(originalData.name);
+const email = ref(originalData.email);
+const first_name = ref(originalData.first_name);
+const last_name = ref(originalData.last_name);
+const profile_picture = ref(authStore.user.image || "");
+const imagePreview = ref(authStore.image);
 const isEditing = ref(false);
 
+const cancelEditing = () => {
+    name.value = originalData.name;
+    email.value = originalData.email;
+    first_name.value = originalData.first_name;
+    last_name.value = originalData.last_name;
+    isEditing.value = false;
+};
 
+const handleEditProfile = async () => {
+    await authStore.editUser({
+        name: name.value,
+        email: email.value,
+        first_name: first_name.value,
+        last_name: last_name.value,
+    });
+};
 
+const updateImage = async (event) => {
+    profile_picture.value = event.target.files[0];
 
-const updateImage = () => {
-    console.log("update image");
+    if (profile_picture.value) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imagePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(profile_picture.value);
+
+        await imageStore.uploadImage(profile_picture.value, authStore.user.id);
+    }
 };
 </script>

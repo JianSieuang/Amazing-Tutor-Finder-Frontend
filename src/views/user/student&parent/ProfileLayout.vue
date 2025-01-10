@@ -13,16 +13,21 @@
                         <img v-if="authStore.user" :src="authStore.image" width="100" height="100" alt="user picture" class="rounded-circle me-3" />
 
                         <span class="fs-5 fw-bold me-auto">{{ authStore.user.name }}</span>
-                        <div class="btn" @click="signOut">Sign Out</div>
+                        <div class="btn btn-orange-secondary px-4" @click="signOut">Sign Out</div>
                     </div>
                     <!-- navbar link -->
-                    <div class="d-flex justify-content-center border-top border-bottom">
-                        <ul class="nav my-3 gap-5">
+                    <div class="d-flex justify-content-center  border-top border-bottom">
+                        <ul class="nav">
                             <li class="nav-item">
-                                <router-link to="#" class="nav-link">Tutors</router-link>
+                                <router-link to="#" class="btn px-4 py-3 " :class="{ active: isActive === 'tutors' }" @click="isActive = 'tutors'">
+                                    Tutors</router-link>
                             </li>
                             <li class="nav-item">
-                                <router-link to="/user/setting" class="nav-link">Setting & Privacy</router-link>
+                                <router-link to="/user/setting" 
+                                class="btn px-4 py-3" 
+                                :class="{ active: $route.path === '/user/setting' }"
+                                 @click="isActive = 'settings'">
+                                    Setting & Privacy</router-link>
                             </li>
                         </ul>
                     </div>
@@ -51,3 +56,29 @@ const signOut = async () => {
     await authStore.logout(router);
 };
 </script>
+
+<style scoped>
+.btn-orange-secondary {
+    background-color: #FFEEE8;
+    color: #ff6636;
+    border-radius: 2px;
+}
+.nav-item .btn {
+    /* padding: 0.5rem 2rem;         */
+    font-size: 1rem;             
+    color: #1D2026;              
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    height: 100%;
+  }
+
+  .nav-item .btn:hover {
+    background-color: #F5F7FA;
+  }
+
+  .nav-item .btn.active {
+    background-color: #FFFFFF;
+    border-bottom: 3px solid #FF6636;
+  }
+</style>

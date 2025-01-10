@@ -19,9 +19,11 @@ export const useAuthStore = defineStore("auth", {
                 await axios.get("/sanctum/csrf-cookie");
                 await axios.post("/register", data);
                 await this.fetchUser();
+                alert("Registration successful!");
                 router.push("/");
             } catch (err) {
                 this.error = err.response?.data?.message || "Registration failed.";
+                alert("Registration failed! Pls try again");
             }
             this.loading = false;
         },
@@ -34,6 +36,7 @@ export const useAuthStore = defineStore("auth", {
                 await axios.get("/sanctum/csrf-cookie");
                 await axios.post("/login", data);
                 await this.fetchUser();
+                alert("Login successful!");
                 if (this.user.role === "admin") {
                     router.push("/admin");
                 } else {
@@ -41,6 +44,7 @@ export const useAuthStore = defineStore("auth", {
                 }
             } catch (err) {
                 this.error = err.response?.data?.message || "Login failed.";
+                alert("Login failed! Pls try again");
             } finally {
                 this.loading = false;
             }
@@ -87,8 +91,11 @@ export const useAuthStore = defineStore("auth", {
             try {
                 const response = await axios.put("api/user", data);
                 this.user = response.data;
+                alert("Edit successful!");
+                location.reload();
             } catch (error) {
                 this.error = err.response?.data?.message || "Edit failed.";
+                alert("Edit failed! Pls try again");
             }
         },
     },

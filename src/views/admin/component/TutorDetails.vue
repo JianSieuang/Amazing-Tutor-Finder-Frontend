@@ -28,7 +28,7 @@
                 <div class="mb-3">
                     <label for="profile_picture" class="form-label">Profile Picture</label>
                     <br />
-                    <img :src="'127.0.0.1:8000' + tutor.image" alt="" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
+                    <img :src="'http://127.0.0.1:8000' + tutor.user.image" alt="" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
                 </div>
             </div>
         </div>

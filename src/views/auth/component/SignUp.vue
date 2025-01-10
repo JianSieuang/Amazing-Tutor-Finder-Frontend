@@ -10,9 +10,9 @@
                         <option value="parent">Parent</option>
                     </select>
                 </div>
-                <div class="col-auto ms-auto">
-                    <p class="text-secondary mb-0 me-2">U ARE TUTOR??</p>
-                    <RouterLink to="/tutor_registration" class="btn btn-purple" type="button"> Become A Tutor</RouterLink>
+                <div class="col-auto ms-auto d-flex flex-column justify-content-end">
+                    <p class="text-secondary mb-2 me-2">You are Tutor??</p>
+                    <RouterLink to="/tutor_registration" class="btn btn-purple px-4 align-items-end" type="button"> Become A Tutor</RouterLink>
                 </div>
             </div>
             <div class="row mb-3 align-items-end">
@@ -49,12 +49,12 @@
                 <div class="col-auto">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="AgreementCheck" required />
-                        <label class="form-check-label" for="AgreementCheck">I Agree with all of your Terms & Conditions</label>
+                        <label class="form-check-label text-secondary" for="AgreementCheck">I Agree with all of your Terms & Conditions</label>
                     </div>
                 </div>
 
                 <div class="col-auto ms-auto">
-                    <button type="submit" class="btn btn-orange" :disabled="authStore.loading">
+                    <button type="submit" class="btn btn-orange px-4" :disabled="authStore.loading">
                         Create Account
                         <span v-if="authStore.loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         <font-awesome-icon v-else icon="fa-solid fa-arrow-right" />
@@ -105,9 +105,13 @@ const handleSignUp = async () => {
 </script>
 
 <style scoped>
+.text-secondary{
+    font-size: 0.8rem !important;
+}
 .btn-orange {
     background-color: #ff6636;
-    color: #ffeee8;
+    color: #FFFFFF;
+    border-radius: 2px;
 }
 
 .btn-orange:focus {
@@ -117,7 +121,8 @@ const handleSignUp = async () => {
 
 .btn-purple {
     background-color: #564ffd;
-    color: #ffeee8;
+    color: #FFFFFF;
+    border-radius: 2px;
 }
 
 .btn-purple:focus {
