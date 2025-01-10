@@ -17,9 +17,14 @@ import Tutor_management from "../views/admin/component/TutorManagement.vue";
 import Settings from "../views/admin/component/Settings.vue";
 import TutorDetails from "../views/admin/component/TutorDetails.vue";
 
-import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
+// all user view
 import Default_layout from "../views/content/DefaultLayout.vue";
 import Home from "../views/content/component/Home.vue";
+import About from "../views/content/component/About.vue";
+import Contact from "../views/content/component/Contact.vue";
+
+// user view
+import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
 import SettingAndPrivacy from "../views/user/student&parent/component/SettingAndPrivacy.vue";
 
 const router = createRouter({
@@ -34,6 +39,16 @@ const router = createRouter({
                     path: "home",
                     name: "Home",
                     component: Home,
+                },
+                {
+                    path: "about",
+                    name: "About",
+                    component: About,
+                },
+                {
+                    path: "contact",
+                    name: "Contact",
+                    component: Contact,
                 },
             ],
         },
