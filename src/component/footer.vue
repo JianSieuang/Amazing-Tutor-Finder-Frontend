@@ -1,26 +1,26 @@
 <template>
     <footer class="d-flex flex-column text-secondary p-3" style="background-color: #1d2026; min-height: 380px;">
-        <div class="flex-fill d-flex align-items-center justify-content-center gap-3">
+        <div class="flex-fill d-flex align-items-center justify-content-center gap-4">
             <div>
-                <RouterLink to="#" class="d-flex align-items-center text-white text-decoration-none" style="background: none">
+                <RouterLink to="#" class="d-flex align-items-center text-white text-decoration-none mb-4 " style="background: none">
                     <img src="@/assets/png/logo.png" height="40" />
-                    <span class="fs-2">Amazing Tutor Finder</span>
+                    <span class="fs-2 fw-semibold">Amazing Tutor Finder</span>
                 </RouterLink>
                 <div class="d-flex gap-3">
-                    <div class="text-white d-flex align-items-center justify-content-center" style="height: 36px; width: 36px; background-color: #363b47">
+                    <div class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px;">
                         <font-awesome-icon icon="fa-brands fa-facebook-f" />
                     </div>
-                    <div class="text-white d-flex align-items-center justify-content-center" style="height: 36px; width: 36px; background-color: #363b47">
+                    <div class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px;">
                         <font-awesome-icon icon="fa-brands fa-instagram" />
                     </div>
-                    <div class="text-white d-flex align-items-center justify-content-center" style="height: 36px; width: 36px; background-color: #363b47">
+                    <div class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px;">
                         <font-awesome-icon icon="fa-brands fa-linkedin-in" />
                     </div>
                 </div>
             </div>
             <div>
-                <label class="text-uppercase text-white">Quick Links</label>
-                <ul class="nav flex-column">
+                <label class="text-uppercase text-white mb-3 fs-6">Quick Links</label>
+                <ul class="nav flex-column gap-3">
                     <li class="nav-item">
                         <RouterLink to="/about" class="nav-link text-secondary p-0">About</RouterLink>
                     </li>
@@ -34,3 +34,16 @@
         <p class="text-center">&copy; 2024 - Software Project. Designed by SBX. All rights reserved.</p>
     </footer>
 </template>
+
+<style scoped>
+    .sm-btn {
+        background-color: #363b47;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s,box-shadow 0.3s;
+    }
+    .sm-btn:hover {
+        background-color: #FF6636;
+        transform: scale(1.1);
+        box-shadow: 0 0 10px 2px rgba(255, 102, 54, 0.8);
+    }
+</style>
