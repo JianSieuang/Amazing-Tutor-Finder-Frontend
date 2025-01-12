@@ -18,10 +18,10 @@
             <div class="row mb-3 align-items-end">
                 <div class="col">
                     <label class="form-label">Full Name </label>
-                    <input type="text" class="form-control" id="first-name" placeholder="First name" />
+                    <input type="text" class="form-control" id="first_name" placeholder="First name" v-model="first_name"/>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="last-name" placeholder="Last name" />
+                    <input type="text" class="form-control" id="last_name" placeholder="Last name" v-model="last_name"/>
                 </div>
             </div>
 
@@ -74,14 +74,13 @@ import { useAuthStore } from "@/stores/auth.js";
 const router = useRouter();
 const authStore = useAuthStore();
 
+const first_name = ref("");
+const last_name = ref("");
 const name = ref("");
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const role = ref("student");
-
-// haven't use first name and last name yet
-// why, cus i dont know where to store based on the current backend design
 
 const showPassword = ref(false);
 
@@ -93,6 +92,8 @@ const handleSignUp = async () => {
 
     await authStore.register(
         {
+            first_name: first_name.value,
+            last_name: last_name.value,
             name: name.value,
             email: email.value,
             password: password.value,
