@@ -46,36 +46,39 @@
     </div>
     <hr class="w-100" />
     <div class="w-75 m-3">
-        <form @submit.prevent="handleChangePassword">
-            <div class="row gap-3">
-                <div class="col p-4">
-                    <span class="fs-4 fw-bold">Change password</span>
+        <div class="row gap-3">
+            <form class="col p-4" @submit.prevent="handleChangePassword">
+                <span class="fs-4 fw-bold">Change password</span>
 
-                    <div class="mb-3">
-                        <label for="current-password" class="form-label">Current Password</label>
-                        <input type="password" class="form-control" id="current-password" v-model="currentPassword" placeholder="Current Password" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="new-password" class="form-label">New Password</label>
-                        <input type="password" class="form-control" id="new-password" v-model="newPassword" placeholder="New Password" />
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="confirm-password" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirm-password" v-model="confirmPassword" placeholder="Confirm Password" />
-                    </div>
+                <div class="mb-3">
+                    <label for="current-password" class="form-label">Current Password</label>
+                    <input type="password" class="form-control" id="current-password" v-model="currentPassword" placeholder="Current Password" required />
                 </div>
 
-                <div class="col p-4" v-if="authStore.user.role == 'parent'">
-                    <span class="fs-4 fw-bold">Link Child Email</span>
+                <div class="mb-3">
+                    <label for="new-password" class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="new-password" v-model="newPassword" placeholder="New Password" required />
                 </div>
 
-                <div class="col p-4" v-else>
-                    <span class="fs-4 fw-bold">Link Parent Email</span>
+                <div class="mb-3">
+                    <label for="confirm-password" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm-password" v-model="confirmPassword" placeholder="Confirm Password" required />
                 </div>
-            </div>
-        </form>
+
+                <button class="btn btn-orange" type="submit">Change Password</button>
+            </form>
+
+            <form class="col p-4" @submit.prevent="handleLinkEmail">
+                <span class="fs-4 fw-bold" v-text="authStore.user.role == 'parent' ? 'Link Child Email' : 'Link Parent Email'"></span>
+
+                <div class="mb-3">
+                    <label for="linkEmail" class="form-label">Email Address</label>
+                    <input type="linkEmail" class="form-control" id="linkEmail" v-model="linkEmail" aria-describedby="emailHelp" placeholder="Email address" />
+                </div>
+
+                <button class="btn btn-orange" type="submit">Link</button>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -101,6 +104,10 @@ const last_name = ref(originalData.last_name);
 const profile_picture = ref(authStore.user.image || "");
 const imagePreview = ref(authStore.image);
 const isEditing = ref(false);
+
+const currentPassword = ref("");
+const newPassword = ref("");
+const confirmPassword = ref("");
 
 const cancelEditing = () => {
     name.value = originalData.name;
@@ -131,5 +138,18 @@ const updateImage = async (event) => {
 
         await imageStore.uploadImage(profile_picture.value, authStore.user.id);
     }
+};
+
+const handleChangePassword = async () => {
+    if (newPassword.value !== confirmPassword.value) {
+        alert("New Passwords do not match with Confirm Password");
+        return;
+    }
+
+    await authStore.changePassword({
+        current_password: currentPassword.value,
+        new_password: newPassword.value,
+        confirm_password: confirmPassword.value,
+    });
 };
 </script>

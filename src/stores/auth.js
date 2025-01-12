@@ -83,7 +83,7 @@ export const useAuthStore = defineStore("auth", {
                     .join("");
                 this.image = `https://via.placeholder.com/144x144/FFEEE8/FF6636/?text=${letters}&font=roboto`;
             } else {
-                this.image =  `http://127.0.0.1:8000${this.user.image}`;
+                this.image = `http://127.0.0.1:8000${this.user.image}`;
             }
         },
 
@@ -96,6 +96,21 @@ export const useAuthStore = defineStore("auth", {
             } catch (error) {
                 this.error = err.response?.data?.message || "Edit failed.";
                 alert("Edit failed! Pls try again");
+            }
+        },
+
+        async changePassword(data) {
+            try {
+                await axios.post(`api/user/changePassword`, data, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                alert("Password change successful!");
+                location.reload();
+            } catch (error) {
+                this.error = error.response?.data?.message || "Password change failed.";
+                alert(this.error);
             }
         },
     },
