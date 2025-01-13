@@ -109,6 +109,8 @@ const currentPassword = ref("");
 const newPassword = ref("");
 const confirmPassword = ref("");
 
+const linkEmail = ref("");
+
 const cancelEditing = () => {
     name.value = originalData.name;
     email.value = originalData.email;
@@ -151,5 +153,9 @@ const handleChangePassword = async () => {
         new_password: newPassword.value,
         confirm_password: confirmPassword.value,
     });
+};
+
+const handleLinkEmail = async () => {
+    await authStore.linkEmail({ email: linkEmail.value });
 };
 </script>

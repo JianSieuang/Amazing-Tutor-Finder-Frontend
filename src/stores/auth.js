@@ -1,5 +1,6 @@
 import axios from "@/axios";
 import { defineStore } from "pinia";
+import emailjs from "@emailjs/browser";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
@@ -110,6 +111,45 @@ export const useAuthStore = defineStore("auth", {
                 location.reload();
             } catch (error) {
                 this.error = error.response?.data?.message || "Password change failed.";
+                alert(this.error);
+            }
+        },
+
+        async linkEmail(data) {
+            try {
+                const response = await axios.post(`api/user/linkEmail`, data, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                alert("Successfully requested to link email. Please wait for the response.");
+
+                const templateParams = {
+                    request_name: response.data.user.name,
+                    request_email: response.data.user.email,
+
+                    name: response.data.linked_user.name,
+                    link_email: response.data.linked_user.email,
+                    link: import.meta.env.VITE_FRONTEND_URL + "/auth/sign_in",
+                };
+
+                emailjs
+                    .send(import.meta.env.VITE_EMAIL_JS_SERVICE_ID, import.meta.env.VITE_EMAIL_JS_TEMPLATE_REQUEST_ID, templateParams, {
+                        publicKey: import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY,
+                    })
+                    .then(
+                        () => {
+                            alert("Email sent successfully.");
+                        },
+                        (error) => {
+                            alert("Unable to send email.");
+                        }
+                    );
+
+                location.reload();
+            } catch (error) {
+                this.error = error.response?.data?.message || "Email link failed.";
                 alert(this.error);
             }
         },
