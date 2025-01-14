@@ -3,9 +3,9 @@
         <span class="fs-4 fw-bold">Account Setting</span>
         <form @submit.prevent="handleEditProfile">
             <div class="d-flex gap-5 flex-wrap">
-                <div class="p-4 border d-flex flex-column">
-                    <div class="position-relative">
-                        <img :src="imagePreview" class="img-fluid w-100" alt="user picture" />
+                <div class="p-4 border d-flex flex-column align-items-center" style="width: fit-content">
+                    <div class="position-relative" style="display: inline-block">
+                        <img :src="imagePreview" class="img-fluid" width="200px" alt="user picture" />
                         <div class="w-100 text-center text-white bg-black position-absolute bottom-0 start-50 translate-middle-x p-2" style="opacity: 0.5">
                             <div class="user-select-none" type="button" @click="$refs.fileInput.click()">
                                 <font-awesome-icon icon="fa-solid fa-arrow-up-from-bracket" />
