@@ -22,7 +22,6 @@ import Default_layout from "../views/content/DefaultLayout.vue";
 import Home from "../views/content/component/Home.vue";
 import About from "../views/content/component/About.vue";
 import Contact from "../views/content/component/Contact.vue";
-import All_tutor from "../views/content/component/AllTutor.vue";
 
 // user view
 import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
