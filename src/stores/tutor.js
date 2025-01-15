@@ -27,7 +27,7 @@ export const useTutorStore = defineStore("tutor", {
                 } else if (error.request) {
                     alert("No response received from the server. Please check your network connection.");
                 } else {
-                    alert("An unexpected error occurred. Please try again.");
+                    alert("An unexpected error occurred. Please try again");
                 }
             } finally {
                 this.loading = false;

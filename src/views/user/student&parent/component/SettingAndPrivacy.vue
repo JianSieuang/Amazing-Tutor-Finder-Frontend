@@ -73,17 +73,17 @@
 
                 <div class="mb-3">
                     <label for="linkEmail" class="form-label">Email Address</label>
-                    <input type="linkEmail" class="form-control" id="linkEmail" v-model="linkEmail" aria-describedby="emailHelp" placeholder="Email address" />
+                    <input type="linkEmail" class="form-control" id="linkEmail" v-model="linkEmail" aria-describedby="emailHelp" placeholder="Email address" :disabled="linkAccount" required />
                 </div>
 
-                <button class="btn btn-orange" type="submit">Link</button>
+                <button class="btn btn-orange" type="submit" v-text="linkAccount ? 'Remove' : 'Link'"></button>
             </form>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useImageStore } from "@/stores/image";
 
@@ -110,6 +110,8 @@ const newPassword = ref("");
 const confirmPassword = ref("");
 
 const linkEmail = ref("");
+
+const linkAccount = ref(false);
 
 const cancelEditing = () => {
     name.value = originalData.name;
@@ -156,6 +158,20 @@ const handleChangePassword = async () => {
 };
 
 const handleLinkEmail = async () => {
-    await authStore.linkEmail({ email: linkEmail.value });
+    if (authStore.linkAccount) {
+        await authStore.unlinkEmail();
+    } else {
+        await authStore.linkEmail({ email: linkEmail.value });
+    }
 };
+
+onMounted(async () => {
+    await authStore.fetchLinkAccount(authStore.user.id);
+
+    if (authStore.linkAccount) {
+        linkAccount.value = true;
+    }
+
+    linkEmail.value = authStore.linkAccount?.email || "";
+});
 </script>

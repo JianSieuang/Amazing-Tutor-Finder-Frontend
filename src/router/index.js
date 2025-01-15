@@ -22,10 +22,12 @@ import Default_layout from "../views/content/DefaultLayout.vue";
 import Home from "../views/content/component/Home.vue";
 import About from "../views/content/component/About.vue";
 import Contact from "../views/content/component/Contact.vue";
+import All_tutor from "../views/content/component/AllTutor.vue";
 
 // user view
 import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
 import SettingAndPrivacy from "../views/user/student&parent/component/SettingAndPrivacy.vue";
+import Status from "../views/Status.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -125,6 +127,11 @@ const router = createRouter({
                 },
             ],
             meta: { requiresAuth: true },
+        },
+        {
+            path: "/linkAccount/:id/status",
+            name: "Status",
+            component: Status,
         },
         {
             path: "/:pathMatch(.*)*",

@@ -9,6 +9,7 @@ export const useAuthStore = defineStore("auth", {
         error: null,
         image: null,
         tryAuth: false,
+        linkAccount: null,
     }),
 
     actions: {
@@ -82,7 +83,7 @@ export const useAuthStore = defineStore("auth", {
                     .slice(0, 3)
                     .map((name) => name.charAt(0).toUpperCase())
                     .join("");
-                this.image = `https://via.placeholder.com/144x144/FFEEE8/FF6636/?text=${letters}&font=roboto`;
+                this.image = `https://placehold.co/144x144/FFEEE8/FF6636/?text=${letters}&font=roboto`;
             } else {
                 this.image = `http://127.0.0.1:8000${this.user.image}`;
             }
@@ -110,7 +111,7 @@ export const useAuthStore = defineStore("auth", {
                 alert("Password change successful!");
                 location.reload();
             } catch (error) {
-                this.error = error.response?.data?.message || "Password change failed.";
+                this.error = error.response?.data?.message || "Password change failed";
                 alert(this.error);
             }
         },
@@ -125,31 +126,106 @@ export const useAuthStore = defineStore("auth", {
 
                 alert("Successfully requested to link email. Please wait for the response.");
 
-                const templateParams = {
-                    request_name: response.data.user.name,
-                    request_email: response.data.user.email,
+                const title = "Link Account Request"; // email title
+                const name = response.data.linked_user.name; // email receive person
+                const mail_to = response.data.linked_user.email; // email to
+                const customTemplate = {
+                    html: `
+                    <p>Request from: ${response.data.user.name} (${response.data.user.email})</p>
+                    <p>Link email: ${response.data.linked_user.name} (${response.data.linked_user.email})</p>                     
 
-                    name: response.data.linked_user.name,
-                    link_email: response.data.linked_user.email,
-                    link: import.meta.env.VITE_FRONTEND_URL + "/auth/sign_in",
+                    <div style="text-align: center">
+                        <a href='${import.meta.env.VITE_FRONTEND_URL}/linkAccount/${btoa(response.data.linked_account.id)}/status?status=${btoa("approved")}' style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">
+                          Approve Request
+                        </a>
+
+                        <a href='${import.meta.env.VITE_FRONTEND_URL}/linkAccount/${btoa(response.data.linked_account.id)}/status?status=${btoa("rejected")}' style="margin-left: 5%; background-color: red ; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 10px;">
+                            Reject Request
+                        </a>
+                    </div>
+                    `,
                 };
 
-                emailjs
-                    .send(import.meta.env.VITE_EMAIL_JS_SERVICE_ID, import.meta.env.VITE_EMAIL_JS_TEMPLATE_REQUEST_ID, templateParams, {
-                        publicKey: import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY,
-                    })
-                    .then(
-                        () => {
-                            alert("Email sent successfully.");
-                        },
-                        (error) => {
-                            alert("Unable to send email.");
-                        }
-                    );
+                await this.sendEmail(title, name, mail_to, customTemplate);
 
                 location.reload();
             } catch (error) {
-                this.error = error.response?.data?.message || "Email link failed.";
+                this.error = error.response?.data?.message || "Email link failed";
+                alert(this.error);
+            }
+        },
+
+        async sendEmail(title, name, mail_to, customTemplate) {
+            const templateParams = {
+                title: title,
+                name: name, // email receive person
+                mail_to: mail_to, // email to
+                my_html: customTemplate.html,
+            };
+
+            emailjs
+                .send(import.meta.env.VITE_EMAIL_JS_SERVICE_ID, import.meta.env.VITE_EMAIL_JS_TEMPLATE_CUSTOM_ID, templateParams, {
+                    publicKey: import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY,
+                })
+                .then(
+                    () => {
+                        alert("Email sent successfully");
+                    },
+                    (error) => {
+                        alert("Unable to send email");
+                    }
+                );
+        },
+
+        async updateLinkAccountStatus(id, status) {
+            try {
+                const response = await axios.post(`api/linkAccount/${id}/status?status=${status}`);
+
+                console.log(response.data.student, response.data.parent, response.data.status);
+
+                const title = "Status Link Account : " + (response.data.status.charAt(0).toUpperCase() + response.data.status.slice(1)); // email title
+                const name = response.data.student.name; // email receive person
+                const mail_to = response.data.student.email; // email to
+                const customTemplate = {
+                    html: `
+                    <p>Link email: ${response.data.parent.name} (${response.data.parent.email})</p>
+                    <p>Status: <b>${response.data.status.charAt(0).toUpperCase() + response.data.status.slice(1)}</b></p>
+                   `,
+                };
+
+                await this.sendEmail(title, name, mail_to, customTemplate);
+
+                alert("Successfully updated status");
+
+                setTimeout(() => {
+                    window.close();
+                }, 1000);
+            } catch (error) {
+                this.error = error.response?.data?.message || "Status update failed";
+                alert(this.error);
+            }
+        },
+
+        async fetchLinkAccount(id) {
+            try {
+                const response = await axios.get(`api/users/${id}/linkAccount`);
+                this.linkAccount = response.data.linkedEmail;
+            } catch (error) {
+                this.linkAccount = null;
+                this.error = error.response?.data?.message || "Link account fetch failed";
+                console.log(this.error);
+            }
+        },
+
+        async unlinkEmail() {
+            try {
+                await axios.post(`api/users/${this.user.id}/unlinkEmail`, {
+                    unlinkEmail: this.linkAccount.id,
+                });
+                alert("Successfully unlinked email");
+                location.reload();
+            } catch (error) {
+                this.error = error.response?.data?.message || "Email unlink failed";
                 alert(this.error);
             }
         },
