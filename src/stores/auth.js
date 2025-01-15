@@ -148,7 +148,7 @@ export const useAuthStore = defineStore("auth", {
 
                 await this.sendEmail(title, name, mail_to, customTemplate);
 
-                location.reload();
+                // location.reload();
             } catch (error) {
                 this.error = error.response?.data?.message || "Email link failed";
                 alert(this.error);
@@ -170,6 +170,10 @@ export const useAuthStore = defineStore("auth", {
                 .then(
                     () => {
                         alert("Email sent successfully");
+
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
                     },
                     (error) => {
                         alert("Unable to send email");
@@ -219,10 +223,10 @@ export const useAuthStore = defineStore("auth", {
 
         async unlinkEmail() {
             try {
-                await axios.post(`api/users/${this.user.id}/unlinkEmail`, {
-                    unlinkEmail: this.linkAccount.id,
+                await axios.post(`api/users/${this.user.id}/unlinkAccount`, {
+                    unlinkAccount: this.linkAccount.id,
                 });
-                alert("Successfully unlinked email");
+                alert("Successfully unlinked account");
                 location.reload();
             } catch (error) {
                 this.error = error.response?.data?.message || "Email unlink failed";
