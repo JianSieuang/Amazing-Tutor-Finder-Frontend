@@ -68,16 +68,26 @@
                 <button class="btn btn-orange" type="submit">Change Password</button>
             </form>
 
-            <form class="col p-4" @submit.prevent="handleLinkEmail">
-                <span class="fs-4 fw-bold" v-text="authStore.user.role == 'parent' ? 'Link Child Email' : 'Link Parent Email'"></span>
+            <div class="col p-4">
+                <form class="mb-3" @submit.prevent="handleLinkEmail(null)">
+                    <span class="fs-4 fw-bold" v-text="authStore.user.role == 'parent' ? 'Link Child Email' : 'Link Parent Email'"></span>
 
-                <div class="mb-3">
-                    <label for="linkEmail" class="form-label">Email Address</label>
-                    <input type="linkEmail" class="form-control" id="linkEmail" v-model="linkEmail" aria-describedby="emailHelp" placeholder="Email address" :disabled="linkAccount" required />
+                    <div class="mb-3">
+                        <label for="linkEmail" class="form-label">Email Address</label>
+                        <input type="linkEmail" class="form-control" id="linkEmail" v-model="linkEmail" aria-describedby="emailHelp" placeholder="Email address" :disabled="authStore.user.role === 'student' && linkAccount" required />
+                    </div>
+                    <button class="btn btn-orange" type="submit" v-if="!linkAccount || authStore.user.role === 'parent'">Link</button>
+                </form>
+
+                <div v-if="authStore.user.role === 'parent'">
+                    <ul class="list-group">
+                        <li v-for="(data, index) in showChildEmail" :key="index" class="d-flex justify-content-between align-items-center">
+                            <input type="email" v-model="data.email" class="form-control me-2" :readonly="!isEditing" :disabled="!isEditing" placeholder="Email address" />
+                            <button type="button" class="btn btn-orange" @click="handleLinkEmail(data.id)">Remove</button>
+                        </li>
+                    </ul>
                 </div>
-
-                <button class="btn btn-orange" type="submit" v-text="linkAccount ? 'Remove' : 'Link'"></button>
-            </form>
+            </div>
         </div>
     </div>
 </template>
@@ -110,8 +120,8 @@ const newPassword = ref("");
 const confirmPassword = ref("");
 
 const linkEmail = ref("");
-
 const linkAccount = ref(false);
+const showChildEmail = ref([]);
 
 const cancelEditing = () => {
     name.value = originalData.name;
@@ -157,10 +167,12 @@ const handleChangePassword = async () => {
     });
 };
 
-const handleLinkEmail = async () => {
-    if (authStore.linkAccount) {
-        await authStore.unlinkEmail();
-    } else {
+const handleLinkEmail = async (id) => {
+    if (authStore.user.role === "parent" && id != null) {
+        await authStore.unlinkEmail(id);
+    }
+
+    if (authStore.user.role === "student" || id == null) {
         await authStore.linkEmail({ email: linkEmail.value });
     }
 };
@@ -172,6 +184,12 @@ onMounted(async () => {
         linkAccount.value = true;
     }
 
-    linkEmail.value = authStore.linkAccount?.email || "";
+    if (authStore.user.role === "student") {
+        linkEmail.value = authStore.linkAccount?.email || "";
+    }
+
+    if (authStore.user.role === "parent") {
+        showChildEmail.value = authStore.linkAccount || [];
+    }
 });
 </script>

@@ -146,16 +146,14 @@ export const useAuthStore = defineStore("auth", {
                     `,
                 };
 
-                await this.sendEmail(title, name, mail_to, customTemplate);
-
-                // location.reload();
+                await this.sendEmail(title, name, mail_to, customTemplate, "refresh");
             } catch (error) {
                 this.error = error.response?.data?.message || "Email link failed";
                 alert(this.error);
             }
         },
 
-        async sendEmail(title, name, mail_to, customTemplate) {
+        async sendEmail(title, name, mail_to, customTemplate, type) {
             const templateParams = {
                 title: title,
                 name: name, // email receive person
@@ -172,8 +170,14 @@ export const useAuthStore = defineStore("auth", {
                         alert("Email sent successfully");
 
                         setTimeout(() => {
-                            location.reload();
-                        }, 1500);
+                            if (type === "refresh") {
+                                location.reload();
+                            }
+
+                            if (type === "close") {
+                                window.close();
+                            }
+                        }, 1000);
                     },
                     (error) => {
                         alert("Unable to send email");
@@ -197,13 +201,8 @@ export const useAuthStore = defineStore("auth", {
                    `,
                 };
 
-                await this.sendEmail(title, name, mail_to, customTemplate);
-
+                await this.sendEmail(title, name, mail_to, customTemplate, "close");
                 alert("Successfully updated status");
-
-                setTimeout(() => {
-                    window.close();
-                }, 1000);
             } catch (error) {
                 this.error = error.response?.data?.message || "Status update failed";
                 alert(this.error);
@@ -221,10 +220,10 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
-        async unlinkEmail() {
+        async unlinkEmail(id) {
             try {
                 await axios.post(`api/users/${this.user.id}/unlinkAccount`, {
-                    unlinkAccount: this.linkAccount.id,
+                    unlinkAccount: id,
                 });
                 alert("Successfully unlinked account");
                 location.reload();

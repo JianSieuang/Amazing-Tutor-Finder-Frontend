@@ -1,6 +1,6 @@
 <template>
     <header_design />
-    <div class=" p-4" style="background-color: #f5f7fa">
+    <div class="p-4" style="background-color: #f5f7fa">
         <form @submit.prevent="handleLogin">
             <div class="container bg-white p-5 my-0">
                 <h4>Tutor Registration</h4>
@@ -22,19 +22,19 @@
                         </div>
 
                         <div class="row mb-0 align-items-end flex-wrap">
-                            <div class="col-12 col-md-6 ">
+                            <div class="col-12 col-md-6">
                                 <label for="password" class="form-label">Password</label>
                                 <input :type="showPassword ? 'text' : 'password'" class="form-control" id="password" v-model="password" placeholder="Create password" required />
                                 <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
                             </div>
-                                <div class="col-12 col-md-6 ">
-                                    <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                    <input :type="showPassword ? 'text' : 'password'" class="form-control" id="confirmPassword" v-model="confirmPassword" placeholder="Confirm password" required />
-                                    <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
-                                </div>
+                            <div class="col-12 col-md-6">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input :type="showPassword ? 'text' : 'password'" class="form-control" id="confirmPassword" v-model="confirmPassword" placeholder="Confirm password" required />
+                                <font-awesome-icon @click="showPassword = !showPassword" class="hide-show-icon position-relative" :icon="showPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'" size="lg" />
+                            </div>
                         </div>
 
-                        <div class="row mb-0 align-items-end flex-wrap ">
+                        <div class="row mb-0 align-items-end flex-wrap">
                             <div class="col-12 col-md-6 mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" v-model="email" aria-describedby="emailHelp" placeholder="Email address" required />
@@ -51,7 +51,7 @@
                             <label for="profile_picture" class="form-label">Profile Picture</label>
                             <br />
                             <img v-if="imagePreview" :src="imagePreview" alt="Profile Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
-                            <input class="form-control" type="file" id="profile_picture" accept="image/*" @change="handleImageUpload" />
+                            <input class="form-control" type="file" id="profile_picture" accept="image/*" @change="handleImageUpload" required />
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@ const handleLogin = async () => {
 <style>
 .btn-orange {
     background-color: #ff6636;
-    color: #FFFFFF;
+    color: #ffffff;
     border-radius: 2px;
 }
 .hide-show-icon {
