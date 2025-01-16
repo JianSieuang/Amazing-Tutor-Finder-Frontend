@@ -60,6 +60,7 @@ export const useTutorStore = defineStore("tutor", {
                     status: status,
                 });
                 alert("Tutor status updated successfully!");
+                location.href = "/admin/tutor_registration_list";
             } catch (error) {
                 console.error("Error update tutors status: ", error);
             }
