@@ -22,7 +22,7 @@
                 <label class="text-uppercase text-white mb-3 fs-6">Quick Links</label>
                 <ul class="nav flex-column gap-3">
                     <li class="nav-item">
-                        <RouterLink to="/about" class="nav-link text-secondary p-0">About</RouterLink>
+                        <RouterLink to="/about" class="nav-link text-secondary p-0 ">About</RouterLink>
                     </li>
                     <li class="nav-item">
                         <RouterLink to="/contact" class="nav-link text-secondary p-0">Contact</RouterLink>
@@ -45,5 +45,8 @@
         background-color: #FF6636;
         transform: scale(1.1);
         box-shadow: 0 0 10px 2px rgba(255, 102, 54, 0.8);
+    }
+    .nav-link:hover {
+    color: white !important;
     }
 </style>
