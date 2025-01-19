@@ -4,8 +4,8 @@
             <span class="fs-5 fw-bold m-4">Contact</span>
         </div>
     </div>
-    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px 20px 0px 20px; height: 572px">
-        <div style="flex: 1; max-width: 45%; padding-right: 40px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start">
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px 20px 0px 20px; flex-wrap: wrap;">
+        <div class="text-content">
             <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: #333">Connect with us</h1>
             <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #666">Want to chat? We'd love to hear from you! Get in touch with our Customer Success Team to inquire about speaking events, advertising rates, or just say hello.</p>
             <button type="button" @click="redirectToWhatsapp" class="connect-button" style="padding: 10px 20px; font-size: 1rem; color: white; background-color: #25d366; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease">
@@ -14,7 +14,7 @@
             </button>
         </div>
 
-        <div class="image-content" style="flex: 1; max-width: 55%; display: flex; justify-content: flex-end; align-items: flex-end; height: 100%">
+        <div class="image-content" >
             <img src="@/assets/png/fit.png" alt="Connect Image" class="connect-image" style="max-width: 100%; height: auto; border-radius: 10px" />
         </div>
     </div>
@@ -36,12 +36,20 @@
                     </div>
 
                     <!-- Phone Numbers -->
-                    <div class="contact-method">
+                    <div class="contact-method d-flex flex-column">
                         <span class="contact-label">PHONE NUMBER</span>
-                        <a href="tel:+601139303135" style="text-decoration: none"><span class="contact-value">(60) 011-3930-3135 (English/Mandarin)</span></a>
-                        <a href="tel:+60123456789" style="text-decoration: none"><span class="contact-value">(60) 012-345-6789 (English/Malay)</span></a>
+                        <div class="phone-row">
+                            <a href="tel:+601139303135" style="text-decoration: none">
+                                <span class="contact-value">(60) 011-3930-3135 </span></a>
+                                <span class="contact-value">(English/Mandarin)</span>
+                        </div> 
+                        <div class="phone-row">
+                            <a href="tel:+601139303135" style="text-decoration: none">
+                                <span class="contact-value">(60) 012-345-6789 </span></a>
+                                <span class="contact-value">(English/Malay)</span>
+                        </div> 
+                        
                     </div>
-
                     <!-- Email Addresses -->
                     <div class="contact-method">
                         <span class="contact-label">EMAIL ADDRESS</span>
@@ -117,6 +125,11 @@ const submitForm = () => {
 </script>
 
 <style scoped>
+.phone-row{
+    display: flex;
+    justify-content: space-between;
+    text-decoration: none;
+}
 .connect-button:hover {
     background-color: #e64a19;
 }
@@ -183,6 +196,36 @@ const submitForm = () => {
 .contact-value:hover {
     color: #333;
 }
+.text-content{
+    flex: 1 1 45%; 
+    max-width: 100%; 
+    padding-right: 40px; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: flex-start
+}
+.image-content{
+    flex: 1 1 55%; 
+    max-width: 100%; 
+    display: flex;
+    justify-content: flex-end; 
+    align-items: flex-end; 
+    height: 100%;
+}
+
+@media (max-width: 800px){
+    .text-content,
+    .image-content {
+        flex: 1 1 100%;
+        max-width: 100%;
+        padding-right: 0;
+    }
+    .image-content {
+        justify-content: center; 
+        margin-top: 20px; 
+    }
+}
 
 @media (max-width: 1000px) {
     .contact-section {
@@ -207,4 +250,5 @@ const submitForm = () => {
         font-size: 0.875rem;
     }
 }
+
 </style>
