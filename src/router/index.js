@@ -17,6 +17,13 @@ import Tutor_management from "../views/admin/component/TutorManagement.vue";
 import Settings from "../views/admin/component/Settings.vue";
 import TutorDetails from "../views/admin/component/TutorDetails.vue";
 
+// tutor view
+import Tutor_Layout from "../views/tutor/TutorLayout.vue";
+import Tutor_Dashboard from "../views/tutor/component/dashboard.vue";
+import Schedule from "../views/tutor/component/schedule.vue";
+import Tutor_Profile from "../views/tutor/component/profile.vue";
+import Sessions from "../views/tutor/component/sessions.vue";
+
 // all user view
 import Default_layout from "../views/content/DefaultLayout.vue";
 import Home from "../views/content/component/Home.vue";
@@ -113,6 +120,34 @@ const router = createRouter({
                 },
             ],
             meta: { requiresAuth: true, requiresAdmin: true },
+        },
+        {
+            path: "/tutor",
+            component: Tutor_Layout,
+            redirect: "/tutor/dashboard",
+            children: [
+                {
+                    path: "dashboard",
+                    name: "Dashboard",
+                    component: Tutor_Dashboard,
+                },
+                {
+                    path: "sessions",
+                    name: "Sessions",
+                    compinent: Sessions,
+                },
+                {
+                    path: "schedule",
+                    name: "Schedule",
+                    component: Schedule,
+                },
+                {
+                    path: "profile",
+                    name: "Profile",
+                    component: Tutor_Profile,
+                },
+            ],
+            meta: { requiresAuth: true },
         },
         {
             path: "/user",

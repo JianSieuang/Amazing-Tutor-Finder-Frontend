@@ -1,5 +1,6 @@
 import axios from "@/axios";
 import { defineStore } from "pinia";
+import { useAuthStore } from "./auth";
 
 export const useTutorStore = defineStore("tutor", {
     state: () => ({
@@ -7,6 +8,8 @@ export const useTutorStore = defineStore("tutor", {
         pendingTutors: [],
         loading: false,
         error: null,
+        tutorDetail: null,
+        titleImage: null,
     }),
     actions: {
         async register(data, router) {
@@ -63,6 +66,16 @@ export const useTutorStore = defineStore("tutor", {
                 location.href = "/admin/tutor_registration_list";
             } catch (error) {
                 console.error("Error update tutors status: ", error);
+            }
+        },
+
+        async fetchTutorDetails(id) {
+            try {
+                const response = await axios.get(`api/tutors/${id}`);
+                this.tutorDetail = response.data?.tutorDetail;
+                this.titleImage = `http://127.0.0.1:8000${response.data?.title_image}`;
+            } catch (error) {
+                console.error("Error fetching tutor details: ", error);
             }
         },
     },

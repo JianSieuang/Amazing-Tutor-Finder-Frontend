@@ -1,6 +1,7 @@
 import axios from "@/axios";
 import { defineStore } from "pinia";
 import emailjs from "@emailjs/browser";
+import { useTutorStore } from "./tutor";
 
 export const useAuthStore = defineStore("auth", {
     state: () => ({
@@ -41,6 +42,9 @@ export const useAuthStore = defineStore("auth", {
                 alert("Login successful!");
                 if (this.user.role === "admin") {
                     router.push("/admin");
+                } else if (this.user.role === "tutor") {
+                    await useTutorStore().fetchTutorDetails(this.user.id);
+                    router.push("/tutor");
                 } else {
                     router.push("/");
                 }
