@@ -181,18 +181,18 @@ const handleImageUpload = (event) => {
 };
 
 const handleEdit = async () => {
-    await authStore.editUser({
+    await tutorStore.editTutor({
+        // User
         name: fullname.value,
         email: email.value,
-        phone: phone_number.value,
-        // image: profile_picture.value,
-    });
+        phone_number: phone_number.value,
+        profile_picture: profile_picture.value,
 
-    // await tutorStore.editTutor({
-    //     education_background: education_background.value,
-    //     teaching_experience: teaching_experience.value,
-    //     about_me: about_me.value,
-    // });
+        // Tutor
+        education_background: education_background.value,
+        teaching_experience: teaching_experience.value,
+        about_me: about_me.value,
+    }, authStore.user.id, router);
 };
 
 const handleSocialMedia = async () => {

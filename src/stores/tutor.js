@@ -78,5 +78,30 @@ export const useTutorStore = defineStore("tutor", {
                 console.error("Error fetching tutor details: ", error);
             }
         },
+        async editTutor(data, id, router) {
+            try {
+                this.loading = true;
+
+                await axios.get("/sanctum/csrf-cookie");
+                const response = await axios.post(`api/tutors/${id}/edit`, data, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+
+                alert("Tutor updated successfully!");
+                router.go();
+            } catch (error) {
+                if (error.response) {
+                    alert(error.response.data.message);
+                } else if (error.request) {
+                    alert("No response received from the server. Please check your network connection.");
+                } else {
+                    alert("An unexpected error occurred. Please try again");
+                }
+            } finally {
+                this.loading = false;
+            }
+        },
     },
 });

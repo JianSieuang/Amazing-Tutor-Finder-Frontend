@@ -21,9 +21,7 @@
                 </li>
             </ul>
             <div class="nav mb-3">
-                <RouterLink to="/logout" class="nav-link text-secondary">
-                    <div class="nav-link text-secondary w-100"><font-awesome-icon icon="fa-solid fa-right-from-bracket" class="mx-3" />Sign Out</div>
-                </RouterLink>
+                <div class="nav-link text-secondary w-100" @click="signOut"><font-awesome-icon icon="fa-solid fa-right-from-bracket" class="mx-3" />Sign Out</div>
             </div>
         </div>
 
@@ -40,9 +38,16 @@
 </template>
 
 <script setup>
+import { useAuthStore } from "../../stores/auth";
 import { RouterLink, useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const route = useRoute();
+const authStore = useAuthStore();
 
+const signOut = async () => {
+    await authStore.logout(router);
+};
 </script>
 
 <style scoped>
