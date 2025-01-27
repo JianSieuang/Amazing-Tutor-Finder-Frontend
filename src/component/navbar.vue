@@ -8,7 +8,7 @@
                 </RouterLink>
             </li>
             <li class="nav-item">
-                <RouterLink to="/course" class="nav-link text-secondary">Tutor</RouterLink>
+                <RouterLink to="#" class="nav-link text-secondary">Tutor</RouterLink>
             </li>
             <li class="nav-item">
                 <RouterLink to="/about" class="nav-link text-secondary custom-nav-link">
