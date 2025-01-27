@@ -30,6 +30,7 @@ import Home from "../views/content/component/Home.vue";
 import TutorList from "../views/content/component/TutorList.vue";
 import About from "../views/content/component/About.vue";
 import Contact from "../views/content/component/Contact.vue";
+import TutorDetail from "../views/content/TutorDetail.vue";
 
 // user view
 import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
@@ -64,6 +65,11 @@ const router = createRouter({
                     path: "contact",
                     name: "Contact",
                     component: Contact,
+                },
+                {
+                    path: "tutordetail",
+                    name: "tutordetail",
+                    component: TutorDetail,
                 },
             ],
         },
