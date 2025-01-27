@@ -29,9 +29,9 @@
 
     <div class="d-flex justify-content-center" v-if="showRecommendedTutors">
         <div class="row mt-4 col-md-12">
-            <div v-for="(tutor, index) in tutors" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+            <div v-for="(tutor, index) in tutorStore.tutors" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100 d-flex flex-column">
-                    <img :src="tutor.image" class="rounded-t-lg h-[150px] object-cover" :alt="tutor.title" />
+                    <img :src="tutor.image" class="rounded-t-lg h-[150px] object-cover" :alt="tutor.title_image" />
                     <div class="card-body d-flex flex-column flex-grow-1">
                         <p class="text-[0.9rem] fw-bold mb-1 d-flex justify-content-between align-items-center">
                             <span>{{ tutor.price }}</span>
@@ -71,6 +71,8 @@ const authStore = useAuthStore();
 const tutorStore = useTutorStore();
 
 tutorStore.fetchTutors();
+
+console.log(tutorStore.tutors);
 
 const showCreateBtn = ref(false);
 const showRecommendedTutors = ref(false);

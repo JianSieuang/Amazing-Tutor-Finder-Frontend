@@ -8,7 +8,7 @@
             <hr class="mt-0" />
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
-                    <RouterLink to="/tutor/dashboard" class="nav-link text-secondary" :class="{ active: route.name === 'Dashboard' }"><font-awesome-icon icon="fa-solid fa-chart-column" class="mx-3" />Dashboard</RouterLink>
+                    <RouterLink to="/tutor/dashboard" class="nav-link text-secondary" :class="{ active: route.name === 'Tutor_Dashboard' }"><font-awesome-icon icon="fa-solid fa-chart-column" class="mx-3" />Dashboard</RouterLink>
                 </li>
                 <li>
                     <RouterLink to="/tutor/sessions" class="nav-link text-secondary" :class="{ active: route.name === 'Sessions' }"><font-awesome-icon icon="plus" class="mx-3" />Sessions</RouterLink>

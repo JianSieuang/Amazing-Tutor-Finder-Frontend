@@ -10,7 +10,7 @@ import Tutor_registration from "../views/auth/TutorRegistration.vue";
 
 // admin views
 import Admin_layout from "../views/admin/AdminLayout.vue";
-import Dashboard from "../views/admin/component/Dashboard.vue";
+import Dashboard from "../views/admin/component/dashboard.vue";
 import Tutor_registration_list from "../views/admin/component/TutorRegistrationList.vue";
 import Report_list from "../views/admin/component/ReportList.vue";
 import Tutor_management from "../views/admin/component/TutorManagement.vue";
@@ -128,7 +128,7 @@ const router = createRouter({
             children: [
                 {
                     path: "dashboard",
-                    name: "Dashboard",
+                    name: "Tutor_Dashboard",
                     component: Tutor_Dashboard,
                 },
                 {

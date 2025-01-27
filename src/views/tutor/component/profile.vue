@@ -51,9 +51,9 @@
             </div>
 
             <div class="d-flex justify-content-start mt-3">
-                <button type="submit" class="btn btn-orange" :disabled="tutorStore.loading">
+                <button type="submit" class="btn btn-orange" :disabled="loadingDetails">
                     Save
-                    <span v-if="tutorStore.loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span v-if="loadingDetails" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 </button>
             </div>
         </div>
@@ -93,9 +93,9 @@
         </div>
 
         <div class="d-flex justify-content-start">
-            <button type="submit" class="btn btn-orange" :disabled="tutorStore.loading">
+            <button type="submit" class="btn btn-orange" :disabled="loadingSocial">
                 Save
-                <span v-if="tutorStore.loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span v-if="loadingSocial" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             </button>
         </div>
     </form>
@@ -128,8 +128,8 @@
             <form @submit.prevent="handleTitleImage" class="col p-4 bg-white">
                 <label for="title_image" class="form-label">Title Image</label>
                 <br />
-                <img v-if="titleImagePreview" :src="titleImagePreview" alt="Profile Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
-                <input class="form-control" type="file" id="title_image" accept="image/*" @change="handleImageUpload" required />
+                <img v-if="titleImagePreview" :src="titleImagePreview" alt="Title Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
+                <input class="form-control" type="file" id="title_image" accept="image/*" @change="handleTitleImageUpload" required />
 
                 <button class="btn btn-orange mt-3" type="submit">Save</button>
             </form>
@@ -169,6 +169,9 @@ const showPassword = ref(false);
 const imagePreview = ref(authStore.image || "");
 const titleImagePreview = ref(tutorDetail.titleImage || "");
 
+const loadingDetails = ref(false);
+const loadingSocial = ref(false);
+
 const handleImageUpload = (event) => {
     profile_picture.value = event.target.files[0];
     if (profile_picture.value) {
@@ -180,19 +183,35 @@ const handleImageUpload = (event) => {
     }
 };
 
-const handleEdit = async () => {
-    await tutorStore.editTutor({
-        // User
-        name: fullname.value,
-        email: email.value,
-        phone_number: phone_number.value,
-        profile_picture: profile_picture.value,
+const handleTitleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            titleImagePreview.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+        title_image.value = file;
+    }
+};
 
-        // Tutor
-        education_background: education_background.value,
-        teaching_experience: teaching_experience.value,
-        about_me: about_me.value,
-    }, authStore.user.id, router);
+const handleEdit = async () => {
+    await tutorStore.editTutor(
+        {
+            // User
+            name: fullname.value,
+            email: email.value,
+            phone_number: phone_number.value,
+            profile_picture: profile_picture.value,
+
+            // Tutor
+            education_background: education_background.value,
+            teaching_experience: teaching_experience.value,
+            about_me: about_me.value,
+        },
+        authStore.user.id,
+        router
+    );
 };
 
 const handleSocialMedia = async () => {
@@ -200,7 +219,7 @@ const handleSocialMedia = async () => {
         instagram: instagram.value,
         linkedln: linkedln.value,
         whatsapp: whatsapp.value,
-    });
+    }, authStore.user.id, router);
 };
 
 const handleChangePassword = async () => {
@@ -217,9 +236,11 @@ const handleChangePassword = async () => {
 };
 
 const handleTitleImage = async () => {
+    console.log(title_image.value);
+    
     await tutorStore.editTutor({
         title_image: title_image.value,
-    });
+    }, authStore.user.id, router);
 };
 </script>
 

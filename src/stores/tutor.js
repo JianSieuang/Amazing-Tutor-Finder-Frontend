@@ -83,6 +83,7 @@ export const useTutorStore = defineStore("tutor", {
                 this.loading = true;
 
                 await axios.get("/sanctum/csrf-cookie");
+                
                 const response = await axios.post(`api/tutors/${id}/edit`, data, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -90,7 +91,7 @@ export const useTutorStore = defineStore("tutor", {
                 });
 
                 alert("Tutor updated successfully!");
-                router.go();
+                // router.go();
             } catch (error) {
                 if (error.response) {
                     alert(error.response.data.message);
