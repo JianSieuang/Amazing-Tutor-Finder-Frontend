@@ -63,16 +63,16 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useAuthStore } from "@/stores/auth.js";
 import { useTutorStore } from "@/stores/tutor.js";
 
 const authStore = useAuthStore();
 const tutorStore = useTutorStore();
 
-tutorStore.fetchTutors();
-
-console.log(tutorStore.tutors);
+onMounted(async () => {
+    tutorStore.fetchTutors();
+});
 
 const showCreateBtn = ref(false);
 const showRecommendedTutors = ref(false);

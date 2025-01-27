@@ -27,6 +27,7 @@ import Sessions from "../views/tutor/component/sessions.vue";
 // all user view
 import Default_layout from "../views/content/DefaultLayout.vue";
 import Home from "../views/content/component/Home.vue";
+import TutorList from "../views/content/component/TutorList.vue";
 import About from "../views/content/component/About.vue";
 import Contact from "../views/content/component/Contact.vue";
 
@@ -48,6 +49,11 @@ const router = createRouter({
                     path: "home",
                     name: "Home",
                     component: Home,
+                },
+                {
+                    path: "tutor_list",
+                    name: "Tutor_List",
+                    component: TutorList,
                 },
                 {
                     path: "about",

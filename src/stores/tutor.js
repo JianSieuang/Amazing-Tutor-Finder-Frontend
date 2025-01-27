@@ -48,7 +48,7 @@ export const useTutorStore = defineStore("tutor", {
 
         async fetchTutors() {
             try {
-                const response = await axios.get("api/tutors");
+                const response = await axios.get("api/tutors/testing");
                 this.tutors = response.data?.tutors;
             } catch (error) {
                 console.error("Error fetching pending tutors: ", error);
