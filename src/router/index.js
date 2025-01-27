@@ -32,6 +32,7 @@ import Contact from "../views/content/component/Contact.vue";
 
 // user view
 import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
+import EnrollTutorList from "../views/user/student&parent/component/EnrollTutorList.vue";
 import SettingAndPrivacy from "../views/user/student&parent/component/SettingAndPrivacy.vue";
 import Status from "../views/Status.vue";
 
@@ -154,6 +155,11 @@ const router = createRouter({
             component: profile_layout,
             redirect: "/user/setting",
             children: [
+                {
+                    path: "tutor_list",
+                    name: "EnrollTutorList",
+                    component: EnrollTutorList,
+                },
                 {
                     path: "setting",
                     name: "Setting_and_Privacy",

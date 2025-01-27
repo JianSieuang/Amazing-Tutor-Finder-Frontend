@@ -16,23 +16,16 @@
                         <div class="btn btn-orange-secondary px-4" @click="signOut">Sign Out</div>
                     </div>
                     <!-- navbar link -->
-                    <div class="d-flex justify-content-center  border-top border-bottom">
+                    <div class="d-flex justify-content-center border-top border-bottom">
                         <ul class="nav">
                             <li class="nav-item">
-                                <RouterLink to="#" class="btn px-4 py-3 " :class="{ active: isActive === 'tutors' }" @click="isActive = 'tutors'">
-                                    Tutors</RouterLink>
+                                <RouterLink to="/user/tutor_list" class="btn px-4 py-3" :class="{ active: isActive === 'tutors' }" @click="isActive = 'tutors'"> Tutors</RouterLink>
                             </li>
                             <li class="nav-item" v-if="authStore.user.role == 'parent'">
-                                <RouterLink to="#" class="btn px-4 py-3 " :class="{ active: isActive === 'purchase-history' }" @click="isActive = 'purchase-history'" >
-                                    Purchase History
-                                </RouterLink>
+                                <RouterLink to="#" class="btn px-4 py-3" :class="{ active: isActive === 'purchase-history' }" @click="isActive = 'purchase-history'"> Purchase History </RouterLink>
                             </li>
                             <li class="nav-item">
-                                <RouterLink to="/user/setting" 
-                                class="btn px-4 py-3" 
-                                :class="{ active: $route.path === '/user/setting' }"
-                                 @click="isActive = 'settings'">
-                                    Setting & Privacy</RouterLink>
+                                <RouterLink to="/user/setting" class="btn px-4 py-3" :class="{ active: $route.path === '/user/setting' }" @click="isActive = 'settings'"> Setting & Privacy</RouterLink>
                             </li>
                         </ul>
                     </div>
@@ -64,26 +57,26 @@ const signOut = async () => {
 
 <style scoped>
 .btn-orange-secondary {
-    background-color: #FFEEE8;
+    background-color: #ffeee8;
     color: #ff6636;
     border-radius: 2px;
 }
 .nav-item .btn {
     /* padding: 0.5rem 2rem;         */
-    font-size: 1rem;             
-    color: #1D2026;              
+    font-size: 1rem;
+    color: #1d2026;
     background-color: transparent;
     border: none;
     border-radius: 0;
     height: 100%;
-  }
+}
 
-  .nav-item .btn:hover {
-    background-color: #F5F7FA;
-  }
+.nav-item .btn:hover {
+    background-color: #f5f7fa;
+}
 
-  .nav-item .btn.active {
-    background-color: #FFFFFF;
-    border-bottom: 3px solid #FF6636;
-  }
+.nav-item .btn.active {
+    background-color: #ffffff;
+    border-bottom: 3px solid #ff6636;
+}
 </style>
