@@ -73,7 +73,10 @@ export const useTutorStore = defineStore("tutor", {
             try {
                 const response = await axios.get(`api/tutors/${id}`);
                 this.tutorDetail = response.data?.tutorDetail;
-                this.titleImage = `http://127.0.0.1:8000${response.data?.title_image}`;
+                
+                this.titleImage = `http://127.0.0.1:8000` + response.data?.tutorDetail.title_image;
+
+                return response.data?.tutorDetail;
             } catch (error) {
                 console.error("Error fetching tutor details: ", error);
             }
@@ -83,7 +86,9 @@ export const useTutorStore = defineStore("tutor", {
                 this.loading = true;
 
                 await axios.get("/sanctum/csrf-cookie");
-                
+
+                console.log(data.get('title_picture'));
+
                 const response = await axios.post(`api/tutors/${id}/edit`, data, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -91,7 +96,7 @@ export const useTutorStore = defineStore("tutor", {
                 });
 
                 alert("Tutor updated successfully!");
-                // router.go();
+                router.go();
             } catch (error) {
                 if (error.response) {
                     alert(error.response.data.message);

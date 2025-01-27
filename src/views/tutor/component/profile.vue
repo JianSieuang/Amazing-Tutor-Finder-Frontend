@@ -138,7 +138,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTutorStore } from "@/stores/tutor.js";
 import { useAuthStore } from "@/stores/auth";
@@ -147,8 +147,6 @@ const router = useRouter();
 const tutorStore = useTutorStore();
 const authStore = useAuthStore();
 
-const tutorDetail = tutorStore.tutorDetail || "";
-
 const fullname = ref(authStore.user.name || "");
 const country_code = ref("+60");
 const phone_number = ref(authStore.user.phone || "");
@@ -156,21 +154,46 @@ const currentPassword = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const email = ref(authStore.user.email || "");
-const education_background = ref(tutorDetail.education_background || "");
+const education_background = ref("");
 const profile_picture = ref("");
-const teaching_experience = ref(tutorDetail.teaching_experience || "");
-const about_me = ref(tutorDetail.about_me || "");
-const instagram = ref(tutorDetail.instagram || "");
-const linkedln = ref(tutorDetail.linkedln || "");
-const whatsapp = ref(tutorDetail.whatsapp || "");
+const teaching_experience = ref("");
+const about_me = ref("");
+const instagram = ref("");
+const linkedln = ref("");
+const whatsapp = ref("");
+const title_image = ref("");
 
 const showPassword = ref(false);
 
 const imagePreview = ref(authStore.image || "");
-const titleImagePreview = ref(tutorDetail.titleImage || "");
+const titleImagePreview = ref("");
 
 const loadingDetails = ref(false);
 const loadingSocial = ref(false);
+
+onMounted(async () => {
+    try {
+        await tutorStore.fetchTutorDetails(authStore.user.id);
+        const data = tutorStore.tutorDetail;
+
+        if (data) {
+            fullname.value = authStore.user.name;
+            phone_number.value = authStore.user.phone;
+            email.value = authStore.user.email;
+            education_background.value = data.education_background || "";
+            teaching_experience.value = data.teaching_experience || "";
+            about_me.value = data.about_me || "";
+            instagram.value = data.instagram || "";
+            linkedln.value = data.linkedln || "";
+            whatsapp.value = data.whatsapp || "";
+            title_image.value = data.title_image || "";
+            titleImagePreview.value = tutorStore.titleImage || "";
+        }
+    } catch (error) {
+        console.error("Error fetching tutor details:", error);
+    }
+});
+
 
 const handleImageUpload = (event) => {
     profile_picture.value = event.target.files[0];
@@ -184,14 +207,13 @@ const handleImageUpload = (event) => {
 };
 
 const handleTitleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
+    title_image.value = event.target.files[0];
+    if (title_image.value) {
         const reader = new FileReader();
         reader.onload = (e) => {
             titleImagePreview.value = e.target.result;
         };
-        reader.readAsDataURL(file);
-        title_image.value = file;
+        reader.readAsDataURL(title_image.value);
     }
 };
 
@@ -215,11 +237,15 @@ const handleEdit = async () => {
 };
 
 const handleSocialMedia = async () => {
-    await tutorStore.editTutor({
-        instagram: instagram.value,
-        linkedln: linkedln.value,
-        whatsapp: whatsapp.value,
-    }, authStore.user.id, router);
+    await tutorStore.editTutor(
+        {
+            instagram: instagram.value,
+            linkedln: linkedln.value,
+            whatsapp: whatsapp.value,
+        },
+        authStore.user.id,
+        router
+    );
 };
 
 const handleChangePassword = async () => {
@@ -236,11 +262,14 @@ const handleChangePassword = async () => {
 };
 
 const handleTitleImage = async () => {
-    console.log(title_image.value);
-    
-    await tutorStore.editTutor({
-        title_image: title_image.value,
-    }, authStore.user.id, router);
+    const formData = new FormData();
+    formData.append("title_picture", title_image.value);
+
+    try {
+        await tutorStore.editTutor(formData, authStore.user.id, router);
+    } catch (error) {
+        console.error("Error uploading title image:", error);
+    }
 };
 </script>
 
