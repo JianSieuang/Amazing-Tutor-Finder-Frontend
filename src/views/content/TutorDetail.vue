@@ -103,20 +103,23 @@
                                     <div class="rightdetail">
                                         <div class="mb-3">
                                             <label style="font-size: 1.3rem; color: #6e7485; display: block">TEACHING EXPERIENCE</label>
+                                            {{ teaching_experience }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">LOCATION</label>
                                             <ul style="margin: 0; padding-left: 1.2rem; list-style-type: disc; color: #1d2026; font-size: 1.1rem">
-                                                <li>{{ teaching_experience }}</li>
+                                                <li>{{ location ? location : teaching_mode }}</li>
                                             </ul>
                                         </div>
                                         <div class="mb-3">
-                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">AVAILABILITY</label>
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">AVAILABILITY ( {{ session_month }} )</label>
                                             <ul style="margin: 0; padding-left: 1.2rem; list-style-type: disc; color: #1d2026; font-size: 1.1rem">
-                                                <li>Monday to Friday: 9 AM - 5 PM</li>
-                                                <li>Saturday: 10 AM - 2 PM</li>
+                                                <li v-for="item in availabilityList" :key="item">{{ item }}</li>
                                             </ul>
                                         </div>
                                         <div class="mb-3">
-                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">RATES</label>
-                                            <span style="color: #1d2026; font-size: 1.1rem">$50/hour</span>
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">Price</label>
+                                            <span style="color: #1d2026; font-size: 1.1rem">MYR {{ price }}/month</span>
                                         </div>
                                     </div>
                                 </div>
@@ -204,17 +207,24 @@ const instagram = ref("");
 const linkedln = ref("");
 const whatsapp = ref("");
 
-const availability = ref("");
-const rate = ref("");
+const teaching_mode = ref("");
+const location = ref("");
+const session_month = ref("");
+const availabilityList = ref([]);
+const price = ref("");
 
-const reviews = ref([]);
+const reviews = ref([]); // haven implement yet
+
 const imagePreview = ref("");
 
 onMounted(async () => {
     try {
         await tutorStore.fetchTutorDetails(tutorId);
+        await tutorStore.fetchSession(tutorId);
+
         const tutorDetail = tutorStore.tutorDetail;
         const tutorData = tutorStore.tutor;
+        const session = tutorStore.tutorSession;
 
         if (tutorDetail && tutorData) {
             fullname.value = tutorData.name;
@@ -228,6 +238,33 @@ onMounted(async () => {
             instagram.value = tutorDetail.instagram || "";
             linkedln.value = tutorDetail.linkedln || "";
             whatsapp.value = tutorDetail.whatsapp || "";
+        }
+
+        if (session) {
+            teaching_mode.value = session.teaching_mode ?? "";
+            location.value = session.teaching_location ?? "";
+            session_month.value = session.session_month ?? "";
+            price.value = session.price ?? "";
+
+            if (session.session_day) {
+                const dayMapping = {
+                    monday: "Monday",
+                    tuesday: "Tuesday",
+                    wednesday: "Wednesday",
+                    thursday: "Thursday",
+                    friday: "Friday",
+                    saturday: "Saturday",
+                    sunday: "Sunday",
+                };
+
+                availabilityList.value = [];
+
+                for (const day in session.session_day) {
+                    if (session.session_day[day] === true) {
+                        availabilityList.value.push(`${dayMapping[day]}: ${session.session_time}`);
+                    }
+                }
+            }
         }
     } catch (error) {
         console.log(error);

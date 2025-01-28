@@ -35,9 +35,9 @@
                             <select v-model="courseLanguage" id="courseLanguage" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required>
                                 <option value="" disabled>Select...</option>
                                 <!-- Add more options as needed -->
-                                <option value="english">English</option>
-                                <option value="chinese">Chinese</option>
-                                <option value="malay">Malay</option>
+                                <option value="English">English</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Malay">Malay</option>
                             </select>
                         </div>
                     </div>
@@ -47,8 +47,9 @@
                         <div>
                             <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
                             <div class="flex items-center space-x-2 mt-1">
+                                <span class="text-gray-500">MYR </span>
                                 <input v-model="price" id="price" placeholder="Price" class="block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required min="0" step="0.01" type="number" />
-                                <span class="text-gray-500">MYR / MONTH</span>
+                                <span class="text-gray-500"> / MONTH</span>
                             </div>
                         </div>
                     </div>
@@ -59,18 +60,18 @@
                             <label for="sessionMonth" class="block text-sm font-medium text-gray-700">Session Month</label>
                             <select v-model="sessionMonth" id="sessionMonth" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required>
                                 <option value="" disabled>Select month</option>
-                                <option value="january">January</option>
-                                <option value="february">February</option>
-                                <option value="march">March</option>
-                                <option value="april">April</option>
-                                <option value="may">May</option>
-                                <option value="june">June</option>
-                                <option value="july">July</option>
-                                <option value="august">August</option>
-                                <option value="september">September</option>
-                                <option value="october">October</option>
-                                <option value="november">November</option>
-                                <option value="december">December</option>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">October</option>
+                                <option value="November">November</option>
+                                <option value="December">December</option>
                             </select>
                         </div>
                     </div>
@@ -133,15 +134,15 @@
                             <label class="block text-sm font-medium text-gray-700">Teaching Mode</label>
                             <div class="flex items-center space-x-4 mt-2">
                                 <label class="flex items-center space-x-2">
-                                    <input type="radio" v-model="teachingMode" value="online" class="form-radio text-orange-500" required />
+                                    <input type="radio" v-model="teachingMode" value="Online" class="form-radio text-orange-500" required />
                                     <span>Online</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="radio" v-model="teachingMode" value="physical" class="form-radio text-orange-500" required />
+                                    <input type="radio" v-model="teachingMode" value="Physical" class="form-radio text-orange-500" required />
                                     <span>Physical</span>
                                 </label>
                                 <label class="flex items-center space-x-2">
-                                    <input type="radio" v-model="teachingMode" value="both" class="form-radio text-orange-500" required />
+                                    <input type="radio" v-model="teachingMode" value="Online & Physical" class="form-radio text-orange-500" required />
                                     <span>Both</span>
                                 </label>
                             </div>

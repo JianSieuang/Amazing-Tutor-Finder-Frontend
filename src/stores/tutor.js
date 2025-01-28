@@ -121,7 +121,7 @@ export const useTutorStore = defineStore("tutor", {
 
                 const response = await axios.post(`api/tutors/${id}/add_session`, data);
 
-                alert(response.data);
+                alert(response.data.message);
 
                 location.href = `/tutor/sessions`;
 
