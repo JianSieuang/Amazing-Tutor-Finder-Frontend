@@ -78,9 +78,9 @@
 
                             <!-- Details Section -->
                             <div class="details p-3 rounded" style="border: 1px solid #e9eaf0">
-                                <div class="d-flex justify-content-around gap-3">
+                                <div class="d-flex justify-content-around gap-3 w-100">
                                     <!-- Left Details -->
-                                    <div class="leftdetail">
+                                    <div class="leftdetail w-50">
                                         <div class="mb-3">
                                             <label style="font-size: 1.3rem; color: #6e7485; display: block">FULL NAME</label>
                                             <span style="color: #1d2026; font-size: 1.1rem">{{ fullname }}</span>
@@ -100,9 +100,9 @@
                                     </div>
 
                                     <!-- Right Details -->
-                                    <div class="rightdetail">
+                                    <div class="rightdetail w-50">
                                         <div class="mb-3">
-                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">TEACHING EXPERIENCE</label>
+                                            <label style="text-align: justify; font-size: 1.3rem; color: #6e7485; display: block">TEACHING EXPERIENCE</label>
                                             {{ teaching_experience }}
                                         </div>
                                         <div class="mb-3">
