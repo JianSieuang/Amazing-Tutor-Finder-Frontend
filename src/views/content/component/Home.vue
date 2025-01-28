@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-2 mb-4">
+    <div class="d-flex justify-content-center mt-2 mb-4" v-if="showRecommendedTutors">
         <button class="btn btn-orange">Browse All Tutor</button>
     </div>
 </template>
