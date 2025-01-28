@@ -12,6 +12,8 @@ export const useTutorStore = defineStore("tutor", {
         tutor: null,
         titleImage: null,
         tutorSession: [],
+        students: [],
+        amount: null,
     }),
     actions: {
         async register(data, router) {
@@ -124,7 +126,6 @@ export const useTutorStore = defineStore("tutor", {
                 alert(response.data.message);
 
                 location.href = `/tutor/sessions`;
-
             } catch (error) {
                 alert(error.response.data.message);
             } finally {
@@ -134,10 +135,23 @@ export const useTutorStore = defineStore("tutor", {
 
         async fetchSession(id) {
             try {
+                await axios.get("/sanctum/csrf-cookie");
                 const response = await axios.get(`api/tutors/${id}/sessions`);
                 this.tutorSession = response.data?.sessions;
             } catch (error) {
                 console.error("Error fetching tutor sessions: ", error);
+            }
+        },
+
+        async fetchTutorDashboard(id) {
+            try {
+                await axios.get("/sanctum/csrf-cookie");
+                const response = await axios.get(`api/tutors/${id}/dashboard`);
+                this.students = response.data?.students;
+                this.amount = response.data?.amount;
+                this.tutorSession = response.data?.tutorSessions;
+            } catch (error) {
+                console.error("Error fetching tutor students: ", error);
             }
         },
     },

@@ -55,20 +55,31 @@
                         <label for="sessionMonth">Session Month</label>
                         <select v-model="sessionMonth" id="sessionMonth" required>
                             <option value="" disabled>Select month</option>
-                            <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
                         </select>
                     </div>
 
                     <!-- ✅ Working Days -->
-                        <div class="form-group">
-                            <label>Working Day</label>
-                            <div class="checkbox-group">
-                                <label v-for="(day, key) in workingDays" :key="key" class="custom-checkbox">
-                                    <input type="checkbox" v-model="workingDays[key]" />
-                                    <span>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</span>
-                                </label>
-                            </div>
+                    <div class="form-group">
+                        <label>Working Day</label>
+                        <div class="checkbox-group">
+                            <label v-for="(day, key) in workingDays" :key="key" class="custom-checkbox">
+                                <input type="checkbox" v-model="workingDays[key]" />
+                                <span>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</span>
+                            </label>
                         </div>
+                    </div>
 
                     <!-- Session Time -->
                     <div class="form-group">
@@ -79,6 +90,8 @@
                             <option value="10:00-12:00">10:00 - 12:00</option>
                             <option value="13:00-15:00">13:00 - 15:00</option>
                             <option value="15:00-17:00">15:00 - 17:00</option>
+                            <option value="18:00-20:00">18:00 - 20:00</option>
+                            <option value="20:00-22:00">20:00 - 22:00</option>
                         </select>
                     </div>
 
@@ -116,7 +129,6 @@
         </div>
     </div>
 </template>
-
 
 <script setup>
 import { onMounted, reactive, ref } from "vue";
@@ -209,7 +221,6 @@ const saveSession = async () => {
 </script>
 
 <style scoped>
-
 .session-form-container {
     display: flex;
     flex-direction: column;
@@ -227,7 +238,7 @@ const saveSession = async () => {
     padding: 0 1rem;
     display: flex;
     flex-direction: row;
-    border-bottom: 2px solid #FF6636;
+    border-bottom: 2px solid #ff6636;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
     /* align-items: center; */
@@ -235,16 +246,15 @@ const saveSession = async () => {
 
 .session-header .icon {
     font-size: 1.5rem;
-    color: #FF6636;
+    color: #ff6636;
     margin-right: 0.5rem;
 }
 
 .session-header h2 {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #1D2026;
+    color: #1d2026;
 }
-
 
 .session-form {
     display: flex;
@@ -252,31 +262,29 @@ const saveSession = async () => {
     gap: 1rem;
 }
 
-
 .form-group {
     display: flex;
     flex-direction: column;
 }
-.form-group select{
+.form-group select {
     width: 250px;
 }
 
 .form-group label {
     font-size: 0.9rem;
     font-weight: 500;
-    color: #6E7485;
+    color: #6e7485;
     margin-bottom: 0.3rem;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-    border: 1px solid #D1D5DB;
+    border: 1px solid #d1d5db;
     border-radius: 6px;
     padding: 0.5rem;
     font-size: 1rem;
 }
-
 
 .price-input {
     display: flex;
@@ -286,11 +294,11 @@ const saveSession = async () => {
 
 .price-input span {
     font-size: 1rem;
-    color: #6E7485;
+    color: #6e7485;
 }
 
-
-.checkbox-group, .radio-group {
+.checkbox-group,
+.radio-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -313,7 +321,7 @@ const saveSession = async () => {
     appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #D1D5DB; 
+    border: 2px solid #d1d5db;
     border-radius: 4px;
     background-color: white;
     transition: all 0.3s ease-in-out;
@@ -324,8 +332,8 @@ const saveSession = async () => {
 
 /* ✅ Checkbox clicked */
 .custom-checkbox input:checked {
-    background-color: #FF6636;
-    border-color: #FF6636;
+    background-color: #ff6636;
+    border-color: #ff6636;
 }
 
 /* ✅ checkbox effect*/
@@ -342,12 +350,12 @@ const saveSession = async () => {
 
 /* ✅ radio box */
 .custom-radio input {
-    border-radius: 50%; 
+    border-radius: 50%;
 }
 
 .custom-radio input:checked {
-    background-color: #FF6636;
-    border-color: #FF6636;
+    background-color: #ff6636;
+    border-color: #ff6636;
 }
 
 /* ✅ change radio effect */
@@ -366,11 +374,10 @@ const saveSession = async () => {
 /* ✅ when checkbox/radio clicked , text color change */
 .custom-checkbox input:checked + span,
 .custom-radio input:checked + span {
-    color: #FF6636;
+    color: #ff6636;
     font-weight: bold;
     transition: color 0.3s ease-in-out;
 }
-
 
 .buttonarea {
     display: flex;
@@ -378,7 +385,7 @@ const saveSession = async () => {
 }
 
 .btn-orange {
-    background-color: #FF6636;
+    background-color: #ff6636;
     color: white;
     padding: 0.7rem 1.5rem;
     border: none;
@@ -389,7 +396,6 @@ const saveSession = async () => {
 }
 
 .btn-orange:hover {
-    background-color: #E05530;
+    background-color: #e05530;
 }
-
 </style>
