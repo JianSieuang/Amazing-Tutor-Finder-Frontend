@@ -4,7 +4,7 @@
             <span class="fs-5 fw-bold m-4">Contact</span>
         </div>
     </div>
-    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px 20px 0px 20px; flex-wrap: wrap;">
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; max-width: 1200px; margin: 0 auto; padding: 20px 20px 0px 20px; flex-wrap: wrap">
         <div class="text-content">
             <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: #333">Connect with us</h1>
             <p style="font-size: 1.2rem; margin-bottom: 2rem; color: #666">Want to chat? We'd love to hear from you! Get in touch with our Customer Success Team to inquire about speaking events, advertising rates, or just say hello.</p>
@@ -14,7 +14,7 @@
             </button>
         </div>
 
-        <div class="image-content" >
+        <div class="image-content">
             <img src="@/assets/png/fit.png" alt="Connect Image" class="connect-image" style="max-width: 100%; height: auto; border-radius: 10px" />
         </div>
     </div>
@@ -39,16 +39,13 @@
                     <div class="contact-method d-flex flex-column">
                         <span class="contact-label">PHONE NUMBER</span>
                         <div class="phone-row">
-                            <a href="tel:+601139303135" style="text-decoration: none">
-                                <span class="contact-value">(60) 011-3930-3135 </span></a>
-                                <span class="contact-value">(English/Mandarin)</span>
-                        </div> 
+                            <a href="tel:+601139303135" style="text-decoration: none"> <span class="contact-value">(60) 011-3930-3135 </span></a>
+                            <span class="contact-value">(English/Mandarin)</span>
+                        </div>
                         <div class="phone-row">
-                            <a href="tel:+601139303135" style="text-decoration: none">
-                                <span class="contact-value">(60) 012-345-6789 </span></a>
-                                <span class="contact-value">(English/Malay)</span>
-                        </div> 
-                        
+                            <a href="tel:+601139303135" style="text-decoration: none"> <span class="contact-value">(60) 012-345-6789 </span></a>
+                            <span class="contact-value">(English/Malay)</span>
+                        </div>
                     </div>
                     <!-- Email Addresses -->
                     <div class="contact-method">
@@ -100,6 +97,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { useAuthStore } from "../../../stores/auth";
 
 const first_name = ref("");
 const last_name = ref("");
@@ -108,11 +106,13 @@ const country_code = ref("+60");
 const phone_number = ref("");
 const message = ref("");
 
+const authStore = useAuthStore();
+
 const redirectToWhatsapp = () => {
     window.open("https://wa.me/601111379833?text=Hello+I+have+a+question+.", "_blank");
 };
 
-const submitForm = () => {
+const submitForm = async () => {
     const $form = {
         first_name: first_name.value,
         last_name: last_name.value,
@@ -120,12 +120,36 @@ const submitForm = () => {
         phone_number: country_code.value + phone_number.value,
         message: message.value,
     };
-    alert("Form submitted successfully!");
+
+    const title = "Thank you for contacting us!";
+    const name = last_name.value + " " + first_name.value;
+    const mail_to = email.value;
+    const customTemplate = {
+        html: `
+            <div>
+                <p>Thank you for contacting us. We have received your message and will get back to you as soon as possible.</p>
+                <p>Here are the details of your message:</p>
+                <ul>
+                    <li><strong>Name:</strong> ${name}</li>
+                    <li><strong>Email:</strong> ${mail_to}</li>
+                    <li><strong>Phone Number:</strong> ${$form.phone_number}</li>
+                    <li><strong>Message:</strong> ${$form.message}</li>
+                </ul>
+            </div>
+        `,
+    };
+
+    try {
+        await authStore.sendEmail(title, name, mail_to, customTemplate, "refresh");
+    } catch (error) {
+        console.error(error);
+        alert("Failed to send message. Please try again later.");
+    }
 };
 </script>
 
 <style scoped>
-.phone-row{
+.phone-row {
     display: flex;
     justify-content: space-between;
     text-decoration: none;
@@ -196,25 +220,25 @@ const submitForm = () => {
 .contact-value:hover {
     color: #333;
 }
-.text-content{
-    flex: 1 1 45%; 
-    max-width: 100%; 
-    padding-right: 40px; 
-    display: flex; 
-    flex-direction: column; 
-    justify-content: center; 
-    align-items: flex-start
-}
-.image-content{
-    flex: 1 1 55%; 
-    max-width: 100%; 
+.text-content {
+    flex: 1 1 45%;
+    max-width: 100%;
+    padding-right: 40px;
     display: flex;
-    justify-content: flex-end; 
-    align-items: flex-end; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+.image-content {
+    flex: 1 1 55%;
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
     height: 100%;
 }
 
-@media (max-width: 800px){
+@media (max-width: 800px) {
     .text-content,
     .image-content {
         flex: 1 1 100%;
@@ -222,8 +246,8 @@ const submitForm = () => {
         padding-right: 0;
     }
     .image-content {
-        justify-content: center; 
-        margin-top: 20px; 
+        justify-content: center;
+        margin-top: 20px;
     }
 }
 
@@ -250,5 +274,4 @@ const submitForm = () => {
         font-size: 0.875rem;
     }
 }
-
 </style>
