@@ -259,9 +259,11 @@ onMounted(async () => {
 
                 availabilityList.value = [];
 
-                for (const day in session.session_day) {
-                    if (session.session_day[day] === true) {
-                        availabilityList.value.push(`${dayMapping[day]}: ${session.session_time}`);
+                const dayList = session.session_day.slice(1, -1).split(",");
+
+                for (let i = 0; i < dayList.length; i++) {
+                    if (dayList[i].includes("true")) {
+                        availabilityList.value.push(dayMapping[Object.keys(dayMapping)[i]] + " " + session.session_time);
                     }
                 }
             }
