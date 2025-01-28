@@ -27,7 +27,7 @@
         <p class="text-muted mt-4">No recommended tutors</p>
     </div>
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center" v-if="showRecommendedTutors">
         <div class="row mt-4 col-md-12">
             <div v-for="(tutor, index) in tutorStore.tutors" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100 d-flex flex-column">
@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useAuthStore } from "@/stores/auth.js";
 import { useTutorStore } from "@/stores/tutor.js";
 
@@ -77,13 +77,13 @@ onMounted(async () => {
 const showCreateBtn = ref(false);
 const showRecommendedTutors = ref(false);
 
-if (!authStore.user) {
-    showCreateBtn.value = true;
-}
-
-if (tutorStore.tutors.length != 0) {
-    showRecommendedTutors.value = true;
-}
+watch(
+    () => tutorStore.tutors,
+    (newTutors) => {
+        showRecommendedTutors.value = newTutors.length > 0;
+    },
+    { immediate: true }
+);
 </script>
 
 <style scoped>
