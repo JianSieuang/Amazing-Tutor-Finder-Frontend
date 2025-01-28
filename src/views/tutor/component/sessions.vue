@@ -166,7 +166,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useAuthStore } from "../../../stores/auth";
 import { useTutorStore } from "../../../stores/tutor";
 
@@ -178,15 +178,15 @@ const description = ref("");
 const courseLanguage = ref("");
 const price = ref("");
 const sessionMonth = ref("");
-const workingDays = {
-    monday: ref(false),
-    tuesday: ref(false),
-    wednesday: ref(false),
-    thursday: ref(false),
-    friday: ref(false),
-    saturday: ref(false),
-    sunday: ref(false),
-};
+const workingDays = reactive({
+    monday: false,
+    tuesday: false,
+    wednesday: false,
+    thursday: false,
+    friday: false,
+    saturday: false,
+    sunday: false,
+});
 const sessionTime = ref("");
 const teachingMode = ref("");
 const teachingLocation = ref("");
@@ -197,18 +197,29 @@ onMounted(async () => {
         const data = tutorStore.tutorSession;
 
         if (data) {
+            let sessionDayObj = {};
+
+            try {
+                sessionDayObj = JSON.parse(data.session_day);
+            } catch (err) {
+                console.warn("Failed to parse session_day JSON:", err);
+                sessionDayObj = {};
+            }
+
             title.value = data.title;
             description.value = data.description;
             courseLanguage.value = data.course_language;
             price.value = data.price;
             sessionMonth.value = data.session_month;
-            workingDays.monday = data.session_day.monday;
-            workingDays.tuesday = data.session_day.tuesday;
-            workingDays.wednesday = data.session_day.wednesday;
-            workingDays.thursday = data.session_day.thursday;
-            workingDays.friday = data.session_day.friday;
-            workingDays.saturday = data.session_day.saturday;
-            workingDays.sunday = data.session_day.sunday;
+
+            workingDays.monday = !!sessionDayObj.monday;
+            workingDays.tuesday = !!sessionDayObj.tuesday;
+            workingDays.wednesday = !!sessionDayObj.wednesday;
+            workingDays.thursday = !!sessionDayObj.thursday;
+            workingDays.friday = !!sessionDayObj.friday;
+            workingDays.saturday = !!sessionDayObj.saturday;
+            workingDays.sunday = !!sessionDayObj.sunday;
+
             sessionTime.value = data.session_time;
             teachingMode.value = data.teaching_mode;
             teachingLocation.value = data.teaching_location;
@@ -227,13 +238,13 @@ const saveSession = async () => {
             price: price.value,
             session_month: sessionMonth.value,
             session_day: {
-                monday: workingDays.monday == true ? true : false,
-                tuesday: workingDays.tuesday == true ? true : false,
-                wednesday: workingDays.wednesday == true ? true : false,
-                thursday: workingDays.thursday == true ? true : false,
-                friday: workingDays.friday == true ? true : false,
-                saturday: workingDays.saturday == true ? true : false,
-                sunday: workingDays.sunday == true ? true : false,
+                monday: workingDays.monday,
+                tuesday: workingDays.tuesday,
+                wednesday: workingDays.wednesday,
+                thursday: workingDays.thursday,
+                friday: workingDays.friday,
+                saturday: workingDays.saturday,
+                sunday: workingDays.sunday,
             },
             session_time: sessionTime.value,
             teaching_mode: teachingMode.value,
