@@ -6,164 +6,117 @@
             <!-- Page heading -->
             <h1 class="text-2xl font-semibold text-gray-800 mb-6">Sessions</h1>
 
-            <!-- Card container for the form -->
-            <div class="bg-white rounded-md shadow p-6">
-                <!-- Form heading -->
-                <h2 class="text-xl font-semibold text-gray-700 border-b pb-3 mb-6">Session</h2>
+            <!-- Form Container -->
+            <div class="session-form-container bg-white rounded-md shadow">
+                <!-- Header -->
+                <div class="session-header">
+                    <div class="sessions_select">
+                        <font-awesome-icon icon="fa-solid fa-bars-progress" class="icon" />
+                        <h2>Session</h2>
+                    </div>
+                </div>
 
-                <form @submit.prevent="saveSession" class="space-y-6">
-                    <!-- Title & Subtitle (stacked) -->
-                    <div class="grid grid-cols-1 gap-4">
-                        <!-- Title -->
-                        <div>
-                            <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-                            <input v-model="title" id="title" placeholder="You course title" maxlength="80" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required />
-                        </div>
-
-                        <!-- Subtitle -->
-                        <div>
-                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea v-model="description" id="description" placeholder="Course description" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required></textarea>
-                        </div>
+                <form @submit.prevent="saveSession" class="session-form">
+                    <!-- Title -->
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input v-model="title" id="title" placeholder="Your course title" maxlength="80" required />
                     </div>
 
-                    <!-- Course Language & Subtitle Language side by side -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Course Language -->
-                        <div>
-                            <label for="courseLanguage" class="block text-sm font-medium text-gray-700">Course Language</label>
-                            <select v-model="courseLanguage" id="courseLanguage" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required>
-                                <option value="" disabled>Select...</option>
-                                <!-- Add more options as needed -->
-                                <option value="English">English</option>
-                                <option value="Chinese">Chinese</option>
-                                <option value="Malay">Malay</option>
-                            </select>
-                        </div>
+                    <!-- Subtitle -->
+                    <div class="form-group">
+                        <label for="description">Subtitle</label>
+                        <textarea v-model="description" id="description" placeholder="Course subtitle" required></textarea>
+                    </div>
+
+                    <!-- Course Language -->
+                    <div class="form-group">
+                        <label for="courseLanguage">Course Language</label>
+                        <select v-model="courseLanguage" id="courseLanguage" required>
+                            <option value="" disabled>Select...</option>
+                            <option value="English">English</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Malay">Malay</option>
+                        </select>
                     </div>
 
                     <!-- Price -->
-                    <div class="grid grid-cols-1">
-                        <div>
-                            <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
-                            <div class="flex items-center space-x-2 mt-1">
-                                <span class="text-gray-500">MYR </span>
-                                <input v-model="price" id="price" placeholder="Price" class="block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required min="0" step="0.01" type="number" />
-                                <span class="text-gray-500"> / MONTH</span>
-                            </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <div class="price-input">
+                            <span>MYR</span>
+                            <input v-model="price" id="price" placeholder="Price" required min="0" step="0.01" type="number" />
+                            <span>/ MONTH</span>
                         </div>
                     </div>
 
                     <!-- Session Month -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="sessionMonth" class="block text-sm font-medium text-gray-700">Session Month</label>
-                            <select v-model="sessionMonth" id="sessionMonth" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required>
-                                <option value="" disabled>Select month</option>
-                                <option value="January">January</option>
-                                <option value="February">February</option>
-                                <option value="March">March</option>
-                                <option value="April">April</option>
-                                <option value="May">May</option>
-                                <option value="June">June</option>
-                                <option value="July">July</option>
-                                <option value="August">August</option>
-                                <option value="September">September</option>
-                                <option value="October">October</option>
-                                <option value="November">November</option>
-                                <option value="December">December</option>
-                            </select>
+                    <div class="form-group">
+                        <label for="sessionMonth">Session Month</label>
+                        <select v-model="sessionMonth" id="sessionMonth" required>
+                            <option value="" disabled>Select month</option>
+                            <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
+                        </select>
+                    </div>
+
+                    <!-- ✅ Working Days -->
+                        <div class="form-group">
+                            <label>Working Day</label>
+                            <div class="checkbox-group">
+                                <label v-for="(day, key) in workingDays" :key="key" class="custom-checkbox">
+                                    <input type="checkbox" v-model="workingDays[key]" />
+                                    <span>{{ key.charAt(0).toUpperCase() + key.slice(1) }}</span>
+                                </label>
+                            </div>
+                        </div>
+
+                    <!-- Session Time -->
+                    <div class="form-group">
+                        <label for="sessionTime">Session Time (2 hours)</label>
+                        <select v-model="sessionTime" id="sessionTime" required>
+                            <option value="" disabled>Select your 2-hour slot...</option>
+                            <option value="08:00-10:00">08:00 - 10:00</option>
+                            <option value="10:00-12:00">10:00 - 12:00</option>
+                            <option value="13:00-15:00">13:00 - 15:00</option>
+                            <option value="15:00-17:00">15:00 - 17:00</option>
+                        </select>
+                    </div>
+
+                    <!-- ✅ Teaching Mode -->
+                    <div class="form-group">
+                        <label>Teaching Mode</label>
+                        <div class="radio-group">
+                            <label class="custom-radio">
+                                <input type="radio" v-model="teachingMode" value="Online" required />
+                                <span>Online</span>
+                            </label>
+                            <label class="custom-radio">
+                                <input type="radio" v-model="teachingMode" value="Physical" required />
+                                <span>Physical</span>
+                            </label>
+                            <label class="custom-radio">
+                                <input type="radio" v-model="teachingMode" value="Online & Physical" required />
+                                <span>Both</span>
+                            </label>
                         </div>
                     </div>
 
-                    <!-- Working Day & Times -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Working Days -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Working Day</label>
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" v-model="workingDays.monday" class="form-checkbox text-orange-500" />
-                                    <span>Monday</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" v-model="workingDays.tuesday" class="form-checkbox text-orange-500" />
-                                    <span>Tuesday</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" v-model="workingDays.wednesday" class="form-checkbox text-orange-500" />
-                                    <span>Wednesday</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" v-model="workingDays.thursday" class="form-checkbox text-orange-500" />
-                                    <span>Thursday</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" v-model="workingDays.friday" class="form-checkbox text-orange-500" />
-                                    <span>Friday</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" v-model="workingDays.saturday" class="form-checkbox text-orange-500" />
-                                    <span>Saturday</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" v-model="workingDays.sunday" class="form-checkbox text-orange-500" />
-                                    <span>Sunday</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="sessionTime" class="block text-sm font-medium text-gray-700"> Session Time (2 hours) </label>
-                            <div class="flex items-center space-x-2 mt-1">
-                                <select v-model="sessionTime" id="sessionTime" class="block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required>
-                                    <option value="" disabled>Select your 2-hour slot...</option>
-                                    <option value="08:00-10:00">08:00 - 10:00</option>
-                                    <option value="10:00-12:00">10:00 - 12:00</option>
-                                    <option value="13:00-15:00">13:00 - 15:00</option>
-                                    <option value="15:00-17:00">15:00 - 17:00</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Teaching Mode & Location -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                        <!-- Teaching Mode -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">Teaching Mode</label>
-                            <div class="flex items-center space-x-4 mt-2">
-                                <label class="flex items-center space-x-2">
-                                    <input type="radio" v-model="teachingMode" value="Online" class="form-radio text-orange-500" required />
-                                    <span>Online</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="radio" v-model="teachingMode" value="Physical" class="form-radio text-orange-500" required />
-                                    <span>Physical</span>
-                                </label>
-                                <label class="flex items-center space-x-2">
-                                    <input type="radio" v-model="teachingMode" value="Online & Physical" class="form-radio text-orange-500" required />
-                                    <span>Both</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Teaching Location (if physical) -->
-                        <div v-if="teachingMode === 'physical' || teachingMode === 'both'">
-                            <label for="teachingLocation" class="block text-sm font-medium text-gray-700">Teaching Location</label>
-                            <input v-model="teachingLocation" id="teachingLocation" placeholder="Teaching Location" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-orange-500 focus:border-orange-500" required />
-                        </div>
+                    <!-- Teaching Location -->
+                    <div v-if="teachingMode === 'Physical' || teachingMode === 'Online & Physical'" class="form-group">
+                        <label for="teachingLocation">Teaching Location</label>
+                        <input v-model="teachingLocation" id="teachingLocation" placeholder="Teaching Location" required />
                     </div>
 
                     <!-- Save button -->
-                    <div class="d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn btn-orange">Save</button>
+                    <div class="buttonarea">
+                        <button type="submit" class="btn-orange">Save</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </template>
+
 
 <script setup>
 import { onMounted, reactive, ref } from "vue";
@@ -254,3 +207,189 @@ const saveSession = async () => {
     );
 };
 </script>
+
+<style scoped>
+
+.session-form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+/* Session Header */
+.session-header {
+    display: flex;
+    /* flex-direction: row; */
+    /* align-items: center; */
+    /* border-bottom: 1px solid #e0e0df; */
+}
+.sessions_select {
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px solid #FF6636;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    /* align-items: center; */
+}
+
+.session-header .icon {
+    font-size: 1.5rem;
+    color: #FF6636;
+    margin-right: 0.5rem;
+}
+
+.session-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1D2026;
+}
+
+
+.session-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+.form-group select{
+    width: 250px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #6E7485;
+    margin-bottom: 0.3rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+
+.price-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.price-input span {
+    font-size: 1rem;
+    color: #6E7485;
+}
+
+
+.checkbox-group, .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.custom-checkbox,
+.custom-radio {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+/* ✅ custom */
+.custom-checkbox input,
+.custom-radio input {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #D1D5DB; 
+    border-radius: 4px;
+    background-color: white;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+}
+
+/* ✅ Checkbox clicked */
+.custom-checkbox input:checked {
+    background-color: #FF6636;
+    border-color: #FF6636;
+}
+
+/* ✅ checkbox effect*/
+.custom-checkbox input:checked::after {
+    /* content: "✔"; */
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ✅ radio box */
+.custom-radio input {
+    border-radius: 50%; 
+}
+
+.custom-radio input:checked {
+    background-color: #FF6636;
+    border-color: #FF6636;
+}
+
+/* ✅ change radio effect */
+.custom-radio input:checked::after {
+    /* content: ""; */
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ✅ when checkbox/radio clicked , text color change */
+.custom-checkbox input:checked + span,
+.custom-radio input:checked + span {
+    color: #FF6636;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+
+.buttonarea {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-orange {
+    background-color: #FF6636;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-orange:hover {
+    background-color: #E05530;
+}
+
+</style>
