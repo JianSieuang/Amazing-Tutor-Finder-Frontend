@@ -420,10 +420,10 @@ const ratingStats = computed(() => calculateRatings(ratings.value));
 .right-section {
   display: flex;
   flex-direction: column;
-  width: 50%; /* 右侧占50% */
+  width: 50%; 
 }
 
-/* Overall Rating 主容器 */
+/* Overall Rating  */
 .overall-rating {
   display: flex;
   flex-direction: column;
@@ -433,7 +433,7 @@ const ratingStats = computed(() => calculateRatings(ratings.value));
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Header - 标题 */
+/* Header -  */
 .rating-header {
   padding-bottom: 0.5rem;
   border-bottom: 1px solid #E9EAF0;
@@ -454,7 +454,7 @@ const ratingStats = computed(() => calculateRatings(ratings.value));
   margin-top: 1rem;
 }
 
-/* 左侧: 平均评分 */
+/* left average rating */
 .average-rating {
   display: flex;
   flex-direction: column;
@@ -475,7 +475,7 @@ const ratingStats = computed(() => calculateRatings(ratings.value));
   color: #6E7485;
 }
 
-/* 右侧: 评分进度条 */
+/* right progress bar */
 .rating-progress {
   display: flex;
   flex-direction: column;
@@ -483,14 +483,14 @@ const ratingStats = computed(() => calculateRatings(ratings.value));
   gap: 0.5rem;
 }
 
-/* 单个评分进度条 */
+/* single bar */
 .progress-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-/* 星星标签 */
+/* star */
 .star-label {
   width: 70px;
   font-size: 1rem;
@@ -498,7 +498,7 @@ const ratingStats = computed(() => calculateRatings(ratings.value));
   color: #6E7485;
 }
 
-/* 进度条 */
+/* bar */
 .progress-bar {
   width: 100%;
   height: 10px;
@@ -508,14 +508,14 @@ const ratingStats = computed(() => calculateRatings(ratings.value));
   position: relative;
 }
 
-/* 已填充部分 */
+/* filled bar */
 .filled-bar {
   height: 100%;
   background: #FD8E1F;
   transition: width 0.5s ease-in-out;
 }
 
-/* 右侧百分比 */
+/*percentage */
 .percentage {
   font-size: 1rem;
   font-weight: 400;
