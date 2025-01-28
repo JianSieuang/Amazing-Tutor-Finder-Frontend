@@ -301,7 +301,7 @@ const ratingStats = computed(() => calculateRatings(ratings.value));
 .schedule {
     display: flex;
     flex-direction: column;
-    width: 40%; /* Left section takes 50% */
+    width: 50%;
     min-width: 40%;
     background: #ffffff;
     border-radius: 10px;
@@ -413,7 +413,7 @@ const ratingStats = computed(() => calculateRatings(ratings.value));
 .right-section {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 45%;
 }
 
 /* Overall Rating  */
