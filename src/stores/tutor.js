@@ -9,7 +9,9 @@ export const useTutorStore = defineStore("tutor", {
         loading: false,
         error: null,
         tutorDetail: null,
+        tutor: null,
         titleImage: null,
+        tutorSession: [],
     }),
     actions: {
         async register(data, router) {
@@ -73,7 +75,8 @@ export const useTutorStore = defineStore("tutor", {
             try {
                 const response = await axios.get(`api/tutors/${id}`);
                 this.tutorDetail = response.data?.tutorDetail;
-                
+                this.tutor = response.data?.userDetail;
+
                 this.titleImage = `http://127.0.0.1:8000` + response.data?.tutorDetail.title_image;
 
                 return response.data?.tutorDetail;
@@ -87,7 +90,7 @@ export const useTutorStore = defineStore("tutor", {
 
                 await axios.get("/sanctum/csrf-cookie");
 
-                console.log(data.get('title_picture'));
+                console.log(data.get("title_picture"));
 
                 const response = await axios.post(`api/tutors/${id}/edit`, data, {
                     headers: {
@@ -107,6 +110,34 @@ export const useTutorStore = defineStore("tutor", {
                 }
             } finally {
                 this.loading = false;
+            }
+        },
+
+        async addSession(data, id) {
+            try {
+                this.loading = true;
+
+                await axios.get("/sanctum/csrf-cookie");
+
+                const response = await axios.post(`api/tutors/${id}/add_session`, data);
+
+                alert(response.data);
+
+                location.href = `/tutor/sessions`;
+
+            } catch (error) {
+                alert(error.response.data.message);
+            } finally {
+                this.loading = false;
+            }
+        },
+
+        async fetchSession(id) {
+            try {
+                const response = await axios.get(`api/tutors/${id}/sessions`);
+                this.tutorSession = response.data?.sessions;
+            } catch (error) {
+                console.error("Error fetching tutor sessions: ", error);
             }
         },
     },

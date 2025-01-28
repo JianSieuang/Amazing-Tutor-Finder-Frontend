@@ -7,185 +7,172 @@
             <!-- background color -->
             <div class="background position-absolute w-100 z-n1" :style="{ backgroundColor: backgroundColor }" style="height: 225px"></div>
             <!-- content -->
-            <div class="m-4 p-4 d-flex flex-column justify-content-center align-items-center ">
+            <div class="m-4 p-4 d-flex flex-column justify-content-center align-items-center">
                 <div class="bg-white rounded-3 w-75 gap-3 d-flex flex-column">
                     <div class="d-flex align-items-center p-4 border-bottom">
-                        <img v-if="authStore.user" :src="authStore.image" width="150" height="150" alt="user picture" class="rounded-circle me-3" />
+                        <img v-if="imagePreview" :src="imagePreview" width="150" height="150" alt="user picture" class="rounded-circle me-3" />
                         <div class="flex-fill">
-                                <!-- Username -->
-                                <span class="fs-5 fw-bold">{{ authStore.user.name }}</span>
+                            <!-- Username -->
+                            <span class="fs-5 fw-bold">{{ fullname }}</span>
 
-                                <!-- Review and Students Section -->
-                                <div class="d-flex justify-content-start align-items-center mt-2 gap-2">
-                                    <!-- Reviews Section -->
-                                    <div class="d-flex align-items-center gap-2">
-                                        <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                        <span class="fw-semibold">
-                                            4.8 
-                                            <small class="text-muted">(250 reviews)</small>
-                                        </span>
-                                    </div>
-                                    <!-- Students Section -->
-                                    <div class="d-flex align-items-center gap-2">
-                                        <font-awesome-icon icon="fa-solid fa-user-graduate" class="text-primary" />
-                                        <span class="fw-semibold">500 students</span>
-                                    </div>
+                            <!-- Review and Students Section -->
+                            <div class="d-flex justify-content-start align-items-center mt-2 gap-2">
+                                <!-- Reviews Section -->
+                                <div class="d-flex align-items-center gap-2">
+                                    <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
+                                    <span class="fw-semibold">
+                                        4.8
+                                        <small class="text-muted">(250 reviews)</small>
+                                    </span>
+                                </div>
+                                <!-- Students Section -->
+                                <div class="d-flex align-items-center gap-2">
+                                    <font-awesome-icon icon="fa-solid fa-user-graduate" class="text-primary" />
+                                    <span class="fw-semibold">500 students</span>
                                 </div>
                             </div>
+                        </div>
                         <div class="d-flex gap-3">
-                            <div class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px;">
-                                <font-awesome-icon icon="fa-brands fa-facebook-f" class="icon"/>
-                            </div>
-                            <div class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px;">
-                                <font-awesome-icon icon="fa-brands fa-instagram" class="icon"/>
-                            </div>
-                            <div class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px;">
-                                <font-awesome-icon icon="fa-brands fa-linkedin-in" class="icon"/>
-                            </div>
+                            <!-- whatsapp -->
+                            <a v-if="whatsapp" :href="whatsapp" target="_blank" rel="noopener noreferrer" class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px">
+                                <div class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px">
+                                    <font-awesome-icon icon="fa-brands fa-whatsapp" class="icon" />
+                                </div>
+                            </a>
+
+                            <!-- instagram -->
+                            <a v-if="instagram" :href="instagram" target="_blank" rel="noopener noreferrer" class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px">
+                                <div class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px">
+                                    <font-awesome-icon icon="fa-brands fa-instagram" class="icon" />
+                                </div>
+                            </a>
+
+                            <!-- linkedin -->
+                            <a v-if="linkedln" :href="linkedln" target="_blank" rel="noopener noreferrer" class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px">
+                                <div class="text-white d-flex align-items-center justify-content-center sm-btn" style="height: 36px; width: 36px">
+                                    <font-awesome-icon icon="fa-brands fa-linkedin-in" class="icon" />
+                                </div>
+                            </a>
                         </div>
                     </div>
                     <!-- content -->
                     <div class="d-flex justify-content-center gap-3">
                         <!-- Left -->
-                        <div class="left-section d-flex flex-column" style="width: 30%; gap: 1rem;">
+                        <div class="left-section d-flex flex-column" style="width: 30%; gap: 1rem">
                             <!-- aboutme -->
-                            <div class="aboutme p-3 rounded" style="border: 1px solid #E9EAF0;">
-                            <h5 class="fw-bold">About Me</h5>
-                            <p style="color: #6E7485; text-align: justify;">
-                                One day Vako had enough with the 9-to-5 grind, or more like 9-to-9 in his case, and quit his job, or more like got himself fired from his own startup.
-                                He decided to work on his dream: be his own boss, travel the world, only do the work he enjoyed, and make a lot more money in the process. No more begging for vacation days and living from paycheck to paycheck. After trying everything from e-commerce stores to professional poker his lucky break came when he started freelance design. Vako fell in love with the field that gives him the lifestyle of his dreams.
-                                Vako realizes that people who take courses on Udemy want to transform their lives. Today with his courses and mentoring Vako is helping thousands of people transform their lives, just like he did once.
-                            </p>
+                            <div class="aboutme p-3 rounded" style="border: 1px solid #e9eaf0">
+                                <h5 class="fw-bold">About Me</h5>
+                                <p style="color: #6e7485; text-align: justify">{{ about_me }}</p>
                             </div>
                             <!-- button area-->
                             <div class="btn-area d-flex gap-2">
-                            <button 
-                                class="btn-orange-secondary w-50 py-2 px-3"
-                               >
-                                Write a Review
-                            </button>
-                            <button 
-                                class="btn-orange-primary w-50 py-2 px-3"
-                                >
-                                Book Sessions
-                            </button>
+                                <button class="btn-orange-secondary w-50 py-2 px-3">Write a Review</button>
+                                <button class="btn-orange-primary w-50 py-2 px-3">Book Sessions</button>
                             </div>
                         </div>
 
                         <!-- right -->
-                        <div class="right-section d-flex flex-column" style="width: 70%; gap: 1rem;">
-                    <!-- Title -->
-                    <h3 class="fw-bold" style="color: #1D2026">Profile Details</h3>
+                        <div class="right-section d-flex flex-column" style="width: 70%; gap: 1rem">
+                            <!-- Title -->
+                            <h3 class="fw-bold" style="color: #1d2026">Profile Details</h3>
 
-                    <!-- Details Section -->
-                    <div class="details p-3 rounded" style="border: 1px solid #E9EAF0;">
-                        <div class="d-flex justify-content-around gap-3 ">
-                        <!-- Left Details -->
-                        <div class="leftdetail">
-                            <div class="mb-3">
-                            <label style="font-size: 1.3rem; color: #6E7485; display: block;">FULL NAME</label>
-                            <span style="color: #1D2026; font-size: 1.1rem;">John Doe</span>
-                            </div>
-                            <div class="mb-3">
-                            <label style="font-size: 1.3rem; color: #6E7485; display: block;">PHONE NUMBER</label>
-                            <span style="color: #1D2026; font-size: 1.1rem;">+123 456 7890</span>
-                            </div>
-                            <div class="mb-3">
-                            <label style="font-size: 1.3rem; color: #6E7485; display: block;">EMAIL</label>
-                            <span style="color: #1D2026; font-size: 1.1rem;">johndoe@example.com</span>
-                            </div>
-                            <div class="mb-3">
-                            <label style="font-size: 1.3rem; color: #6E7485; display: block;">EDUCATION BACKGROUND</label>
-                            <span style="color: #1D2026; font-size: 1.1rem;">Master's in Computer Science</span>
-                            </div>
-                        </div>
+                            <!-- Details Section -->
+                            <div class="details p-3 rounded" style="border: 1px solid #e9eaf0">
+                                <div class="d-flex justify-content-around gap-3">
+                                    <!-- Left Details -->
+                                    <div class="leftdetail">
+                                        <div class="mb-3">
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">FULL NAME</label>
+                                            <span style="color: #1d2026; font-size: 1.1rem">{{ fullname }}</span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">PHONE NUMBER</label>
+                                            <span style="color: #1d2026; font-size: 1.1rem">{{ phone_number }}</span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">EMAIL</label>
+                                            <span style="color: #1d2026; font-size: 1.1rem">{{ email }}</span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">EDUCATION BACKGROUND</label>
+                                            <span style="color: #1d2026; font-size: 1.1rem">{{ education_background }}</span>
+                                        </div>
+                                    </div>
 
-                        <!-- Right Details -->
-                        <div class="rightdetail">
-                            <div class="mb-3">
-                            <label style="font-size: 1.3rem; color: #6E7485; display: block;">TEACHING EXPERIENCE</label>
-                            <ul style="margin: 0; padding-left: 1.2rem; list-style-type: disc; color: #1D2026; font-size: 1.1rem;">
-                                <li>5 years as a high school math tutor</li>
-                                <li>3 years teaching advanced programming</li>
-                            </ul>
+                                    <!-- Right Details -->
+                                    <div class="rightdetail">
+                                        <div class="mb-3">
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">TEACHING EXPERIENCE</label>
+                                            <ul style="margin: 0; padding-left: 1.2rem; list-style-type: disc; color: #1d2026; font-size: 1.1rem">
+                                                <li>{{ teaching_experience }}</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">AVAILABILITY</label>
+                                            <ul style="margin: 0; padding-left: 1.2rem; list-style-type: disc; color: #1d2026; font-size: 1.1rem">
+                                                <li>Monday to Friday: 9 AM - 5 PM</li>
+                                                <li>Saturday: 10 AM - 2 PM</li>
+                                            </ul>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label style="font-size: 1.3rem; color: #6e7485; display: block">RATES</label>
+                                            <span style="color: #1d2026; font-size: 1.1rem">$50/hour</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-3">
-                            <label style="font-size: 1.3rem; color: #6E7485; display: block;">LOCATION</label>
-                            <ul style="margin: 0; padding-left: 1.2rem; list-style-type: disc; color: #1D2026; font-size: 1.1rem;">
-                                <li>New York City</li>
-                                <li>Available for travel within 50 miles</li>
-                            </ul>
-                            </div>
-                            <div class="mb-3">
-                            <label style="font-size: 1.3rem; color: #6E7485; display: block;">AVAILABILITY</label>
-                            <ul style="margin: 0; padding-left: 1.2rem; list-style-type: disc; color: #1D2026; font-size: 1.1rem;">
-                                <li>Monday to Friday: 9 AM - 5 PM</li>
-                                <li>Saturday: 10 AM - 2 PM</li>
-                            </ul>
-                            </div>
-                            <div class="mb-3">
-                            <label style="font-size: 1.3rem; color: #6E7485; display: block;">RATES</label>
-                            <span style="color: #1D2026; font-size: 1.1rem;">$50/hour</span>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    <!-- Student Feedback Section -->
-                    <div class="student-feedback-section mt-4">
-                        <!-- Title -->
-                        <h3 class="fw-bold mb-4" style="color: #1D2026;">Student Feedback</h3>
+                            <!-- Student Feedback Section -->
+                            <div class="student-feedback-section mt-4">
+                                <!-- Title -->
+                                <h3 class="fw-bold mb-4" style="color: #1d2026">Student Feedback</h3>
 
-                        <!-- Feedback List -->
-                        <div class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #E9EAF0;">
-                        <!-- Feedback Student Detail -->
-                        <div class="feedback_stud_detail d-flex align-items-center gap-3">
-                            <img v-if="authStore.user" :src="authStore.image" width="50" height="50" alt="user picture" class="rounded-circle me-3" />
-                            <div class="d-flex flex-column gap-2">
-                            <span class="fw-bold" style="color: #1D2026;">Jane Doe</span>
-                            <div class="d-flex align-items-center gap-2">
-                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                <font-awesome-icon icon="fa-regular fa-star" class="text-warning" />
-                                <font-awesome-icon icon="fa-regular fa-star" class="text-warning" />
-                            </div>
-                            </div>
-                        </div>
+                                <!-- Feedback List -->
+                                <div class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #e9eaf0">
+                                    <!-- Feedback Student Detail -->
+                                    <div class="feedback_stud_detail d-flex align-items-center gap-3">
+                                        <img v-if="authStore.user" :src="authStore.image" width="50" height="50" alt="user picture" class="rounded-circle me-3" />
+                                        <div class="d-flex flex-column gap-2">
+                                            <span class="fw-bold" style="color: #1d2026">Jane Doe</span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
+                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
+                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
+                                                <font-awesome-icon icon="fa-regular fa-star" class="text-warning" />
+                                                <font-awesome-icon icon="fa-regular fa-star" class="text-warning" />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                        <!-- Feedback Description -->
-                        <p style="color: #4E5566; font-size: 1rem; margin: 0;">
-                            Vako was an amazing tutor! He helped me not only understand the concepts of programming but also taught me how to apply them in real-world scenarios. I couldn't have asked for a better mentor.
-                        </p>
-                        </div>
-                        <div class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #E9EAF0;">
-                        <!-- Feedback Student Detail -->
-                        <div class="feedback_stud_detail d-flex align-items-center gap-3">
-                            <img v-if="authStore.user" :src="authStore.image" width="50" height="50" alt="user picture" class="rounded-circle me-3" />
-                            <div class="d-flex flex-column gap-2">
-                            <span class="fw-bold" style="color: #1D2026;">Jane Doe</span>
-                            <div class="d-flex align-items-center gap-2">
-                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                <font-awesome-icon icon="fa-regular fa-star" class="text-warning" />
-                            </div>
-                            </div>
-                        </div>
+                                    <!-- Feedback Description -->
+                                    <p style="color: #4e5566; font-size: 1rem; margin: 0">Vako was an amazing tutor! He helped me not only understand the concepts of programming but also taught me how to apply them in real-world scenarios. I couldn't have asked for a better mentor.</p>
+                                </div>
+                                <div class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #e9eaf0">
+                                    <!-- Feedback Student Detail -->
+                                    <div class="feedback_stud_detail d-flex align-items-center gap-3">
+                                        <img v-if="authStore.user" :src="authStore.image" width="50" height="50" alt="user picture" class="rounded-circle me-3" />
+                                        <div class="d-flex flex-column gap-2">
+                                            <span class="fw-bold" style="color: #1d2026">Jane Doe</span>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
+                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
+                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
+                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
+                                                <font-awesome-icon icon="fa-regular fa-star" class="text-warning" />
+                                            </div>
+                                        </div>
+                                    </div>
 
-                        <!-- Feedback Description -->
-                        <p style="color: #4E5566; font-size: 1rem; margin: 0;">
-                            Vako was an amazing tutor! He helped me not only understand the concepts of programming but also taught me how to apply them in real-world scenarios. I couldn't have asked for a better mentor.
-                        </p>
-                        </div>
+                                    <!-- Feedback Description -->
+                                    <p style="color: #4e5566; font-size: 1rem; margin: 0">Vako was an amazing tutor! He helped me not only understand the concepts of programming but also taught me how to apply them in real-world scenarios. I couldn't have asked for a better mentor.</p>
+                                </div>
 
-                        <!-- Add more feedback items if needed -->
-                    </div>
+                                <!-- Add more feedback items if needed -->
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>     
+            </div>
         </div>
-    </div>
         <!-- footer -->
         <footer_design />
     </div>
@@ -195,18 +182,57 @@
 import header_design from "@/component/header.vue";
 import footer_design from "@/component/footer.vue";
 
-
-import { computed } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onMounted, computed } from "vue";
+import { useRoute } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { useTutorStore } from "../../stores/tutor";
 
 const authStore = useAuthStore();
+const tutorStore = useTutorStore();
 const backgroundColor = computed(() => (authStore.user.role === "student" ? "#FFEEE8" : "#FFC7B2"));
 
-const router = useRouter();
-const signOut = async () => {
-    await authStore.logout(router);
-};
+const route = useRoute();
+const tutorId = route.params.id;
+
+const fullname = ref("");
+const phone_number = ref("");
+const email = ref("");
+const education_background = ref("");
+const teaching_experience = ref("");
+const about_me = ref("");
+const instagram = ref("");
+const linkedln = ref("");
+const whatsapp = ref("");
+
+const availability = ref("");
+const rate = ref("");
+
+const reviews = ref([]);
+const imagePreview = ref("");
+
+onMounted(async () => {
+    try {
+        await tutorStore.fetchTutorDetails(tutorId);
+        const tutorDetail = tutorStore.tutorDetail;
+        const tutorData = tutorStore.tutor;
+
+        if (tutorDetail && tutorData) {
+            fullname.value = tutorData.name;
+            phone_number.value = tutorData.phone;
+            email.value = tutorData.email;
+            imagePreview.value = `http://127.0.0.1:8000${tutorData.image}` || "";
+
+            education_background.value = tutorDetail.education_background || "";
+            teaching_experience.value = tutorDetail.teaching_experience || "";
+            about_me.value = tutorDetail.about_me || "";
+            instagram.value = tutorDetail.instagram || "";
+            linkedln.value = tutorDetail.linkedln || "";
+            whatsapp.value = tutorDetail.whatsapp || "";
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
 </script>
 
 <style scoped>
@@ -214,13 +240,13 @@ const signOut = async () => {
     background-color: #ff6636;
     color: #ffeee8;
     border-radius: 2px;
-    border:none;
+    border: none;
 }
 .btn-orange-secondary {
     background-color: #ffeee8;
     color: #ff6636;
     border-radius: 2px;
-    border:none;
+    border: none;
 }
 .nav-item .btn {
     /* padding: 0.5rem 2rem;         */
@@ -241,21 +267,20 @@ const signOut = async () => {
     border-bottom: 3px solid #ff6636;
 }
 .sm-btn {
-        background-color: #F5F7FA;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.3s,box-shadow 0.3s, color 0.3s;
+    background-color: #f5f7fa;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s, color 0.3s;
 }
 .sm-btn .icon {
-    color: #333333; 
-    transition: color 0.3s; 
+    color: #333333;
+    transition: color 0.3s;
 }
 .sm-btn:hover {
-    background-color: #FF6636;
+    background-color: #ff6636;
     transform: scale(1.1);
     box-shadow: 0 0 10px 2px rgba(255, 102, 54, 0.8);
 }
 .sm-btn:hover .icon {
-    color: #F5F7FA !important; 
+    color: #f5f7fa !important;
 }
-
 </style>

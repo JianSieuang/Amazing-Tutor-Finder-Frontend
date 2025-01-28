@@ -67,7 +67,7 @@ const router = createRouter({
                     component: Contact,
                 },
                 {
-                    path: "tutordetail",
+                    path: "/tutor_details/:id",
                     name: "tutordetail",
                     component: TutorDetail,
                 },
@@ -147,7 +147,7 @@ const router = createRouter({
                 {
                     path: "sessions",
                     name: "Sessions",
-                    compinent: Sessions,
+                    component: Sessions,
                 },
                 {
                     path: "schedule",
