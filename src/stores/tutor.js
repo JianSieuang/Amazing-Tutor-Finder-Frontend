@@ -5,6 +5,7 @@ import { useAuthStore } from "./auth";
 export const useTutorStore = defineStore("tutor", {
     state: () => ({
         tutors: [],
+        recommendedTutors: [],
         pendingTutors: [],
         loading: false,
         error: null,
@@ -14,6 +15,9 @@ export const useTutorStore = defineStore("tutor", {
         tutorSession: [],
         students: [],
         amount: null,
+        currentPage: 1,
+        perPage: 12,
+        totalPages: 1,
     }),
     actions: {
         async register(data, router) {
@@ -50,12 +54,13 @@ export const useTutorStore = defineStore("tutor", {
             }
         },
 
-        async fetchTutors() {
+        async fetchTutors(page = 1) {
             try {
-                const response = await axios.get("api/tutors/testing");
+                const response = await axios.get("api/tutors",{
+                    params: { page, perPage: this.perPage },
+                });
 
                 const tutorsData = response.data?.tutors || [];
-
                 const tutorSessions = response.data?.sessions || [];
 
                 this.tutors = tutorsData.map((tutor) => {
@@ -69,6 +74,11 @@ export const useTutorStore = defineStore("tutor", {
                         session: tutorSession,
                     };
                 });
+
+                this.currentPage = response.data.currentPage;
+                this.totalPages = response.data.totalPages;
+
+                this.recommendedTutors = this.tutors.slice(0, 4);
             } catch (error) {
                 console.error("Error fetching pending tutors: ", error);
             }

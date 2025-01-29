@@ -19,48 +19,59 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-center mt-5">
+    <div class="d-flex flex-column align-items-center justify-content-center mt-5">
         <h3 class="fw-bold">Tutor Recommended</h3>
-    </div>
+        <p v-if="!showRecommendedTutors" class="text-muted mt-4">No recommended tutors</p>
+        <div v-else class="container-sm">
+            <div id="recommendedTutorCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators">
+                    <button v-for="(tutor, index) in tutorStore.recommendedTutors" :key="index" type="button" data-bs-target="#recommendedTutorCarousel" :data-bs-slide-to="index" :class="{ active: index === 0 }" :aria-current="index === 0 ? 'true' : false" :aria-label="'Slide ' + (index + 1)"></button>
+                </div>
 
-    <div class="d-flex justify-content-center" v-if="!showRecommendedTutors">
-        <p class="text-muted mt-4">No recommended tutors</p>
-    </div>
-
-    <div class="d-flex justify-content-center" v-if="showRecommendedTutors">
-        <div class="row mt-4 col-md-12">
-            <div v-for="(tutor, index) in tutorStore.tutors" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
-                <router-link :to="`/tutor_details/${tutor.user_id}`" class="text-decoration-none">
-                    <div class="card h-100 d-flex flex-column">
-                        <img :src="tutor.title_image" class="rounded-t-lg h-[150px] object-cover" :alt="tutor.title_image"/>
-                        <div class="card-body d-flex flex-column flex-grow-1">
-                            <p class="text-[0.9rem] fw-bold mb-1 d-flex justify-content-between align-items-center">
-                                <span>MYR {{ tutor.session.price }}</span>
-                                <small class="text-muted p-1 rounded" style="background-color: #ffe5b4">Per Session</small>
-                            </p>
-                            <h5 class="text-[1.2rem] mb-[0.5rem] fw-bold mb-2">{{ tutor.session.title }}</h5>
-
-                            <div class="mt-auto">
-                                <hr style="border: 1px solid #e0e0e0; margin: 0.5rem 0" />
-
-                                <p class="text-[0.9rem] d-flex justify-content-between align-items-center">
-                                    <span>
-                                        <span style="color: #ffc107">★</span>
-                                        <small class="text-muted" style="margin-left: 4px">{{ tutor.rating }}</small>
-                                    </span>
-
-                                    <small class="text-muted">{{ tutor.students }} Enrolled</small>
+                <!-- Carousel Items -->
+                <div class="carousel-inner">
+                    <div v-for="(tutor, index) in tutorStore.recommendedTutors" :key="index" class="carousel-item" :class="{ active: index === 0 }">
+                        <router-link :to="`/tutor_details/${tutor.user_id}`" class="text-decoration-none">
+                            <img :src="tutor.title_image" class="d-block w-auto mx-auto" style="max-height: 250px; object-fit: contain" :alt="tutor.title_image" />
+                            <div class="carousel-caption d-none d-md-block">
+                                <p class=" fw-bold mb-1 d-flex justify-content-between align-items-center">
+                                    <span>MYR {{ tutor.session.price }}</span>
+                                    <small class="text-muted p-1 rounded" style="background-color: #ffe5b4">Per Session</small>
                                 </p>
+                                <p class="d-flex justify-content-between align-items-center">
+                                    <h5 class="fw-bold mb-2">{{ tutor.session.title }}</h5>
+                                </p>
+                                
+
+                                <div class="mt-auto">
+                                    <hr style="border: 1px solid #e0e0e0; margin: 0.5rem 0" />
+                                    <p class="d-flex justify-content-between align-items-center">
+                                        <span>
+                                            <span style="color: #ffc107">★</span>
+                                            <small class="text-muted" style="margin-left: 4px">{{ tutor.rating }}</small>
+                                        </span>
+                                        <small class="text-muted">{{ tutor.students }} Enrolled</small>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        </router-link>
                     </div>
-                </router-link>
+                </div>
+
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#recommendedTutorCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#recommendedTutorCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
-    </div>
 
-    <div class="d-flex justify-content-center mt-2 mb-4" v-if="showRecommendedTutors">
-        <RouterLink to="/tutor_list" class="btn btn-orange">
+        <RouterLink to="/tutor_list" class="btn btn-orange mt-4">
             <button class="btn btn-orange">Browse All Tutor</button>
         </RouterLink>
     </div>
@@ -76,19 +87,12 @@ const authStore = useAuthStore();
 const tutorStore = useTutorStore();
 
 onMounted(async () => {
-    tutorStore.fetchTutors();
+    await tutorStore.fetchTutors();
+    showRecommendedTutors.value = tutorStore.tutors.length > 0;
 });
 
 const showCreateBtn = ref(false);
 const showRecommendedTutors = ref(false);
-
-watch(
-    () => tutorStore.tutors,
-    (newTutors) => {
-        showRecommendedTutors.value = newTutors.length > 0;
-    },
-    { immediate: true }
-);
 </script>
 
 <style scoped>
