@@ -281,5 +281,15 @@ export const useAuthStore = defineStore("auth", {
                 alert(this.error);
             }
         },
+
+        async fetchPurchaseHistory(id) {
+            try {
+                const response = await axios.get(`api/users/${id}/purchaseHistory`);
+                return response.data.purchaseHistory;
+            } catch (error) {
+                this.error = error.response?.data?.message || "Purchase history fetch failed";
+            }
+        },
     },
 });
+

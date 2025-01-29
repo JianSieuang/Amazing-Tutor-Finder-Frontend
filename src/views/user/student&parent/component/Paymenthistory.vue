@@ -1,214 +1,210 @@
 <template>
     <div class="purchase-history-container w-75">
-      <!-- Header -->
-      <div class="title">
-        <h2>Purchase History</h2>
-      </div>
-  
-      <!-- Content -->
-      <div class="content">
-        <!-- ✅ if record empty show this msg -->
-        <div v-if="isEmpty" class="no-record">
-          <p>No any purchase record, let's go to book a session!</p>
+        <!-- Header -->
+        <div class="title">
+            <h2>Purchase History</h2>
         </div>
-  
-        <!-- ✅ show record -->
-        <div v-else>
-          <div class="recordbar" v-for="(record, index) in purchaseRecords" :key="index">
-            <!-- Session Record -->
-            <div class="sessionrecord">
-              <div class="session-box" v-for="(session, idx) in record.sessions" :key="idx">
-                <!-- Image -->
-                <div class="imagediv">
-                  <img :src="session.image" alt="Tutor Image" />
-                </div>
-  
-                <!-- Details -->
-                <div class="detail">
-                  <div class="tutor-name">{{ session.tutorName }}</div>
-                  <div class="sessions-count">Sessions: {{ session.sessionsCount }}</div>
-                </div>
-  
-                <!-- Price -->
-                <div class="price">
-                  MYR {{ session.price }}
-                </div>
-              </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- ✅ if record empty show this msg -->
+            <div v-if="isEmpty" class="no-record">
+                <p>No any purchase record, let's go to book a session!</p>
             </div>
-  
-            <!-- Purchase Record -->
-            <div class="purchaserecord">
-              <!-- Purchase Date -->
-              <div class="purchase-date">{{ record.date }}</div>
-  
-              <!-- Purchase Record Detail -->
-              <div class="purchase-record-detail">
-                <div class="purchase-item">
-                  <font-awesome-icon icon="fa-solid fa-book-open" />
-                  <span>{{ record.totalSessions }} Sessions</span>
+
+            <!-- ✅ show record -->
+            <div v-else>
+                <div class="recordbar" v-for="(record, index) in purchaseRecords" :key="index">
+                    <!-- Session Record -->
+                    <div class="sessionrecord">
+                        <div class="session-box" v-for="(session, idx) in record.sessions" :key="idx">
+                            <!-- Image -->
+                            <div class="imagediv">
+                                <img :src="session.image" alt="Tutor Image" />
+                            </div>
+
+                            <!-- Details -->
+                            <div class="detail">
+                                <div class="tutor-name">{{ session.tutorName }}</div>
+                                <div class="sessions-count">Sessions: {{ session.sessionsCount }}</div>
+                            </div>
+
+                            <!-- Price -->
+                            <div class="price">MYR {{ session.price }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Purchase Record -->
+                    <div class="purchaserecord">
+                        <!-- Purchase Date -->
+                        <div class="purchase-date">{{ record.date }}</div>
+
+                        <!-- Purchase Record Detail -->
+                        <div class="purchase-record-detail">
+                            <div class="purchase-item">
+                                <font-awesome-icon icon="fa-solid fa-book-open" />
+                                <span>{{ record.totalSessions }} Sessions</span>
+                            </div>
+                            <div class="purchase-item">
+                                <font-awesome-icon icon="fa-solid fa-dollar-sign" />
+                                <span>MYR {{ record.totalAmount }}</span>
+                            </div>
+                            <div class="purchase-item">
+                                <font-awesome-icon icon="fa-solid fa-credit-card" />
+                                <span>Credit Card</span>
+                            </div>
+                        </div>
+
+                        <!-- Payment Detail -->
+                        <div class="payment-detail">
+                            <div class="card-holder">
+                                <span>{{ record.cardHolder }}</span>
+                            </div>
+                            <div class="card-number">
+                                <span>{{ maskCardNumber(record.cardNumber) }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="purchase-item">
-                  <font-awesome-icon icon="fa-solid fa-dollar-sign" />
-                  <span>MYR {{ record.totalAmount }}</span>
-                </div>
-                <div class="purchase-item">
-                  <font-awesome-icon icon="fa-solid fa-credit-card" />
-                  <span>Credit Card</span>
-                </div>
-              </div>
-  
-              <!-- Payment Detail -->
-              <div class="payment-detail">
-                <div class="card-holder">
-                  <span>{{ record.cardHolder }}</span>
-                </div>
-                <div class="card-number">
-                  <span>{{ maskCardNumber(record.cardNumber) }}</span>
-                </div>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
-  
-      <!-- Footer -->
-      <div class="footer">
-        <p v-if="!isEmpty">Yay! You have seen all your purchase history.</p>
-      </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p v-if="!isEmpty">Yay! You have seen all your purchase history.</p>
+        </div>
     </div>
-  </template>
-  
-  
-  <script setup>
-  import { ref,computed } from "vue";
-  import image1 from "@/assets/png/about_us_1.png";
-  
-  //if no purchase record, show message
-  const purchaseRecords = ref([]);
+</template>
 
-  // purchase record
-//   const purchaseRecords = ref([
-    // {
-    //   date: "1st September, 2021 at 11:30 PM",
-    //   totalSessions: 3,
-    //   totalAmount: "75.00",
-    //   cardHolder: "Kevin Gilbert",
-    //   cardNumber: "4142123456789876",
-    //   sessions: [
-    //     {
-    //       image: image1,
-    //       tutorName: "Learn Ethical Hacking From Scratch",
-    //       sessionsCount: 1,
-    //       price: "13.99",
-    //     },
-    //     {
-    //       image: image1,
-    //       tutorName: "Mega Digital Marketing Course A-Z",
-    //       sessionsCount: 2,
-    //       price: "49.00",
-    //     },
-    //   ],
-    // },
-    // {
-    //   date: "1st September, 2021 at 11:30 PM",
-    //   totalSessions: 1,
-    //   totalAmount: "39.00",
-    //   cardHolder: "Card Holder Name",
-    //   cardNumber: "5123456789012345",
-    //   sessions: [
-    //     {
-    //       image: image1,
-    //       tutorName: "Tutor Name",
-    //       sessionsCount: 1,
-    //       price: "39.00",
-    //     },
-    //   ],
-    // },
-    // {
-    //   date: "1st September, 2021 at 11:30 PM",
-    //   totalSessions: 1,
-    //   totalAmount: "39.00",
-    //   cardHolder: "Card Holder Name",
-    //   cardNumber: "5123456789012345",
-    //   sessions: [
-    //     {
-    //       image: image1,
-    //       tutorName: "Tutor Name",
-    //       sessionsCount: 1,
-    //       price: "39.00",
-    //     },
-    //     {
-    //       image: image1,
-    //       tutorName: "Tutor Name",
-    //       sessionsCount: 1,
-    //       price: "39.00",
-    //     },
-    //     {
-    //       image: image1,
-    //       tutorName: "Tutor Name",
-    //       sessionsCount: 1,
-    //       price: "39.00",
-    //     },
-    //     {
-    //       image: image1,
-    //       tutorName: "Tutor Name",
-    //       sessionsCount: 1,
-    //       price: "39.00",
-    //     },
-    //   ],
-      
-      
-    // },
-//   ]);
+<script setup>
+import { ref, computed } from "vue";
+import image1 from "@/assets/png/about_us_1.png";
 
-  // check is empty record or nor
+//if no purchase record, show message
+// const purchaseRecords = ref([]);
+
+// purchase record
+const purchaseRecords = ref([
+    {
+        date: "1st September, 2021 at 11:30 PM",
+        totalSessions: 3,
+        totalAmount: "75.00",
+        cardHolder: "Kevin Gilbert",
+        cardNumber: "4142123456789876",
+        sessions: [
+            {
+                image: image1,
+                tutorName: "Learn Ethical Hacking From Scratch",
+                sessionsCount: 1,
+                price: "13.99",
+            },
+            {
+                image: image1,
+                tutorName: "Mega Digital Marketing Course A-Z",
+                sessionsCount: 2,
+                price: "49.00",
+            },
+        ],
+    },
+    {
+        date: "1st September, 2021 at 11:30 PM",
+        totalSessions: 1,
+        totalAmount: "39.00",
+        cardHolder: "Card Holder Name",
+        cardNumber: "5123456789012345",
+        sessions: [
+            {
+                image: image1,
+                tutorName: "Tutor Name",
+                sessionsCount: 1,
+                price: "39.00",
+            },
+        ],
+    },
+    {
+        date: "1st September, 2021 at 11:30 PM",
+        totalSessions: 1,
+        totalAmount: "39.00",
+        cardHolder: "Card Holder Name",
+        cardNumber: "5123456789012345",
+        sessions: [
+            {
+                image: image1,
+                tutorName: "Tutor Name",
+                sessionsCount: 1,
+                price: "39.00",
+            },
+            {
+                image: image1,
+                tutorName: "Tutor Name",
+                sessionsCount: 1,
+                price: "39.00",
+            },
+            {
+                image: image1,
+                tutorName: "Tutor Name",
+                sessionsCount: 1,
+                price: "39.00",
+            },
+            {
+                image: image1,
+                tutorName: "Tutor Name",
+                sessionsCount: 1,
+                price: "39.00",
+            },
+        ],
+    },
+]);
+
+// check is empty record or nor
 const isEmpty = computed(() => purchaseRecords.value.length === 0);
-if(isEmpty){
-    console.log("No any purchase record, let's go to book a session!");}
-  
-  // card no mask
-  const maskCardNumber = (cardNumber) => {
+if (isEmpty) {
+    console.log("No any purchase record, let's go to book a session!");
+}
+
+// card no mask
+const maskCardNumber = (cardNumber) => {
     return cardNumber.slice(0, 4) + "-****-****-" + cardNumber.slice(-4);
-  };
-  </script>
-  
-  <style scoped>
-  /* ✅ main container*/
-  .purchase-history-container {
+};
+</script>
+
+<style scoped>
+/* ✅ main container*/
+.purchase-history-container {
     display: flex;
     flex-direction: column;
     /* width: 100%;
     max-width: 900px; */
     margin: auto;
-  }
-  
-  /* ✅title*/
-  .title {
+}
+
+/* ✅title*/
+.title {
     font-size: 1.5rem;
     font-weight: bold;
     text-align: left;
     padding: 1rem 0;
     border-bottom: 1px solid #e9eaf0;
-  }
-  /* ✅no record*/
-.no-record {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #6e7485;
-  font-weight: bold;
-  padding: 2rem;
 }
-  
-  /* ✅ content */
-  .content {
+/* ✅no record*/
+.no-record {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #6e7485;
+    font-weight: bold;
+    padding: 2rem;
+}
+
+/* ✅ content */
+.content {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     padding: 1rem 0;
-  }
-  
-  /* ✅ Record Bar */
-  .recordbar {
+}
+
+/* ✅ Record Bar */
+.recordbar {
     display: flex;
     flex-direction: row;
     gap: 2rem;
@@ -216,52 +212,52 @@ if(isEmpty){
     border-radius: 8px;
     background: #fff;
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* ✅ Session Record */
-  .sessionrecord {
+}
+
+/* ✅ Session Record */
+.sessionrecord {
     display: flex;
     flex-direction: column;
     flex: 6;
     gap: 1rem;
-  }
-  
-  /* ✅ Session Box */
-  .session-box {
+}
+
+/* ✅ Session Box */
+.session-box {
     display: flex;
     flex-direction: row;
     gap: 1rem;
     justify-content: space-between;
     align-items: center;
-  }
-  
-  /* ✅ image */
-  .imagediv img {
+}
+
+/* ✅ image */
+.imagediv img {
     width: 100px;
     height: 80px;
     /* border-radius: 6px; */
-  }
-  
-  /* ✅ Detail */
-  .detail {
+}
+
+/* ✅ Detail */
+.detail {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     flex: 1;
-  }
-  
-  .tutor-name {
+}
+
+.tutor-name {
     font-size: 1.1rem;
     font-weight: normal;
-  }
-  
-  .sessions-count {
+}
+
+.sessions-count {
     font-size: 0.9rem;
     color: #6e7485;
-  }
-  
-  /* ✅ Price */
-  .price {
+}
+
+/* ✅ Price */
+.price {
     font-size: 1.2rem;
     font-weight: bold;
     color: #ff6636;
@@ -269,10 +265,10 @@ if(isEmpty){
     align-items: center;
     justify-content: center;
     min-width: 100px;
-  }
-  
-  /* ✅ Purchase Record */
-  .purchaserecord {
+}
+
+/* ✅ Purchase Record */
+.purchaserecord {
     display: flex;
     flex-direction: column;
     flex: 4;
@@ -280,50 +276,49 @@ if(isEmpty){
     border-left: 3px solid #e9eaf0;
     padding-left: 1.5rem;
     justify-content: center;
-  }
-  
-  /* ✅ Purchase Date */
-  .purchase-date {
+}
+
+/* ✅ Purchase Date */
+.purchase-date {
     font-size: 1.1rem;
     font-weight: bold;
     color: #1d2026;
-  }
-  
-  /* ✅ Purchase Detail */
-  .purchase-record-detail {
+}
+
+/* ✅ Purchase Detail */
+.purchase-record-detail {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1rem;
-  }
-  
-  .purchase-item {
+}
+
+.purchase-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.9rem;
     color: #6e7485;
-  }
-  
-  /* ✅ Payment Detail */
-  .payment-detail {
+}
+
+/* ✅ Payment Detail */
+.payment-detail {
     display: flex;
     flex-direction: row;
     gap: 3rem;
-  }
-  
-  .card-holder,
-  .card-number {
+}
+
+.card-holder,
+.card-number {
     font-size: 0.9rem;
     color: #1d2026;
-  }
-  
-  /* ✅ Footer */
-  .footer {
+}
+
+/* ✅ Footer */
+.footer {
     text-align: center;
     font-size: 0.9rem;
     color: #6e7485;
     padding: 1rem 0;
-  }
-  </style>
-  
+}
+</style>
