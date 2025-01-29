@@ -68,8 +68,17 @@
                             </div>
                             <!-- button area-->
                             <div class="btn-area d-flex gap-2">
-                                <button class="btn-orange-secondary w-50 py-2 px-3">Write a Review</button>
-                                <button class="btn-orange-primary w-50 py-2 px-3">Book Sessions</button>
+                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true">
+                                    Write a Review
+                                </button>
+                                <ReviewModal v-if="showReviewModal" @close="showReviewModal = false" />
+
+                                <button class="btn-orange-primary w-50 py-2 px-3" @click="showBookSessionModal = true">
+                                    Book Sessions
+                                </button>
+                                <!-- Book Session Modal -->
+                                <BookSessionModal v-if="showBookSessionModal" @close="showBookSessionModal = false" />
+
                             </div>
                         </div>
 
@@ -186,6 +195,9 @@
 <script setup>
 import header_design from "@/component/header.vue";
 import footer_design from "@/component/footer.vue";
+import ReviewModal from "@/views/tutor/component/popup_review.vue";
+import BookSessionModal from "@/views/tutor/component/popup_booksessions.vue"; 
+
 
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
@@ -274,6 +286,9 @@ onMounted(async () => {
         console.log(error);
     }
 });
+
+const showReviewModal = ref(false);
+const showBookSessionModal = ref(false);
 </script>
 
 <style scoped>
