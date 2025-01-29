@@ -237,12 +237,33 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
+        // Admin
         async fetchAdminDashboard() {
             try {
                 const response = await axios.get("api/admin/dashboard");
-               return response.data;
+                return response.data;
             } catch (error) {
                 this.error = error.response?.data?.message || "Dashboard fetch failed";
+            }
+        },
+
+        async fetchSocialMedia() {
+            try {
+                const response = await axios.get("api/social_media");
+                return response.data?.social_media;
+            } catch (error) {
+                this.error = error.response?.data?.message || "Social media fetch failed";
+            }
+        },
+
+        async updateAdminSocialMedia(data) {
+            try {
+                const response = await axios.post("api/admin/social_media", data);
+                alert("Social media updated successfully");
+                location.reload();
+            } catch (error) {
+                this.error = error.response?.data?.message || "Social media update failed";
+                alert(this.error);
             }
         },
     },
