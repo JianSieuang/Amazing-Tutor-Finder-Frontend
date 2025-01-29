@@ -14,7 +14,7 @@ import Dashboard from "../views/admin/component/dashboard.vue";
 import Tutor_registration_list from "../views/admin/component/TutorRegistrationList.vue";
 import Report_list from "../views/admin/component/ReportList.vue";
 import Tutor_management from "../views/admin/component/TutorManagement.vue";
-import Settings from "../views/admin/component/Settings.vue";
+import Settings from "../views/admin/component/settings.vue";
 import TutorDetails from "../views/admin/component/TutorDetails.vue";
 
 // tutor view
