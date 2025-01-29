@@ -236,5 +236,14 @@ export const useAuthStore = defineStore("auth", {
                 alert(this.error);
             }
         },
+
+        async fetchAdminDashboard() {
+            try {
+                const response = await axios.get("api/admin/dashboard");
+               return response.data;
+            } catch (error) {
+                this.error = error.response?.data?.message || "Dashboard fetch failed";
+            }
+        },
     },
 });

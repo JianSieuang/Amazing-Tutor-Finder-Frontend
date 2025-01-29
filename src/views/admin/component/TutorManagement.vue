@@ -1,4 +1,10 @@
 <template>
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh" v-if="loading">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
     <div class="container bg-white p-3">
         <div class="row w-75 m-3">
             <span class="col text-secondary">
@@ -32,15 +38,17 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useTutorStore } from "@/stores/tutor.js";
 
 const router = useRouter();
 const tutorStore = useTutorStore();
+const loading = ref(true);
 
 onMounted(async () => {
-    tutorStore.fetchTutors();
+    await tutorStore.fetchTutors();
+    loading.value = false;
 });
 
 const goToDetails = (tutorId) => {

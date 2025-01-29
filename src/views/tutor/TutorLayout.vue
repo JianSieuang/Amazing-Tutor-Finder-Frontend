@@ -21,7 +21,7 @@
                 </li>
             </ul>
             <div class="nav mb-3">
-                <div class="nav-link text-secondary w-100" @click="signOut"><font-awesome-icon icon="fa-solid fa-right-from-bracket" class="mx-3" />Sign Out</div>
+                <div class="nav-link text-secondary w-100" @click="signOut" style="cursor: pointer"><font-awesome-icon icon="fa-solid fa-right-from-bracket" class="mx-3" />Sign Out</div>
             </div>
         </div>
 
