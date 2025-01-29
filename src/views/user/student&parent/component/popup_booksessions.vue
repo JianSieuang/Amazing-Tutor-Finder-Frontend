@@ -9,6 +9,17 @@
                 </button>
             </div>
 
+            <!-- Child Selection (Parent Only) -->
+            <div v-if="authStore.user.role === 'parent'" class="ordersummary">
+                <span class="order-title">Book For</span>
+                <select v-model="selectedChild" class="form-select">
+                    <option value="" disabled>Select child</option>
+                    <option v-for="child in authStore.linkAccount" :key="child.id" :value="child.id">
+                        {{ child.email }}
+                    </option>
+                </select>
+            </div>
+
             <div class="ordersummary">
                 <span class="order-title">Month</span>
                 <div class="order-item">
@@ -95,6 +106,7 @@ const props = defineProps({
 });
 
 const selectedSessions = ref([]);
+const selectedChild = ref("");
 const serviceChargeRate = 0.06;
 
 const subtotal = computed(() => selectedSessions.value.length * Number(props.price));
@@ -111,6 +123,12 @@ const makePayment = async () => {
         return;
     }
 
+    if (authStore.user.role === "parent" && !selectedChild.value) {
+        alert("Please select a child before proceeding to payment");
+        loading.value = false;
+        return;
+    }
+
     try {
         await authStore.makePayment({
             month: props.month,
@@ -121,7 +139,8 @@ const makePayment = async () => {
             total_price: totalPrice.value,
             title: props.title,
             tutor_id: props.tutorId,
-            user_id: props.userId,
+            parent_user_id: authStore.user.role === "parent" ? authStore.user.id : null,
+            child_user_id: authStore.user.role === "parent" ? selectedChild.value : authStore.user.id,
         });
     } catch (error) {
         console.log(error);
@@ -302,5 +321,19 @@ const makePayment = async () => {
 
 .payment-btn:hover {
     background-color: #e05530;
+}
+
+/* Form Select */
+.form-select {
+    padding: 0.5rem;
+    border: 1px solid #e9eaf0;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #ff6636;
 }
 </style>
