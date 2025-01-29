@@ -62,7 +62,9 @@
                             <!-- aboutme -->
                             <div class="aboutme p-3 rounded" style="border: 1px solid #e9eaf0">
                                 <h5 class="fw-bold">About Me</h5>
-                                <p style="color: #6e7485; text-align: justify">{{ about_me }}</p>
+                                <p style="color: #6e7485; text-align: justify ; word-wrap: break-word; overflow-wrap: break-word;">
+                                    {{ about_me }}
+                                </p>
                             </div>
                             <!-- button area-->
                             <div class="btn-area d-flex gap-2">
