@@ -19,10 +19,10 @@
                     <div class="d-flex justify-content-center border-top border-bottom">
                         <ul class="nav">
                             <li class="nav-item">
-                                <RouterLink to="/user/tutor_list" class="btn px-4 py-3" :class="{ active: isActive === 'tutors' }" @click="isActive = 'tutors'"> Tutors</RouterLink>
+                                <RouterLink to="/user/tutor_list" class="btn px-4 py-3" :class="{ active: $route.path === '/user/tutor_list' }" @click="isActive = 'tutors'"> Tutors</RouterLink>
                             </li>
                             <li class="nav-item" v-if="authStore.user.role == 'parent'">
-                                <RouterLink to="#" class="btn px-4 py-3" :class="{ active: isActive === 'purchase-history' }" @click="isActive = 'purchase-history'"> Purchase History </RouterLink>
+                                <RouterLink to="/user/purchase_history" class="btn px-4 py-3" :class="{ active: $route.path === '/user/purchase_history' }" @click="isActive = 'purchase-history'"> Purchase History </RouterLink>
                             </li>
                             <li class="nav-item">
                                 <RouterLink to="/user/setting" class="btn px-4 py-3" :class="{ active: $route.path === '/user/setting' }" @click="isActive = 'settings'"> Setting & Privacy</RouterLink>
