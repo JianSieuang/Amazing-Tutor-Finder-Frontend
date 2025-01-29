@@ -237,6 +237,21 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
+        // payment
+        async makePayment(data) {
+            try {
+                await axios
+                    .post("api/payment", data)
+                    .then((response) => {
+                        window.location.href = response.data.url;
+                    })
+                    .catch((error) => console.error(error));
+            } catch (error) {
+                this.error = error.response?.data?.message || "Payment failed";
+                alert(this.error);
+            }
+        },
+
         // Admin
         async fetchAdminDashboard() {
             try {

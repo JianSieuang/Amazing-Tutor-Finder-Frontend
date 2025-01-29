@@ -1,8 +1,11 @@
 <template>
-    <div class="d-flex flex-column min-vh-100">
-        <!-- header -->
-        <!-- <header_design /> -->
+    <div class="d-flex justify-content-center align-items-center" style="height: 100%" v-if="loading">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 
+    <div class="d-flex flex-column min-vh-100" v-if="!loading">
         <div class="position-relative flex-fill">
             <!-- background color -->
             <div class="background position-absolute w-100 z-n1" :style="{ backgroundColor: backgroundColor }" style="height: 225px"></div>
@@ -62,23 +65,25 @@
                             <!-- aboutme -->
                             <div class="aboutme p-3 rounded" style="border: 1px solid #e9eaf0">
                                 <h5 class="fw-bold">About Me</h5>
-                                <p style="color: #6e7485; text-align: justify ; word-wrap: break-word; overflow-wrap: break-word;">
+                                <p style="color: #6e7485; text-align: justify; word-wrap: break-word; overflow-wrap: break-word">
                                     {{ about_me }}
                                 </p>
                             </div>
                             <!-- button area-->
                             <div class="btn-area d-flex gap-2">
-                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true">
-                                    Write a Review
-                                </button>
+                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true">Write a Review</button>
                                 <ReviewModal v-if="showReviewModal" @close="showReviewModal = false" />
 
-                                <button class="btn-orange-primary w-50 py-2 px-3" @click="showBookSessionModal = true">
-                                    Book Sessions
-                                </button>
+                                <button class="btn-orange-primary w-50 py-2 px-3" @click="showBookSessionModal = true">Book Sessions</button>
                                 <!-- Book Session Modal -->
-                                <BookSessionModal v-if="showBookSessionModal" @close="showBookSessionModal = false" />
-
+                                <BookSessionModal v-if="showBookSessionModal" @close="showBookSessionModal = false" 
+                                :month="session_month" 
+                                :availabilityList="availabilityList" 
+                                :price="price" 
+                                :title="title" 
+                                :tutorId="tutorId" 
+                                :userId="authStore.user.id"
+                                />
                             </div>
                         </div>
 
@@ -195,9 +200,8 @@
 <script setup>
 import header_design from "@/component/header.vue";
 import footer_design from "@/component/footer.vue";
-import ReviewModal from "@/views/tutor/component/popup_review.vue";
-import BookSessionModal from "@/views/tutor/component/popup_booksessions.vue"; 
-
+import ReviewModal from "@/views/user/student&parent/component/popup_review.vue";
+import BookSessionModal from "@/views/user/student&parent/component/popup_booksessions.vue";
 
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
@@ -209,6 +213,8 @@ const tutorStore = useTutorStore();
 const backgroundColor = computed(() => (authStore.user.role === "student" ? "#FFEEE8" : "#FFC7B2"));
 
 const route = useRoute();
+
+const loading = ref(true);
 const tutorId = route.params.id;
 
 const fullname = ref("");
@@ -226,6 +232,7 @@ const location = ref("");
 const session_month = ref("");
 const availabilityList = ref([]);
 const price = ref("");
+const title = ref("");
 
 const reviews = ref([]); // haven implement yet
 
@@ -259,6 +266,7 @@ onMounted(async () => {
             location.value = session.teaching_location ?? "";
             session_month.value = session.session_month ?? "";
             price.value = session.price ?? "";
+            title.value = session.title ?? "";
 
             if (session.session_day) {
                 const dayMapping = {
@@ -285,6 +293,8 @@ onMounted(async () => {
     } catch (error) {
         console.log(error);
     }
+
+    loading.value = false;
 });
 
 const showReviewModal = ref(false);
