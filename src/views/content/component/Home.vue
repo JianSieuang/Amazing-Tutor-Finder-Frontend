@@ -32,13 +32,13 @@
             <div v-for="(tutor, index) in tutorStore.tutors" :key="index" class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <router-link :to="`/tutor_details/${tutor.user_id}`" class="text-decoration-none">
                     <div class="card h-100 d-flex flex-column">
-                        <img :src="`http://127.0.0.1:8000${tutor.title_image}`" class="rounded-t-lg h-[150px] object-cover" :alt="tutor.title_image" />
+                        <img :src="tutor.title_image" class="rounded-t-lg h-[150px] object-cover" :alt="tutor.title_image" style="max-height: 330px" />
                         <div class="card-body d-flex flex-column flex-grow-1">
                             <p class="text-[0.9rem] fw-bold mb-1 d-flex justify-content-between align-items-center">
-                                <span>{{ tutor.price }}</span>
-                                <small class="text-muted p-1 rounded" style="background-color: #ffe5b4">{{ tutor.perSession }}</small>
+                                <span>MYR {{ tutor.session.price }}</span>
+                                <small class="text-muted p-1 rounded" style="background-color: #ffe5b4">Per Month</small>
                             </p>
-                            <h5 class="text-[1.2rem] mb-[0.5rem] fw-bold mb-2">{{ tutor.title }}</h5>
+                            <h5 class="text-[1.2rem] mb-[0.5rem] fw-bold mb-2">{{ tutor.session.title }}</h5>
 
                             <div class="mt-auto">
                                 <hr style="border: 1px solid #e0e0e0; margin: 0.5rem 0" />

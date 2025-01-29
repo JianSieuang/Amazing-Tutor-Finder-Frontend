@@ -230,7 +230,7 @@ onMounted(async () => {
             fullname.value = tutorData.name;
             phone_number.value = tutorData.phone;
             email.value = tutorData.email;
-            imagePreview.value = `http://127.0.0.1:8000${tutorData.image}` || "";
+            imagePreview.value = tutorStore.titleImage;
 
             education_background.value = tutorDetail.education_background || "";
             teaching_experience.value = tutorDetail.teaching_experience || "";

@@ -53,7 +53,22 @@ export const useTutorStore = defineStore("tutor", {
         async fetchTutors() {
             try {
                 const response = await axios.get("api/tutors/testing");
-                this.tutors = response.data?.tutors;
+
+                const tutorsData = response.data?.tutors || [];
+
+                const tutorSessions = response.data?.sessions || [];
+
+                this.tutors = tutorsData.map((tutor) => {
+                    const imageUrl = this.generateImage(tutor);
+
+                    const tutorSession = tutorSessions.find((session) => session.tutor_id === tutor.id);
+
+                    return {
+                        ...tutor,
+                        title_image: imageUrl,
+                        session: tutorSession,
+                    };
+                });
             } catch (error) {
                 console.error("Error fetching pending tutors: ", error);
             }
@@ -79,9 +94,10 @@ export const useTutorStore = defineStore("tutor", {
                 this.tutorDetail = response.data?.tutorDetail;
                 this.tutor = response.data?.userDetail;
 
-                this.titleImage = `http://127.0.0.1:8000` + response.data?.tutorDetail.title_image;
-
-                return response.data?.tutorDetail;
+                this.titleImage = this.generateImage({
+                    title_image: this.tutorDetail?.title_image,
+                    user: { name: this.tutor?.name },
+                });
             } catch (error) {
                 console.error("Error fetching tutor details: ", error);
             }
@@ -152,6 +168,19 @@ export const useTutorStore = defineStore("tutor", {
                 this.tutorSession = response.data?.tutorSessions;
             } catch (error) {
                 console.error("Error fetching tutor students: ", error);
+            }
+        },
+
+        generateImage(tutor) {
+            if (tutor?.title_image == null) {
+                const letters = tutor?.user?.name
+                    .split(" ")
+                    .slice(0, 3)
+                    .map((word) => word.charAt(0).toUpperCase())
+                    .join("");
+                return `https://placehold.co/144x144/FFEEE8/FF6636/?text=${letters}&font=roboto`;
+            } else {
+                return `http://127.0.0.1:8000${tutor.title_image}`;
             }
         },
     },
