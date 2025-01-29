@@ -60,7 +60,9 @@
     </div>
 
     <div class="d-flex justify-content-center mt-2 mb-4" v-if="showRecommendedTutors">
-        <button class="btn btn-orange">Browse All Tutor</button>
+        <RouterLink to="/tutor_list" class="btn btn-orange">
+            <button class="btn btn-orange">Browse All Tutor</button>
+        </RouterLink>
     </div>
 </template>
 
@@ -68,6 +70,7 @@
 import { ref, onMounted, watch } from "vue";
 import { useAuthStore } from "@/stores/auth.js";
 import { useTutorStore } from "@/stores/tutor.js";
+import { RouterLink } from "vue-router";
 
 const authStore = useAuthStore();
 const tutorStore = useTutorStore();
