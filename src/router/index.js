@@ -37,6 +37,7 @@ import profile_layout from "../views/user/student&parent/ProfileLayout.vue";
 import EnrollTutorList from "../views/user/student&parent/component/EnrollTutorList.vue";
 import SettingAndPrivacy from "../views/user/student&parent/component/SettingAndPrivacy.vue";
 import Status from "../views/Status.vue";
+import PurchaseHistory from "../views/user/student&parent/component/Paymenthistory.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -176,6 +177,11 @@ const router = createRouter({
                     path: "setting",
                     name: "Setting_and_Privacy",
                     component: SettingAndPrivacy,
+                },
+                {
+                    path: "purchase_history",
+                    name: "PurchaseHistory",
+                    component: PurchaseHistory,
                 },
             ],
             meta: { requiresAuth: true },
