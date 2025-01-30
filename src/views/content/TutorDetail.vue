@@ -24,14 +24,14 @@
                                 <div class="d-flex align-items-center gap-2">
                                     <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
                                     <span class="fw-semibold">
-                                        4.8
-                                        <small class="text-muted">(250 reviews)</small>
+                                        {{ overallRate?.toFixed(1) || "-" }}
+                                        <small class="text-muted">({{ reviews.length }} reviews)</small>
                                     </span>
                                 </div>
                                 <!-- Students Section -->
                                 <div class="d-flex align-items-center gap-2">
                                     <font-awesome-icon icon="fa-solid fa-user-graduate" class="text-primary" />
-                                    <span class="fw-semibold">500 students</span>
+                                    <span class="fw-semibold">{{ enrolledStudents }} students</span>
                                 </div>
                             </div>
                         </div>
@@ -71,8 +71,10 @@
                             </div>
                             <!-- button area-->
                             <div class="btn-area d-flex gap-2">
-                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true">Write a Review</button>
-                                <ReviewModal v-if="showReviewModal" @close="showReviewModal = false" />
+                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true" v-if="!authStore.user">Sign in to Write a Review</button>
+
+                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true" v-if="authStore.user">Write a Review</button>
+                                <ReviewModal v-if="showReviewModal" @close="showReviewModal = false" :rateBy="authStore.user.id" :tutorId="tutorId" />
 
                                 <button class="btn-orange-primary w-50 py-2 px-3" @click="$router.push('/auth/sign_in')" v-if="!authStore.user">Sign in to Book</button>
 
@@ -140,65 +142,42 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!-- Student Feedback Section -->
                             <div class="student-feedback-section mt-4">
                                 <!-- Title -->
-                                <h3 class="fw-bold mb-4" style="color: #1d2026">Student Feedback</h3>
+                                <h3 class="fw-bold mb-4" style="color: #1d2026">Feedback</h3>
 
                                 <!-- Feedback List -->
-                                <div class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #e9eaf0">
+                                <div v-if="reviews.length > 0" v-for="review in reviews" :key="review.id" class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #e9eaf0">
                                     <!-- Feedback Student Detail -->
                                     <div class="feedback_stud_detail d-flex align-items-center gap-3">
-                                        <img v-if="authStore.user" :src="authStore.image" width="50" height="50" alt="user picture" class="rounded-circle me-3" />
+                                        <img v-if="authStore.user" :src="review.user.image" width="50" height="50" alt="user picture" class="rounded-circle me-3" />
                                         <div class="d-flex flex-column gap-2">
-                                            <span class="fw-bold" style="color: #1d2026">Jane Doe</span>
+                                            <span class="fw-bold" style="color: #1d2026">{{ review.user.name }}</span>
                                             <div class="d-flex align-items-center gap-2">
-                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                                <font-awesome-icon icon="fa-regular fa-star" class="text-warning" />
-                                                <font-awesome-icon icon="fa-regular fa-star" class="text-warning" />
+                                                <font-awesome-icon v-for="n in 5" :key="n" :icon="n <= review.rate ? 'fa-solid fa-star' : 'fa-regular fa-star'" class="text-warning" />
                                             </div>
                                         </div>
                                     </div>
 
                                     <!-- Feedback Description -->
-                                    <p style="color: #4e5566; font-size: 1rem; margin: 0">Vako was an amazing tutor! He helped me not only understand the concepts of programming but also taught me how to apply them in real-world scenarios. I couldn't have asked for a better mentor.</p>
-                                </div>
-                                <div class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #e9eaf0">
-                                    <!-- Feedback Student Detail -->
-                                    <div class="feedback_stud_detail d-flex align-items-center gap-3">
-                                        <img v-if="authStore.user" :src="authStore.image" width="50" height="50" alt="user picture" class="rounded-circle me-3" />
-                                        <div class="d-flex flex-column gap-2">
-                                            <span class="fw-bold" style="color: #1d2026">Jane Doe</span>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                                <font-awesome-icon icon="fa-solid fa-star" class="text-warning" />
-                                                <font-awesome-icon icon="fa-regular fa-star" class="text-warning" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Feedback Description -->
-                                    <p style="color: #4e5566; font-size: 1rem; margin: 0">Vako was an amazing tutor! He helped me not only understand the concepts of programming but also taught me how to apply them in real-world scenarios. I couldn't have asked for a better mentor.</p>
+                                    <p style="color: #4e5566; font-size: 1rem; margin: 0">{{ review.description || "No feedback provided." }}</p>
                                 </div>
 
-                                <!-- Add more feedback items if needed -->
+                                <div class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #e9eaf0" v-if="reviews.length === 0">
+                                    <p style="color: #4e5566; font-size: 1rem; margin: 0">No feedback provided</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- footer -->
-        <footer_design />
     </div>
 </template>
 
 <script setup>
-import footer_design from "@/component/footer.vue";
 import ReviewModal from "@/views/user/student&parent/component/popup_review.vue";
 import BookSessionModal from "@/views/user/student&parent/component/popup_booksessions.vue";
 
@@ -235,6 +214,8 @@ const price = ref("");
 const title = ref("");
 
 const reviews = ref([]);
+const overallRate = ref(0);
+const enrolledStudents = ref(0);
 
 const imagePreview = ref("");
 
@@ -242,10 +223,15 @@ onMounted(async () => {
     try {
         await tutorStore.fetchTutorDetails(tutorId);
         await tutorStore.fetchSession(tutorId);
+        await tutorStore.fetchRating(tutorId);
 
         const tutorDetail = tutorStore.tutorDetail;
         const tutorData = tutorStore.tutor;
         const session = tutorStore.tutorSession;
+        reviews.value = tutorStore.rating;
+        overallRate.value = tutorStore.overallRate;
+
+        enrolledStudents.value = (await tutorStore.fetchEnrolledStudents(tutorId)).length;
 
         if (tutorDetail && tutorData) {
             fullname.value = tutorData.name;
@@ -313,26 +299,26 @@ const sendNotificationToParent = async () => {
             html: `
                 <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
                     <h2 style="color: #2c3e50;">Request to Book a Session</h2>
-                    
+
                     <p><strong>Student:</strong> ${authStore.user.name} (<a href="mailto:${authStore.user.email}" style="color: #3498db; text-decoration: none;">${authStore.user.email}</a>)</p>
                     <p><strong>Tutor:</strong> ${tutorStore.tutor.name} (<a href="mailto:${tutorStore.tutor.email}" style="color: #3498db; text-decoration: none;">${tutorStore.tutorDetail.email}</a>)</p>
-                    
+
                     <hr style="border: none; border-top: 1px solid #ccc;">
-                    
+
                     <p><strong>Title:</strong> ${title.value}</p>
                     <p><strong>Session:</strong> ${session_month.value}</p>
-                    
+
                     <p><strong>Availability:</strong></p>
                     <ul style="margin: 0; padding-left: 20px;">
                         ${availabilityList.value.map((day) => `<li>${day}</li>`).join("")}
                     </ul>
-                    
+
                     <hr style="border: none; border-top: 1px solid #ccc;">
-                    
+
                     <h3 style="color: #e67e22;">Price: ${price.value}</h3>
-                    
+
                     <div style="margin-top: 20px; text-align: center;">
-                        <a href="${window.location.href}" 
+                        <a href="${window.location.href}"
                         style="background-color: #e67e22; color: #fff; padding: 12px 20px; border-radius: 5px; text-decoration: none; display: inline-block; font-weight: bold;">
                             Click here to view tutor details
                         </a>

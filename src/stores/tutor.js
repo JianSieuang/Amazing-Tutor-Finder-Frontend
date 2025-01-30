@@ -18,6 +18,7 @@ export const useTutorStore = defineStore("tutor", {
         currentPage: 1,
         perPage: 12,
         totalPages: 1,
+        overallRate: 0,
     }),
     actions: {
         async register(data, router) {
@@ -56,7 +57,7 @@ export const useTutorStore = defineStore("tutor", {
 
         async fetchTutors(page = 1) {
             try {
-                const response = await axios.get("api/tutors",{
+                const response = await axios.get("api/tutors", {
                     params: { page, perPage: this.perPage },
                 });
 
@@ -169,6 +170,31 @@ export const useTutorStore = defineStore("tutor", {
             }
         },
 
+        async fetchRating(id) {
+            try {
+                const response = await axios.get(`api/tutors/${id}/rating`);
+                response.data?.rating.forEach((rating) => {
+                    rating.user.image = this.generateImage({
+                        title_image: rating.user.image,
+                        user: { name: rating.user.name },
+                    });
+                });
+                this.rating = response.data?.rating;
+                this.overallRate = response.data?.overall_rating;
+            } catch (error) {
+                console.error("Error fetching tutor rating: ", error);
+            }
+        },
+
+        async fetchEnrolledStudents(id) {
+            try {
+                const response = await axios.get(`api/tutors/${id}/enrolled_students`);
+                return response.data?.enrolled_students;
+            } catch (error) {
+                console.error("Error fetching tutor enrolled students: ", error);
+            }
+        },
+
         async fetchTutorDashboard(id) {
             try {
                 await axios.get("/sanctum/csrf-cookie");
@@ -178,6 +204,16 @@ export const useTutorStore = defineStore("tutor", {
                 this.tutorSession = response.data?.tutorSessions;
             } catch (error) {
                 console.error("Error fetching tutor students: ", error);
+            }
+        },
+
+        async ratingTutor(data) {
+            try {
+                await axios.post("api/rating", data);
+                alert("Rating submitted successfully");
+                location.reload();
+            } catch (error) {
+                console.error("Error rating tutor: ", error);
             }
         },
 
