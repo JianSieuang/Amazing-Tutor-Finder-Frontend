@@ -157,6 +157,7 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
+        // send email
         async sendEmail(title, name, mail_to, customTemplate, type) {
             const templateParams = {
                 title: title,

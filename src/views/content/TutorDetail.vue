@@ -74,16 +74,16 @@
                                 <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true">Write a Review</button>
                                 <ReviewModal v-if="showReviewModal" @close="showReviewModal = false" />
 
-                                <button class="btn-orange-primary w-50 py-2 px-3" @click="showBookSessionModal = true">Book Sessions</button>
+                                <button class="btn-orange-primary w-50 py-2 px-3" @click="$router.push('/auth/sign_in')" v-if="!authStore.user">Sign in to Book</button>
+
+                                <button class="btn-orange-primary w-50 py-2 px-3" @click="sendNotificationToParent" v-if="authStore.user && authStore.user.role === 'student'">
+                                    Notify Parent
+                                    <span v-if="loadingNotify" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                </button>
+
+                                <button class="btn-orange-primary w-50 py-2 px-3" @click="showBookSessionModal = true" v-if="authStore.user && authStore.user.role === 'parent'">Book Sessions</button>
                                 <!-- Book Session Modal -->
-                                <BookSessionModal v-if="showBookSessionModal" @close="showBookSessionModal = false" 
-                                :month="session_month" 
-                                :availabilityList="availabilityList" 
-                                :price="price" 
-                                :title="title" 
-                                :tutorId="tutorId" 
-                                :userId="authStore.user.id"
-                                />
+                                <BookSessionModal v-if="showBookSessionModal" @close="showBookSessionModal = false" :month="session_month" :availabilityList="availabilityList" :price="price" :title="title" :tutorId="tutorId" :userId="authStore.user.id" />
                             </div>
                         </div>
 
@@ -198,7 +198,6 @@
 </template>
 
 <script setup>
-import header_design from "@/component/header.vue";
 import footer_design from "@/component/footer.vue";
 import ReviewModal from "@/views/user/student&parent/component/popup_review.vue";
 import BookSessionModal from "@/views/user/student&parent/component/popup_booksessions.vue";
@@ -210,11 +209,12 @@ import { useTutorStore } from "../../stores/tutor";
 
 const authStore = useAuthStore();
 const tutorStore = useTutorStore();
-const backgroundColor = computed(() => (authStore.user.role === "student" ? "#FFEEE8" : "#FFC7B2"));
+const backgroundColor = computed(() => (authStore.user?.role === "student" ? "#FFEEE8" : "#FFC7B2"));
 
 const route = useRoute();
 
 const loading = ref(true);
+const loadingNotify = ref(false);
 const tutorId = route.params.id;
 
 const fullname = ref("");
@@ -234,7 +234,7 @@ const availabilityList = ref([]);
 const price = ref("");
 const title = ref("");
 
-const reviews = ref([]); // haven implement yet
+const reviews = ref([]);
 
 const imagePreview = ref("");
 
@@ -299,6 +299,55 @@ onMounted(async () => {
 
 const showReviewModal = ref(false);
 const showBookSessionModal = ref(false);
+
+const sendNotificationToParent = async () => {
+    loadingNotify.value = true;
+
+    try {
+        await authStore.fetchLinkAccount(authStore.user.id);
+
+        const emailTitle = "Request to book session";
+        const name = authStore.linkAccount.name;
+        const mail_to = authStore.linkAccount.email;
+        const customTemplate = {
+            html: `
+                <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                    <h2 style="color: #2c3e50;">Request to Book a Session</h2>
+                    
+                    <p><strong>Student:</strong> ${authStore.user.name} (<a href="mailto:${authStore.user.email}" style="color: #3498db; text-decoration: none;">${authStore.user.email}</a>)</p>
+                    <p><strong>Tutor:</strong> ${tutorStore.tutor.name} (<a href="mailto:${tutorStore.tutor.email}" style="color: #3498db; text-decoration: none;">${tutorStore.tutorDetail.email}</a>)</p>
+                    
+                    <hr style="border: none; border-top: 1px solid #ccc;">
+                    
+                    <p><strong>Title:</strong> ${title.value}</p>
+                    <p><strong>Session:</strong> ${session_month.value}</p>
+                    
+                    <p><strong>Availability:</strong></p>
+                    <ul style="margin: 0; padding-left: 20px;">
+                        ${availabilityList.value.map((day) => `<li>${day}</li>`).join("")}
+                    </ul>
+                    
+                    <hr style="border: none; border-top: 1px solid #ccc;">
+                    
+                    <h3 style="color: #e67e22;">Price: ${price.value}</h3>
+                    
+                    <div style="margin-top: 20px; text-align: center;">
+                        <a href="${window.location.href}" 
+                        style="background-color: #e67e22; color: #fff; padding: 12px 20px; border-radius: 5px; text-decoration: none; display: inline-block; font-weight: bold;">
+                            Click here to view tutor details
+                        </a>
+                    </div>
+                </div>
+            `,
+        };
+
+        await authStore.sendEmail(emailTitle, name, mail_to, customTemplate, "refresh");
+    } catch (error) {
+        console.error("Error sending notification:", error);
+        alert("Failed to send notification to parent. Please try again.");
+    }
+    loadingNotify.value = false;
+};
 </script>
 
 <style scoped>
