@@ -113,6 +113,32 @@ export const useTutorStore = defineStore("tutor", {
                 console.error("Error fetching tutor details: ", error);
             }
         },
+
+        async fetchEnrolledTutorDetails(id, search = "") {
+            const response = await axios.get(`api/student/${id}/enrolled_tutors`, {
+                params: { search: search },
+            });
+
+            const tutorsData = response.data?.tutorsData || [];
+            const tutorSessions = response.data?.sessionsData || [];
+            const ratings = response.data?.ratings || [];
+            const enrolledStudents = response.data?.enrolledStudents || [];
+
+            this.tutors = tutorsData.map((tutor) => {
+                const tutorRatings = ratings.filter((rating) => rating.tutor_id === tutor.user_id);
+                const overallRate = tutorRatings.length > 0 ? tutorRatings.reduce((sum, r) => sum + r.rate, 0) / tutorRatings.length : 0;
+                const enrolledStudent = enrolledStudents.filter((student) => student.tutor_id === tutor.user_id);
+
+                return {
+                    ...tutor,
+                    title_image: this.generateImage(tutor),
+                    session: tutorSessions.find((session) => session.tutor_id === tutor.id),
+                    overallRate: overallRate,
+                    enrolledStudent: enrolledStudent.length,
+                };
+            });
+        },
+
         async editTutor(data, id, router) {
             try {
                 this.loading = true;

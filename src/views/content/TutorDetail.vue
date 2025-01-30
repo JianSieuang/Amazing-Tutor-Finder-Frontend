@@ -221,6 +221,7 @@ const imagePreview = ref("");
 
 onMounted(async () => {
     try {
+        await authStore.fetchLinkAccount(authStore.user.id);
         await tutorStore.fetchTutorDetails(tutorId);
         await tutorStore.fetchSession(tutorId);
         await tutorStore.fetchRating(tutorId);
