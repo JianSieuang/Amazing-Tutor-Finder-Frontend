@@ -35,14 +35,13 @@
                         <router-link :to="`/tutor_details/${tutor.user_id}`" class="text-decoration-none">
                             <img :src="tutor.title_image" class="d-block w-auto mx-auto" style="max-height: 250px; object-fit: contain" :alt="tutor.title_image" />
                             <div class="carousel-caption d-none d-md-block">
-                                <p class=" fw-bold mb-1 d-flex justify-content-between align-items-center">
+                                <p class="fw-bold mb-1 d-flex justify-content-between align-items-center">
                                     <span>MYR {{ tutor.session.price }}</span>
                                     <small class="text-muted p-1 rounded" style="background-color: #ffe5b4">Per Session</small>
                                 </p>
-                                <p class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <h5 class="fw-bold mb-2">{{ tutor.session.title }}</h5>
-                                </p>
-                                
+                                </div>
 
                                 <div class="mt-auto">
                                     <hr style="border: 1px solid #e0e0e0; margin: 0.5rem 0" />

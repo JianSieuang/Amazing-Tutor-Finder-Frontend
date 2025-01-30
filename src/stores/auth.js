@@ -284,12 +284,11 @@ export const useAuthStore = defineStore("auth", {
 
         async fetchPurchaseHistory(id) {
             try {
-                const response = await axios.get(`api/users/${id}/purchaseHistory`);
-                return response.data.purchaseHistory;
+                const response = await axios.get(`api/parent/${id}/purchaseHistory`);
+                return response.data;
             } catch (error) {
                 this.error = error.response?.data?.message || "Purchase history fetch failed";
             }
         },
     },
 });
-

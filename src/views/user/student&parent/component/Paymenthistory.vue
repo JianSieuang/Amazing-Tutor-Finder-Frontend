@@ -77,90 +77,63 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import image1 from "@/assets/png/about_us_1.png";
+import { ref, computed, onMounted } from "vue";
+import { useAuthStore } from "../../../../stores/auth";
 
-//if no purchase record, show message
-// const purchaseRecords = ref([]);
+const authStore = useAuthStore();
 
-// purchase record
-const purchaseRecords = ref([
-    {
-        date: "1st September, 2021 at 11:30 PM",
-        totalSessions: 3,
-        totalAmount: "75.00",
-        cardHolder: "Kevin Gilbert",
-        cardNumber: "4142123456789876",
-        sessions: [
-            {
-                image: image1,
-                tutorName: "Learn Ethical Hacking From Scratch",
-                sessionsCount: 1,
-                price: "13.99",
-            },
-            {
-                image: image1,
-                tutorName: "Mega Digital Marketing Course A-Z",
-                sessionsCount: 2,
-                price: "49.00",
-            },
-        ],
-    },
-    {
-        date: "1st September, 2021 at 11:30 PM",
-        totalSessions: 1,
-        totalAmount: "39.00",
-        cardHolder: "Card Holder Name",
-        cardNumber: "5123456789012345",
-        sessions: [
-            {
-                image: image1,
-                tutorName: "Tutor Name",
-                sessionsCount: 1,
-                price: "39.00",
-            },
-        ],
-    },
-    {
-        date: "1st September, 2021 at 11:30 PM",
-        totalSessions: 1,
-        totalAmount: "39.00",
-        cardHolder: "Card Holder Name",
-        cardNumber: "5123456789012345",
-        sessions: [
-            {
-                image: image1,
-                tutorName: "Tutor Name",
-                sessionsCount: 1,
-                price: "39.00",
-            },
-            {
-                image: image1,
-                tutorName: "Tutor Name",
-                sessionsCount: 1,
-                price: "39.00",
-            },
-            {
-                image: image1,
-                tutorName: "Tutor Name",
-                sessionsCount: 1,
-                price: "39.00",
-            },
-            {
-                image: image1,
-                tutorName: "Tutor Name",
-                sessionsCount: 1,
-                price: "39.00",
-            },
-        ],
-    },
-]);
+const purchaseRecords = ref([]);
+const isEmpty = ref(true);
 
-// check is empty record or nor
-const isEmpty = computed(() => purchaseRecords.value.length === 0);
-if (isEmpty) {
-    console.log("No any purchase record, let's go to book a session!");
-}
+onMounted(async () => {
+    const data = await authStore.fetchPurchaseHistory(authStore.user.id);
+
+    const paymentHistory = data.paymentHistory;
+    const bookedTime = data.bookedTime;
+    const tutorSession = data.tutorSessions;
+    const grpSession = data.grpSession;
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleString("en-US", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+        });
+    };
+
+    const cardHolder = authStore.user.name;
+    const cardNumber = "4242424242424242";
+
+    purchaseRecords.value = grpSession.map((sessionGroup) => {
+        const relatedPayments = paymentHistory.filter((payment) => sessionGroup.grouped_ids.includes(payment.booked_time_id));
+
+        const totalAmount = relatedPayments.reduce((sum, payment) => sum + parseFloat(payment.amount), 0).toFixed(2);
+
+        return {
+            date: formatDate(relatedPayments.length > 0 ? relatedPayments[0].created_at : new Date()), // Use first payment date
+            totalSessions: sessionGroup.grouped_ids.length,
+            totalAmount: totalAmount,
+            cardHolder: cardHolder,
+            cardNumber: cardNumber,
+            sessions: [
+                {
+                    image: sessionGroup.title_image ? `http://127.0.0.1:8000${sessionGroup.title_image}` : "https://demofree.sirv.com/nope-not-here.jpg",
+                    tutorName: sessionGroup.title,
+                    sessionsCount: sessionGroup.grouped_ids.length,
+                    price: totalAmount,
+                },
+            ],
+        };
+    });
+
+    if (paymentHistory.length != 0 && bookedTime.length != 0 && tutorSession.length != 0) {
+        isEmpty.value = false;
+    }
+});
 
 // card no mask
 const maskCardNumber = (cardNumber) => {
