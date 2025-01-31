@@ -1,9 +1,9 @@
 <template>
     <div class="container py-4">
         <!-- Search Bar -->
-        <!-- <div class="mb-3">
+        <div class="mb-3">
             <input type="text" class="form-control" placeholder="🔍 Search in your tutors..." v-model="searchQuery" />
-        </div> -->
+        </div>
 
         <!-- Card Grid -->
         <div class="row">
@@ -67,62 +67,6 @@ onMounted(fetchTutors);
 
 const toggleReviewModal = (tutorId) => {
     showReviewModal.value[tutorId] = !showReviewModal.value[tutorId];
-};
-</script>
-
-<script>
-export default {
-    data() {
-        return {
-            searchQuery: "",
-            currentPage: 1,
-
-            itemsPerPage: 8, // 4 cards per row
-
-            designers: [
-                { id: 1, name: "Wade Warren", role: "Digital Product Designer", rating: 5.0, students: 238456, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 2, name: "Bessie Cooper", role: "Senior Designer", rating: 4.9, students: 217344, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 3, name: "Floyd Miles", role: "UI/UX Designer", rating: 4.8, students: 435671, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 4, name: "Ronald Richards", role: "Lead Developer", rating: 4.5, students: 1356236, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 5, name: "Emma Watson", role: "Backend Developer", rating: 4.6, students: 328912, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 6, name: "James Smith", role: "Frontend Engineer", rating: 4.7, students: 285674, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 7, name: "Sophia Johnson", role: "Data Scientist", rating: 4.9, students: 524123, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 8, name: "Liam Brown", role: "Cyber Security Expert", rating: 4.5, students: 192387, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-
-                { id: 1, name: "a", role: "Digital Product Designer", rating: 5.0, students: 238456, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 2, name: "b", role: "Senior Designer", rating: 4.9, students: 217344, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 3, name: "c", role: "UI/UX Designer", rating: 4.8, students: 435671, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 4, name: "d", role: "Lead Developer", rating: 4.5, students: 1356236, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 5, name: "e", role: "Backend Developer", rating: 4.6, students: 328912, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 6, name: "f", role: "Frontend Engineer", rating: 4.7, students: 285674, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 7, name: "g", role: "Data Scientist", rating: 4.9, students: 524123, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-                { id: 8, name: "h", role: "Cyber Security Expert", rating: 4.5, students: 192387, image: "https://cdn3.pixelcut.app/7/20/uncrop_hero_bdf08a8ca6.jpg" },
-            ],
-        };
-    },
-
-    computed: {
-        filteredDesigners() {
-            return this.designers.filter((designer) => designer.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || designer.role.toLowerCase().includes(this.searchQuery.toLowerCase()));
-        },
-
-        totalPages() {
-            return Math.ceil(this.filteredDesigners.length / this.itemsPerPage);
-        },
-
-        paginatedDesigners() {
-            const start = (this.currentPage - 1) * this.itemsPerPage;
-            return this.filteredDesigners.slice(start, start + this.itemsPerPage);
-        },
-    },
-
-    methods: {
-        changePage(page) {
-            if (page >= 1 && page <= this.totalPages) {
-                this.currentPage = page;
-            }
-        },
-    },
 };
 </script>
 
