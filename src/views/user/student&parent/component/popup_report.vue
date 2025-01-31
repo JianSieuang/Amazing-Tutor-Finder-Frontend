@@ -3,7 +3,7 @@
         <div class="review">
             <!-- Header -->
             <div class="header">
-                <span class="header-title">Write a Review</span>
+                <span class="header-title">Write a Report</span>
                 <button class="close-btn" @click="$emit('close')">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </button>
@@ -17,13 +17,13 @@
 
             <!-- Feedback -->
             <div class="feedback">
-                <label for="feedback">Feedback</label>
-                <textarea id="feedback" v-model="feedbackText" placeholder="Write down your feedback here..."></textarea>
+                <label for="feedback">Description</label>
+                <textarea id="feedback" v-model="feedbackText" placeholder="Write down your desciption here..."></textarea>
             </div>
 
             <!-- Button Area -->
             <div class="buttonarea">
-                <button class="submit-btn" @click="submitReview">Submit Review</button>
+                <button class="submit-btn" @click="submitReview">Submit Report</button>
             </div>
         </div>
     </div>
