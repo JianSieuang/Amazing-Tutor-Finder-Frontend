@@ -63,16 +63,23 @@ export const useTutorStore = defineStore("tutor", {
 
                 const tutorsData = response.data?.tutors || [];
                 const tutorSessions = response.data?.sessions || [];
+                const ratings = response.data?.ratings || [];
+                const enrolledStudents = response.data?.enrolledStudents || [];
 
                 this.tutors = tutorsData.map((tutor) => {
                     const imageUrl = this.generateImage(tutor);
 
                     const tutorSession = tutorSessions.find((session) => session.tutor_id === tutor.id);
+                    const tutorRatings = ratings.filter((rating) => rating.tutor_id === tutor.user_id);
+                    const enrolledStudent = enrolledStudents.filter((student) => student.tutor_id === tutor.user_id);
+                    const overallRate = tutorRatings.length > 0 ? tutorRatings.reduce((sum, r) => sum + r.rate, 0) / tutorRatings.length : 0;
 
                     return {
                         ...tutor,
                         title_image: imageUrl,
                         session: tutorSession,
+                        overallRate: overallRate,
+                        enrolledStudent: enrolledStudent.length,
                     };
                 });
 

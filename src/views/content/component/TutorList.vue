@@ -18,10 +18,10 @@
                                 <p class="d-flex justify-content-between align-items-center">
                                     <span>
                                         <span style="color: #ffc107">★</span>
-                                        <small class="text-muted" style="margin-left: 4px">{{ tutor.rating }}</small>
+                                        <small class="text-muted" style="margin-left: 4px">{{ tutor.overallRate.toFixed(1) || 0 }}</small>
                                     </span>
 
-                                    <small class="text-muted">{{ tutor.students }} Enrolled</small>
+                                    <small class="text-muted">{{ tutor.enrolledStudent }} Enrolled</small>
                                 </p>
                             </div>
                         </div>
