@@ -1,9 +1,19 @@
 <template>
-    <div class="container py-4">
-        <!-- Search Bar -->
-        <div class="mb-3">
-            <input type="text" class="form-control" placeholder="🔍 Search in your tutors..." v-model="searchQuery" />
-        </div>
+  <div class="container py-4">
+    <h3 class="mb-4">Tutors</h3>
+
+    <!-- Search Bar -->
+     <div><h4 class="search-title">Search:</h4></div>
+     
+    <div class="search-container d-flex justify-content-start w-50 position-relative mb-4">
+      <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="search-icon"/>
+      <input 
+        type="text" 
+        class="form-control search-input" 
+        placeholder="Search in your tutors..." 
+        v-model="searchQuery"
+      />
+    </div>
 
         <!-- Card Grid -->
         <div class="row">
@@ -12,13 +22,13 @@
                     <img :src="tutor.title_image" alt="profile" class="card-img-top" />
                     <div class="card-body">
                         <h5 class="card-title">{{ tutor.name }}</h5>
-                        <p class="card-text text-muted">{{ tutor.session.title }}</p>
+                        <p class="card-text  pb-3 border-bottom text-muted">{{ tutor.session.title }}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="text-warning"> <i class="bi bi-star-fill"></i> {{ tutor?.overallRate?.toFixed(1) }} </span>
 
                             <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
 
-                            <span class="text-muted">{{ tutor.enrolledStudent }} students</span>
+                            <span class="text-weight-bold">{{ tutor.enrolledStudent }} <span class="textgrey">students</span></span>
                         </div>
 
                         <div class="d-flex flex-column gap-2 mt-3">
@@ -74,11 +84,33 @@ const toggleReviewModal = (tutorId) => {
 .container {
     margin-top: 20px;
 }
+/* ✅ Search Container */
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px; 
+    font-size: 1rem;
+    color: #6e7485;
+}
+.search-title {
+    color: #6e7485; 
+    font-size: 0.9rem; 
+    font-weight: normal; 
+}
+.search-input {
+    padding-left: 36px;
+    border-radius: 0; 
+}
 
 .card {
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform 0.3s;
+  /* border-radius: 15px; */
+  overflow: hidden;
+  transition: transform 0.3s;
 }
 
 .card:hover {
@@ -91,6 +123,9 @@ const toggleReviewModal = (tutorId) => {
     height: 312px;
     object-fit: cover;
     margin: auto;
+}
+.textgrey{
+  color: #6e7485;
 }
 
 /* Pagination Styling */
@@ -120,13 +155,15 @@ const toggleReviewModal = (tutorId) => {
     align-items: center;
 }
 
-.btn-review {
-    background-color: #ff6600; /* orange */
-    color: white;
+  .btn-review {
+  background-color: #ff6600; /* orange */
+  color: white;
 }
 
 .btn-detail {
-    background-color: rgba(255, 102, 0, 0.2); /* light orange */
-    color: #ff6600; /* orange */
+  background-color: rgba(255, 102, 0, 0.2); /* light orange */
+  color: #ff6600; /* orange */
+  font-weight: 500;
+  border-radius: 0;
 }
 </style>
