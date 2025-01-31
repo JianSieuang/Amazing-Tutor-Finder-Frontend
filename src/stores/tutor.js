@@ -240,6 +240,23 @@ export const useTutorStore = defineStore("tutor", {
             }
         },
 
+        async fetchSchedule(id) {
+            const response = await axios.get(`api/tutors/${id}/schedule`);
+            const schedules = response.data?.schedules;
+            const sessions = response.data?.sessions;
+            const users = response.data?.users;
+            const students = response.data?.students;
+
+            const combinedData = schedules.map((schedule) => {
+                const session = sessions.find((session) => session.user_id === schedule.tutor_id);
+                const student = students.find((student) => student.id === schedule.student_id);
+                const user = users.find((user) => user.id === student.user_id);
+                return { ...schedule, session, user };
+            });
+
+            return combinedData;
+        },
+
         async ratingTutor(data) {
             try {
                 await axios.post("api/rating", data);

@@ -80,6 +80,10 @@
                             </span>
                         </div>
                     </div>
+
+                    <div class="no-schedule d-flex" v-if="scheduleData.length === 0" style="justify-content: center; align-items: center; height: 100rem">
+                        <span class="no-schedule-text">No schedule found</span>
+                    </div>
                 </div>
             </div>
 
@@ -91,7 +95,7 @@
 
                     <div class="rating-content">
                         <div class="average-rating">
-                            <span class="rating-number">{{ ratingStats.averageRating }}</span>
+                            <span class="rating-number">{{ overallRate.toFixed(1) }}</span>
                             <span class="rating-text">Overall Rating</span>
                         </div>
 
@@ -124,31 +128,39 @@ const students = ref([]);
 const amount = ref(0);
 const sessions = ref([]);
 
-const scheduleData = ref([
-    { student: "LEW KIEN YEW", time: "Jan - Feb 2024, 5:00pm - 8:00pm", method: "Online" },
-    { student: "SIM BOON XUN", time: "Feb - March 2024, 8:00am - 10:00am", method: "Cyberjaya" },
-    { student: "JS", time: "Feb - March 2024, 8:00am - 10:00am", method: "Puchong" },
-    { student: "LEW KIEN YEW", time: "Jan - Feb 2024, 5:00pm - 8:00pm", method: "Online" },
-]);
+const scheduleData = ref([]);
+const ratings = ref([]);
+const overallRate = ref(0);
 
 onMounted(async () => {
     try {
         await tutor.fetchTutorDashboard(user.id);
+        const schedules = await tutor.fetchSchedule(user.id);
+        await tutor.fetchRating(user.id);
+
+        ratings.value = tutor.rating.map((rating) => rating.rate);
+        overallRate.value = tutor.overallRate;
+
         students.value = tutor.students;
         amount.value = tutor.amount;
         sessions.value = tutor.tutorSession;
+
+        scheduleData.value = schedules.map((schedule) => {
+            return {
+                student: schedule.user.name,
+                time: schedule.month + " ( " + schedule.day + " ) " + schedule.time_slot,
+                method: schedule.session.teaching_mode,
+            };
+        });
     } catch (error) {
         console.error(error);
     }
 });
 
-const ratings = ref([5, 5, 4, 5, 3, 2, 5, 1, 4, 4, 3, 5, 5, 5, 4, 4, 3, 5, 2, 1, 5, 4, 3, 5, 5, 2, 5]);
-
 const calculateRatings = (ratings) => {
     const totalRatings = ratings.length || 0;
     const ratingCounts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
     const ratingPercentages = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
-    let averageRating = 0;
 
     if (totalRatings > 0) {
         ratings.forEach((rating) => {
@@ -160,11 +172,9 @@ const calculateRatings = (ratings) => {
         Object.keys(ratingCounts).forEach((star) => {
             ratingPercentages[star] = ((ratingCounts[star] / totalRatings) * 100).toFixed(1);
         });
-
-        averageRating = (ratings.reduce((sum, rating) => sum + rating, 0) / totalRatings).toFixed(1);
     }
 
-    return { totalRatings, ratingCounts, ratingPercentages, averageRating };
+    return { totalRatings, ratingCounts, ratingPercentages };
 };
 
 const ratingStats = computed(() => calculateRatings(ratings.value));

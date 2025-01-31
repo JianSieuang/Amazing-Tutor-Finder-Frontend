@@ -4,15 +4,19 @@
             <thead>
                 <tr>
                     <th><b>Name</b></th>
+                    <th><b>Month</b></th>
+                    <th><b>Day</b></th>
                     <th><b>Time</b></th>
                     <th><b>Teaching Mode</b></th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(schedule, index) in schedules" :key="index">
-                    <td>{{ schedule.name }}</td>
-                    <td>{{ schedule.time }}</td>
-                    <td>{{ schedule.mode }}</td>
+                    <td>{{ schedule.user.name }}</td>
+                    <td>{{ schedule.month }}</td>
+                    <td>{{ schedule.day }}</td>
+                    <td>{{ schedule.time_slot }}</td>
+                    <td>{{ schedule.session.teaching_mode }}</td>
                 </tr>
             </tbody>
         </table>
@@ -20,14 +24,18 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { useTutorStore } from "../../../stores/tutor";
+import { useAuthStore } from "../../../stores/auth";
 
-const schedules = ref([
-    { name: "LEW KIEN YEW", time: "8 Jan 2024, 5.00pm - 8.00pm", mode: "Online" },
-    { name: "Sim Boon Xun", time: "9 Jan 2024, 8.00pm - 10.00pm", mode: "Online" },
-    { name: "Chong Jian Sieuang", time: "10 Jan 2024, 2.00pm - 4.00pm", mode: "Online" },
-    { name: "LEW KIEN YEW", time: "8 Jan 2024, 5.00pm - 8.00pm", mode: "Online" },
-]);
+const authStore = useAuthStore();
+const tutorStore = useTutorStore();
+
+const schedules = ref([]);
+
+onMounted(async () => {
+    schedules.value = await tutorStore.fetchSchedule(authStore.user.id);
+});
 </script>
 
 <style scoped>
