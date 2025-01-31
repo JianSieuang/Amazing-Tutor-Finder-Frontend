@@ -69,24 +69,51 @@
                                     {{ about_me }}
                                 </p>
                             </div>
-                            <!-- button area-->
-                            <div class="btn-area d-flex gap-2">
-                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true" v-if="!authStore.user">Sign in to Write a Review</button>
+                            <div class="btn-area d-flex flex-column gap-3">
+                            <!-- upper：Write a Review & Write a Report (Row Layout) -->
+                            <div class="d-flex gap-2">
+                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true" v-if="!authStore.user">
+                                    Sign in to Write a Review
+                                </button>
 
-                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true" v-if="authStore.user">Write a Review</button>
+                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true" v-if="authStore.user">
+                                    Write a Review
+                                </button>
                                 <ReviewModal v-if="showReviewModal" @close="showReviewModal = false" :rateBy="authStore.user.id" :tutorId="tutorId" />
 
-                                <button class="btn-orange-primary w-50 py-2 px-3" @click="$router.push('/auth/sign_in')" v-if="!authStore.user">Sign in to Book</button>
+                                <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReportModal = true" v-if="authStore.user">
+                                    Write a Report
+                                </button>
+                                <ReportModal v-if="showReportModal" @close="showReportModal = false" :tutorId="tutorId" />
+                            </div>
 
-                                <button class="btn-orange-primary w-50 py-2 px-3" @click="sendNotificationToParent" v-if="authStore.user && authStore.user.role === 'student'">
+                            <!-- bottom：Book Sessions  -->
+                            <div class="d-flex">
+                                <button class="btn-orange-primary w-50 py-2 px-3" @click="$router.push('/auth/sign_in')" v-if="!authStore.user">
+                                    Sign in to Book
+                                </button>
+
+                                <button class="btn-orange-primary w-100 py-2 px-3 " @click="sendNotificationToParent" v-if="authStore.user && authStore.user.role === 'student'">
                                     Notify Parent
                                     <span v-if="loadingNotify" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 </button>
 
-                                <button class="btn-orange-primary w-50 py-2 px-3" @click="showBookSessionModal = true" v-if="authStore.user && authStore.user.role === 'parent'">Book Sessions</button>
+                                <button class="btn-orange-primary w-100 py-2 px-3 flex-1" @click="showBookSessionModal = true" v-if="authStore.user && authStore.user.role === 'parent'">
+                                    Book Sessions
+                                </button>
                                 <!-- Book Session Modal -->
-                                <BookSessionModal v-if="showBookSessionModal" @close="showBookSessionModal = false" :month="session_month" :availabilityList="availabilityList" :price="price" :title="title" :tutorId="tutorId" :userId="authStore.user.id" />
+                                <BookSessionModal 
+                                    v-if="showBookSessionModal" 
+                                    @close="showBookSessionModal = false" 
+                                    :month="session_month" 
+                                    :availabilityList="availabilityList" 
+                                    :price="price" 
+                                    :title="title" 
+                                    :tutorId="tutorId" 
+                                    :userId="authStore.user.id" 
+                                />
                             </div>
+                        </div>
                         </div>
 
                         <!-- right -->
@@ -180,6 +207,7 @@
 <script setup>
 import ReviewModal from "@/views/user/student&parent/component/popup_review.vue";
 import BookSessionModal from "@/views/user/student&parent/component/popup_booksessions.vue";
+import ReportModal from "@/views/user/student&parent/component/popup_report.vue";
 
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
@@ -286,6 +314,7 @@ onMounted(async () => {
 
 const showReviewModal = ref(false);
 const showBookSessionModal = ref(false);
+const showReportModal = ref(false);
 
 const sendNotificationToParent = async () => {
     loadingNotify.value = true;
