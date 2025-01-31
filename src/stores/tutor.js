@@ -243,6 +243,28 @@ export const useTutorStore = defineStore("tutor", {
             }
         },
 
+        // search
+        async fetchSearch(search) {
+            try {
+                const response = await axios.get(`api/search`, {
+                    params: {
+                        search: search,
+                    },
+                });
+
+                response.data.tutorsData.forEach((tutor) => {
+                    tutor.title_image = this.generateImage({
+                        title_image: tutor.title_image,
+                        user: { name: response.data.usersData.find((user) => user.id == tutor.user_id).name },
+                    });
+                });
+
+                return response.data;
+            } catch (error) {
+                this.error = error.response?.data?.message || "Search failed";
+            }
+        },
+
         generateImage(tutor) {
             if (tutor?.title_image == null) {
                 const letters = tutor?.user?.name
