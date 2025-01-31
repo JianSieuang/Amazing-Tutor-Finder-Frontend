@@ -106,6 +106,8 @@ watch(searchQuery, async () => {
     top: 100%;
     left: 0;
     width: 93%;
+    max-height: 270px; /* Limit height */
+    overflow-y: auto; /* Enable vertical scroll */
     background: white;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
