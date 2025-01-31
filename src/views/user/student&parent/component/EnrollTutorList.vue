@@ -15,6 +15,11 @@
       />
     </div>
 
+    <!-- Check if tutors list is empty -->
+  <div v-if="tutors.length === 0" class="no-tutor-message text-center ">
+    No any Tutor are enrolled
+  </div>
+
         <!-- Card Grid -->
         <div class="row">
             <div class="col-md-3" v-for="tutor in tutors" :key="tutor.id">
@@ -83,6 +88,15 @@ const toggleReviewModal = (tutorId) => {
 <style>
 .container {
     margin-top: 20px;
+}
+/* No Tutor Message */
+.no-tutor-message {
+    font-size: 1.4rem; 
+    font-weight: 300; 
+    color: #6e7485; 
+    background-color: #f5f4f4;
+    text-align: center;
+    padding: 2rem;
 }
 /* ✅ Search Container */
 .search-container {
