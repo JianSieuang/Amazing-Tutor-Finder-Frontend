@@ -7,6 +7,7 @@ import Auth_layout from "../views/auth/AuthLayout.vue";
 import Sign_up from "../views/auth/component/SignUp.vue";
 import Sign_in from "../views/auth/component/SignIn.vue";
 import Tutor_registration from "../views/auth/TutorRegistration.vue";
+import ForgotPassword from "../views/auth/component/ForgotPassword.vue";
 
 // admin views
 import Admin_layout from "../views/admin/AdminLayout.vue";
@@ -94,6 +95,11 @@ const router = createRouter({
                     path: "sign_up",
                     name: "Sign_up",
                     component: Sign_up,
+                },
+                {
+                    path: "forgot_password",
+                    name: "ForgotPassword",
+                    component: ForgotPassword,
                 },
             ],
             meta: { requiresGuest: true },

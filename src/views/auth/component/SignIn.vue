@@ -1,5 +1,5 @@
 <template>
-    <div class="main d-flex flex-column ">
+    <div class="main d-flex flex-column">
         <div class="p-3 custom-input">
             <h2 class="text-center">Sign in to your account</h2>
             <form @submit.prevent="handleSignIn">
@@ -28,6 +28,8 @@
                             <font-awesome-icon v-else icon="fa-solid fa-arrow-right" class="ms-2"/>
                         </button>
                     </div>
+                    <RouterLink to="/auth/forgot_password" class="text-decoration-none">Forgot Password?</RouterLink>
+                    
                 </div>
 
                 <div v-if="authStore.error" class="text-danger mt-2">{{ authStore.error }}</div>
@@ -38,7 +40,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth.js";
 
 const router = useRouter();
