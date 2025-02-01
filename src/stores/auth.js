@@ -220,6 +220,15 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
+        async fetchTutorPayments(id) {
+            try {
+                const response = await axios.get(`api/tutor/${id}/payments`);
+                return response.data;
+            } catch (error) {
+                this.error = error.response?.data?.message || "Payments fetch failed";
+            }
+        },
+
         // Admin
         async fetchAdminDashboard() {
             try {

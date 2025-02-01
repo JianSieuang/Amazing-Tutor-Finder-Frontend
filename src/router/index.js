@@ -26,6 +26,8 @@ import Tutor_Dashboard from "../views/tutor/component/dashboard.vue";
 import Schedule from "../views/tutor/component/schedule.vue";
 import Tutor_Profile from "../views/tutor/component/profile.vue";
 import Sessions from "../views/tutor/component/sessions.vue";
+import Tutor_Payment_List from "../views/tutor/component/PaymentList.vue";
+import Tutor_Payment_Details from "../views/tutor/component/PaymentDetails.vue";
 
 // all user view
 import Default_layout from "../views/content/DefaultLayout.vue";
@@ -173,6 +175,16 @@ const router = createRouter({
                     path: "schedule",
                     name: "Schedule",
                     component: Schedule,
+                },
+                {
+                    path: "payment_list",
+                    name: "Payment_List",
+                    component: Tutor_Payment_List,
+                },
+                {
+                    path: "payment_details",
+                    name: "Payment_Details",
+                    component: Tutor_Payment_Details,
                 },
                 {
                     path: "profile",

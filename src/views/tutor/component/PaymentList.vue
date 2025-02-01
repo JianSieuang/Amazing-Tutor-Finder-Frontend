@@ -3,10 +3,6 @@
         <div class="row w-75 m-3">
             <span class="col text-secondary" style="width: 35%">
                 <font-awesome-icon icon="fa-solid fa-user" />
-                Pay To
-            </span>
-            <span class="col text-secondary" style="width: 35%">
-                <font-awesome-icon icon="fa-solid fa-user" />
                 Paid By
             </span>
             <span class="col text-secondary text-center" style="width: 10%">
@@ -22,7 +18,6 @@
             <div v-if="paymentRecords?.length === 0" class="text-center text-secondary">No payments found.</div>
             <div v-for="payment in paymentRecords" :key="payment.id" class="bg-white d-flex align-items-center">
                 <div class="row w-75 m-3">
-                    <span class="col" style="width: 35%">{{ payment.payTo }}</span>
                     <span class="col" style="width: 35%">{{ payment.paidBy }}</span>
                     <span class="col text-center" style="width: 10%">{{ payment.amount }}</span>
                     <span class="col text-center" style="width: 10%">
@@ -47,7 +42,7 @@ const authStore = useAuthStore();
 const paymentRecords = ref([]);
 
 onMounted(async () => {
-    const data = await authStore.fetchPayments();
+    const data = await authStore.fetchTutorPayments(authStore.user.id);
 
     const paymentHistory = data.paymentHistory;
     const bookedTime = data.bookSessions;
@@ -68,10 +63,10 @@ onMounted(async () => {
         if (!uniquePayments.has(key)) {
             uniquePayments.set(key, {
                 id: payment.id,
-                payTo: relatedTutor.name,
                 paidBy: payment.paid_by === "Parent" ? relatedParent.name : relatedStudent.name,
                 amount: parseFloat(payment.amount).toFixed(2), // Ensure amount is formatted to 2 decimal places
                 status: payment.status,
+                createdTime: payment.created_time, // Add created_time to the payment record
 
                 bookedTime: relatedBookedTime,
                 tutor: relatedTutor,
@@ -100,6 +95,8 @@ onMounted(async () => {
     });
 
     paymentRecords.value = Array.from(uniquePayments.values());
+
+    console.log(paymentRecords.value);
 });
 
 const goToDetails = (payment) => {

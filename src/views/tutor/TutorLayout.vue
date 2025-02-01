@@ -17,6 +17,9 @@
                     <RouterLink to="/tutor/schedule" class="nav-link text-secondary" :class="{ active: route.name === 'Schedule' }"><font-awesome-icon icon="fa-solid fa-layer-group" class="mx-3" />Schedule</RouterLink>
                 </li>
                 <li>
+                    <RouterLink to="/tutor/payment_list" class="nav-link text-secondary" :class="{ active: route.name === 'Payment_List' }"><font-awesome-icon icon="fa-solid fa-credit-card" class="mx-3" />Payment</RouterLink>
+                </li>
+                <li>
                     <RouterLink to="/tutor/profile" class="nav-link text-secondary" :class="{ active: route.name === 'Profile' }"><font-awesome-icon icon="fa-solid fa-gear" class="mx-3" />Profile</RouterLink>
                 </li>
             </ul>
