@@ -42,8 +42,6 @@ const reportLists = ref([]);
 
 onMounted(async () => {
     reportLists.value = await authStore.fetchReportedTutors();
-
-    console.log(reportLists.value);
 });
 
 const goToDetails = (id) => {
