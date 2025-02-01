@@ -157,39 +157,6 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
-        // send email
-        async sendEmail(title, name, mail_to, customTemplate, type) {
-            const templateParams = {
-                title: title,
-                name: name, // email receive person
-                mail_to: mail_to, // email to
-                my_html: customTemplate.html,
-            };
-
-            emailjs
-                .send(import.meta.env.VITE_EMAIL_JS_SERVICE_ID, import.meta.env.VITE_EMAIL_JS_TEMPLATE_CUSTOM_ID, templateParams, {
-                    publicKey: import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY,
-                })
-                .then(
-                    () => {
-                        alert("Email sent successfully");
-
-                        setTimeout(() => {
-                            if (type === "refresh") {
-                                location.reload();
-                            }
-
-                            if (type === "close") {
-                                window.close();
-                            }
-                        }, 1000);
-                    },
-                    (error) => {
-                        alert("Unable to send email");
-                    }
-                );
-        },
-
         async updateLinkAccountStatus(id, status) {
             try {
                 const response = await axios.post(`api/linkAccount/${id}/status?status=${status}`);
@@ -290,6 +257,90 @@ export const useAuthStore = defineStore("auth", {
             } catch (error) {
                 this.error = error.response?.data?.message || "Purchase history fetch failed";
             }
+        },
+
+        async reportTutor(data) {
+            try {
+                await axios.post(`api/report/tutor`, data);
+                alert("Report tutor successful");
+                location.reload();
+            } catch (error) {
+                this.error = error.response?.data?.message || "Report tutor failed";
+                alert(this.error);
+            }
+        },
+
+        async fetchReportedTutors() {
+            try {
+                const response = await axios.get(`api/report/tutor`);
+                return response.data?.reports;
+            } catch (error) {
+                this.error = error.response?.data?.message || "Reported tutors fetch failed";
+            }
+        },
+
+        async fetchReportedTutor(id) {
+            try {
+                const response = await axios.get(`api/report/tutor/${id}`);
+                return response.data?.report;
+            } catch (error) {
+                this.error = error.response?.data?.message || "Reported tutor fetch failed";
+            }
+        },
+
+        async submitReport(data) {
+            try {
+                await axios.post(`api/report/${data.report_id}/submit`, data);
+
+                const title = "Your Report Has Been Reviewed"; // email title
+                const name = data.report_by; // email receive person
+                const mail_to = data.email; // email to
+                const customTemplate = {
+                    html: `
+                    <p><strong>Description</strong><br>${data.description}</p>
+                    <p>You have received feedback from our admin:</p>
+                    <p><strong>Feedback</strong><br>${data.feedback}</p>
+                    `,
+                };
+
+                await this.sendEmail(title, name, mail_to, customTemplate, "refresh");
+            } catch (error) {
+                this.error = error.response?.data?.message || "Report submission failed";
+                alert(this.error);
+            }
+        },
+
+        // send email
+        async sendEmail(title, name, mail_to, customTemplate, type) {
+            const templateParams = {
+                title: title,
+                name: name, // email receive person
+                mail_to: mail_to, // email to
+                my_html: customTemplate.html,
+            };
+
+            emailjs
+                .send(import.meta.env.VITE_EMAIL_JS_SERVICE_ID, import.meta.env.VITE_EMAIL_JS_TEMPLATE_CUSTOM_ID, templateParams, {
+                    publicKey: import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY,
+                })
+                .then(
+                    () => {
+                        alert("Email sent successfully");
+
+                        setTimeout(() => {
+                            if (type === "refresh") {
+                                location.reload();
+                            }
+
+                            if (type === "close") {
+                                window.close();
+                            }
+                        }, 1000);
+                    },
+                    (error) => {
+                        alert("Unable to send email");
+                    }
+                );
         },
     },
 });

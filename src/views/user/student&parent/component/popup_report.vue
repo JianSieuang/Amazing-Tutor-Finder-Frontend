@@ -1,6 +1,6 @@
 <template>
     <div class="modal-overlay">
-        <div class="review">
+        <form class="review" @submit.prevent="submitReport">
             <!-- Header -->
             <div class="header">
                 <span class="header-title">Write a Report</span>
@@ -18,20 +18,24 @@
             <!-- Feedback -->
             <div class="feedback">
                 <label for="feedback">Description</label>
-                <textarea id="feedback" v-model="feedbackText" placeholder="Write down your desciption here..."></textarea>
+                <textarea id="feedback" v-model="description" placeholder="Write down your desciption here..."></textarea>
             </div>
 
             <!-- Button Area -->
             <div class="buttonarea">
                 <button class="submit-btn" @click="submitReview">Submit Report</button>
             </div>
-        </div>
+        </form>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from "vue";
 import { useTutorStore } from "../../../../stores/tutor";
+import { useAuthStore } from "../../../../stores/auth";
+
+const authStore = useAuthStore();
+const tutorStore = useTutorStore();
 
 const props = defineProps({
     tutorId: {
@@ -41,19 +45,36 @@ const props = defineProps({
 });
 
 const tutorName = ref("");
+const description = ref("");
 
-// fetch data from tutor store
-const fetchTutorName = async () => {
+const userId = authStore.user.id;
+const tutorId = tutorStore.tutor.id;
+
+const submitReport = async () => {
+    if (description.value.trim() === "") {
+        alert("Description cannot be empty");
+        return;
+    }
+
     try {
-        const tutorStore = useTutorStore();
+        await authStore.reportTutor({
+            report_by: userId,
+            report_to: tutorId,
+            description: description.value,
+        });
+    } catch (error) {
+        console.error("Error submitting report:", error);
+    }
+};
+
+onMounted(async () => {
+    try {
         await tutorStore.fetchTutorDetails(props.tutorId);
         tutorName.value = tutorStore.tutor.name || "Unknown Tutor"; // make sure tutor name is not empty
     } catch (error) {
         console.error("Error fetching tutor name:", error);
     }
-};
-
-onMounted(fetchTutorName);
+});
 </script>
 
 <style scoped>

@@ -16,6 +16,7 @@ import Report_list from "../views/admin/component/ReportList.vue";
 import Tutor_management from "../views/admin/component/TutorManagement.vue";
 import Settings from "../views/admin/component/settings.vue";
 import TutorDetails from "../views/admin/component/TutorDetails.vue";
+import Report_Details from "../views/admin/component/ReportDetails.vue";
 
 // tutor view
 import Tutor_Layout from "../views/tutor/TutorLayout.vue";
@@ -114,7 +115,7 @@ const router = createRouter({
                     component: Tutor_registration_list,
                 },
                 {
-                    path: "/tutor_details/:id",
+                    path: "tutor_details/:id",
                     name: "Tutor_Details",
                     component: TutorDetails,
                 },
@@ -122,6 +123,11 @@ const router = createRouter({
                     path: "report_list",
                     name: "Report_List",
                     component: Report_list,
+                },
+                {
+                    path: "report/:id",
+                    name: "Report_Details",
+                    component: Report_Details,
                 },
                 {
                     path: "tutor_management",
