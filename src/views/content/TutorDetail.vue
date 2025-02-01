@@ -72,7 +72,7 @@
                             <div class="btn-area d-flex flex-column gap-3">
                                 <!-- upper：Write a Review & Write a Report (Row Layout) -->
                                 <div class="d-flex gap-2">
-                                    <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true" v-if="!authStore.user">Sign in to Write a Review</button>
+                                    <button class="btn-orange-secondary w-50 py-2 px-3" @click="$router.push('/auth/sign_in')" v-if="!authStore.user">Sign in to Write a Review</button>
 
                                     <button class="btn-orange-secondary w-50 py-2 px-3" @click="showReviewModal = true" v-if="authStore.user">Write a Review</button>
                                     <ReviewModal v-if="showReviewModal" @close="showReviewModal = false" :rateBy="authStore.user.id" :tutorId="tutorId" />
@@ -230,7 +230,10 @@ const imagePreview = ref("");
 
 onMounted(async () => {
     try {
-        await authStore.fetchLinkAccount(authStore.user.id);
+        if (authStore.user) {
+            await authStore.fetchLinkAccount(authStore.user.id);
+        }
+
         await tutorStore.fetchTutorDetails(tutorId);
         await tutorStore.fetchSession(tutorId);
         await tutorStore.fetchRating(tutorId);

@@ -47,7 +47,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 
 const authStore = useAuthStore();
-const backgroundColor = computed(() => (authStore.user.role === "student" ? "#FFEEE8" : "#FFC7B2"));
+const backgroundColor = computed(() => (authStore.user?.role === "student" ? "#FFEEE8" : "#FFC7B2"));
 
 const router = useRouter();
 const signOut = async () => {
