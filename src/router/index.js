@@ -184,12 +184,12 @@ const router = createRouter({
                 },
                 {
                     path: "payment_list",
-                    name: "Payment_List",
+                    name: "Tutor_Payment_List",
                     component: Tutor_Payment_List,
                 },
                 {
                     path: "payment_details",
-                    name: "Payment_Details",
+                    name: "Tutor_Payment_Details",
                     component: Tutor_Payment_Details,
                 },
                 {

@@ -1,5 +1,6 @@
 <template>
     <div class="container bg-white p-5">
+        {{ tutor.user_id }}
         <h4>Tutor Details</h4>
         <div class="row mb-3">
             <div class="col-sm-6 col-md-8">
@@ -75,6 +76,31 @@
             </div>
         </div>
     </div>
+
+    <div class="student-feedback-section mt-4">
+        <!-- Title -->
+        <h3 class="fw-bold mb-4" style="color: #1d2026">Feedback</h3>
+
+        <!-- Feedback List -->
+        <div v-if="reviews.length > 0" v-for="review in reviews" :key="review.id" class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #e9eaf0">
+            <div class="feedback_stud_detail d-flex align-items-center gap-3">
+                <img v-if="authStore.user" :src="review.user.image" width="50" height="50" alt="user picture" class="rounded-circle me-3" />
+                <div class="d-flex flex-column gap-2">
+                    <span class="fw-bold" style="color: #1d2026">{{ review.user.name }}</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <font-awesome-icon v-for="n in 5" :key="n" :icon="n <= review.rate ? 'fa-solid fa-star' : 'fa-regular fa-star'" class="text-warning" />
+                    </div>
+                </div>
+            </div>
+
+            <p style="color: #4e5566; font-size: 1rem; margin: 0">{{ review.description || "No feedback provided." }}</p>
+        </div>
+
+        <div class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #e9eaf0" v-if="reviews.length === 0">
+            <p style="color: #4e5566; font-size: 1rem; margin: 0">No feedback provided</p>
+        </div>
+    </div>
+
     <div class="d-flex flex-row-reverse gap-3">
         <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'approved')">Approve</div>
         <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'rejected')">Reject</div>
@@ -82,19 +108,27 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTutorStore } from "@/stores/tutor.js";
+import { useAuthStore } from "@/stores/auth.js";
 
 const router = useRouter();
 const tutorStore = useTutorStore();
+const authStore = useAuthStore();
+const tutorId = router.currentRoute.value.params.id;
+const reviews = ref([]);
 
 const tutor = computed(() => {
-    const tutorId = router.currentRoute.value.params.id;
     let found = tutorStore.pendingTutors.find((tutor) => tutor.id === parseInt(tutorId));
     if (!found) {
         found = tutorStore.tutors.find((tutor) => tutor.id === parseInt(tutorId));
     }
     return found;
+});
+
+onMounted(async () => {
+    await tutorStore.fetchRating(tutor.user_id);
+    reviews.value = tutorStore.rating;
 });
 </script>
