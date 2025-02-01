@@ -18,7 +18,7 @@
                     <!-- navbar link -->
                     <div class="d-flex justify-content-center border-top border-bottom">
                         <ul class="nav">
-                            <li class="nav-item">
+                            <li class="nav-item" v-if="authStore.user.role == 'student'">
                                 <RouterLink to="/user/tutor_list" class="btn px-4 py-3" :class="{ active: $route.path === '/user/tutor_list' }" @click="isActive = 'tutors'"> Tutors</RouterLink>
                             </li>
                             <li class="nav-item" v-if="authStore.user.role == 'parent'">

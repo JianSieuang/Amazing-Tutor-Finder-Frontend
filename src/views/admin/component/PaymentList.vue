@@ -24,7 +24,7 @@
                 <div class="row w-75 m-3">
                     <span class="col" style="width: 35%">{{ payment.payTo }}</span>
                     <span class="col" style="width: 35%">{{ payment.paidBy }}</span>
-                    <span class="col text-center" style="width: 10%">{{ payment.amount }}</span>
+                    <span class="col text-center" style="width: 10%">MYR {{ payment.amount }}</span>
                     <span class="col text-center" style="width: 10%">
                         <font-awesome-icon :icon="payment.status === 'success' ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-xmark'" :style="{ color: payment.status === 'success' ? 'green' : 'red' }" />
                     </span>
