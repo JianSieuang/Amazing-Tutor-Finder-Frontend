@@ -17,6 +17,8 @@ import Tutor_management from "../views/admin/component/TutorManagement.vue";
 import Settings from "../views/admin/component/settings.vue";
 import TutorDetails from "../views/admin/component/TutorDetails.vue";
 import Report_Details from "../views/admin/component/ReportDetails.vue";
+import Payment_List from "../views/admin/component/PaymentList.vue";
+import Payment_Details from "../views/admin/component/PaymentDetails.vue";
 
 // tutor view
 import Tutor_Layout from "../views/tutor/TutorLayout.vue";
@@ -133,6 +135,16 @@ const router = createRouter({
                     path: "tutor_management",
                     name: "Tutor_Management",
                     component: Tutor_management,
+                },
+                {
+                    path: "payment_list",
+                    name: "Payment_List",
+                    component: Payment_List,
+                },
+                {
+                    path: "payment_details",
+                    name: "Payment_Details",
+                    component: Payment_Details,
                 },
                 {
                     path: "settings",

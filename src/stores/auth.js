@@ -259,6 +259,15 @@ export const useAuthStore = defineStore("auth", {
             }
         },
 
+        async fetchPayments() {
+            try {
+                const response = await axios.get(`api/admin/payments`);
+                return response.data;
+            } catch (error) {
+                this.error = error.response?.data?.message || "Payments fetch failed";
+            }
+        },
+
         async reportTutor(data) {
             try {
                 await axios.post(`api/report/tutor`, data);

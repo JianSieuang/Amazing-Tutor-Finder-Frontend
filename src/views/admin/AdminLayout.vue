@@ -20,6 +20,9 @@
                     <RouterLink to="/admin/tutor_management" class="nav-link text-secondary" :class="{ active: route.name === 'Tutor_Management' }"><font-awesome-icon icon="fa-solid fa-user-group" class="mx-3" />Manage Tutor</RouterLink>
                 </li>
                 <li>
+                    <RouterLink to="/admin/payment_list" class="nav-link text-secondary" :class="{ active: route.name === 'Payment_List' }"><font-awesome-icon icon="fa-solid fa-credit-card" class="mx-3" />Payment</RouterLink>
+                </li>
+                <li>
                     <RouterLink to="/admin/settings" class="nav-link text-secondary" :class="{ active: route.name === 'Settings' }"><font-awesome-icon icon="fa-solid fa-gear" class="mx-3" />Settings</RouterLink>
                 </li>
             </ul>
