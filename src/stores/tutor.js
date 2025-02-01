@@ -246,12 +246,14 @@ export const useTutorStore = defineStore("tutor", {
             const sessions = response.data?.sessions;
             const users = response.data?.users;
             const students = response.data?.students;
+            const tutors = response.data?.tutors;
 
             const combinedData = schedules.map((schedule) => {
                 const session = sessions.find((session) => session.user_id === schedule.tutor_id);
                 const student = students.find((student) => student.id === schedule.student_id);
                 const user = users.find((user) => user.id === student.user_id);
-                return { ...schedule, session, user };
+                const tutor = tutors.find((tutor) => tutor.id === schedule.tutor_id);
+                return { ...schedule, session, user, tutor };
             });
 
             return combinedData;
