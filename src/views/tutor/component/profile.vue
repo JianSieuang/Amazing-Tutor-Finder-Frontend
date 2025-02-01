@@ -126,7 +126,7 @@
             </form>
 
             <form @submit.prevent="handleTitleImage" class="col p-4 bg-white">
-                <label for="title_image" class="form-label">Title Image</label>
+                <label for="title_image" class="form-label">Cover Image</label>
                 <br />
                 <img v-if="titleImagePreview" :src="titleImagePreview" alt="Title Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
                 <input class="form-control" type="file" id="title_image" accept="image/*" @change="handleTitleImageUpload" required />
@@ -193,7 +193,6 @@ onMounted(async () => {
         console.error("Error fetching tutor details:", error);
     }
 });
-
 
 const handleImageUpload = (event) => {
     profile_picture.value = event.target.files[0];
