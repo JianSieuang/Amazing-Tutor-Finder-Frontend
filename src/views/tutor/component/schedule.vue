@@ -107,8 +107,7 @@ const generateCalendarUrl = (schedule) => {
 
     const params = new URLSearchParams({
         text: "Tutor Session",
-        details: `Teaching Mode: ${schedule.session.teaching_mode}\n\nJoin the meeting: <a href="${customMeetLink}">${customMeetLink}</a>
-        `,
+        details: `Teaching Mode: ${schedule.session.teaching_mode}${schedule.session.teaching_mode !== "Online" ? "" : `\n\nJoin the meeting: <a href="${customMeetLink}">${customMeetLink}</a>`}`,
         dates: `${startDateTime}/${endDateTime}`,
         ctz: "Asia/Kuala_Lumpur",
         add: schedule.user.email,
