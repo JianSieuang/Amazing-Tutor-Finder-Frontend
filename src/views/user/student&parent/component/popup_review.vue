@@ -38,7 +38,7 @@
 import { ref } from "vue";
 import { useTutorStore } from "../../../../stores/tutor";
 
-const selectedRating = ref(0);
+const selectedRating = ref(5);
 const hoverRating = ref(0);
 const feedbackText = ref("");
 
@@ -54,7 +54,6 @@ const props = defineProps({
 });
 
 const ratingLabels = {
-    0: "",
     1: "(Very Bad)",
     2: "(Bad)",
     3: "(Neutral)",
@@ -67,11 +66,6 @@ const selectRating = (rating) => {
 };
 
 const submitReview = async () => {
-    if (selectedRating.value === 0 && feedbackText.value === "") {
-        alert("Please select a star rating or write a feedback.");
-        return;
-    }
-
     try {
         await useTutorStore().ratingTutor({
             rateBy: props.rateBy,
