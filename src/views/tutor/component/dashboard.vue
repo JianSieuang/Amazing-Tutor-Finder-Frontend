@@ -2,7 +2,7 @@
     <div class="dboardcontent mx-5">
         <div class="profilebar">
             <div class="profile-avatar">
-                <img src="@/assets/png/avatar1.png" alt="Tutor Avatar" class="avatar" />
+                <img :src="useAuthStore().image" alt="Tutor Avatar" class="avatar" />
             </div>
 
             <div class="profile-info">
@@ -57,8 +57,6 @@
                   <span class="label">Physical Sessions</span>
               </div>
           </div> -->
-
-            <!-- In Progress, waiting student enroll part -->
         </div>
         <div class="infobar">
             <div class="schedule">
