@@ -19,38 +19,40 @@
         </div>
     </div>
 
-    <div class="d-flex flex-column align-items-center justify-content-center mt-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="height: 50vh">
         <h3 class="fw-bold">Tutor Recommended</h3>
         <p v-if="!showRecommendedTutors" class="text-muted mt-4">No recommended tutors</p>
-        <div v-else class="container-sm">
-            <div id="recommendedTutorCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel">
+
+        <div v-else class="container-sm" style="height: 60%">
+            <div id="recommendedTutorCarousel" class="carousel carousel-dark slide" data-bs-ride="carousel" style="height: 100%">
                 <!-- Carousel Indicators -->
                 <div class="carousel-indicators">
                     <button v-for="(tutor, index) in tutorStore.recommendedTutors" :key="index" type="button" data-bs-target="#recommendedTutorCarousel" :data-bs-slide-to="index" :class="{ active: index === 0 }" :aria-current="index === 0 ? 'true' : false" :aria-label="'Slide ' + (index + 1)"></button>
                 </div>
 
                 <!-- Carousel Items -->
-                <div class="carousel-inner">
-                    <div v-for="(tutor, index) in tutorStore.recommendedTutors" :key="index" class="carousel-item" :class="{ active: index === 0 }">
-                        <router-link :to="`/tutor_details/${tutor.user_id}`" class="text-decoration-none">
-                            <img :src="tutor.title_image" class="d-block w-auto mx-auto" style="max-height: 250px; object-fit: contain" :alt="tutor.title_image" />
+                <div class="carousel-inner" style="height: 100%">
+                    <div v-for="(tutor, index) in tutorStore.recommendedTutors" :key="index" class="carousel-item" :class="{ active: index === 0 }" style="height: 100%">
+                        <router-link :to="`/tutor_details/${tutor.user_id}`" class="text-decoration-none" style="height: 100%">
+                            <img :src="tutor.title_image" class="d-block w-auto mx-auto" style="height: 100%; object-fit: cover" :alt="tutor.title_image" />
                             <div class="carousel-caption d-none d-md-block">
                                 <p class="fw-bold mb-1 d-flex justify-content-between align-items-center">
                                     <span>MYR {{ tutor.session.price }}</span>
-                                    <small class="text-muted p-1 rounded" style="background-color: #ffe5b4">Per Session</small>
+                                    <small class="text-muted p-1 rounded" style="background-color: #ffe5b4"> Per Session </small>
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5 class="fw-bold mb-2">{{ tutor.session.title }}</h5>
                                 </div>
-
                                 <div class="mt-auto">
                                     <hr style="border: 1px solid #e0e0e0; margin: 0.5rem 0" />
                                     <p class="d-flex justify-content-between align-items-center">
                                         <span>
                                             <span style="color: #ffc107">★</span>
-                                            <small class="text-muted" style="margin-left: 4px">{{ tutor.overallRate.toFixed(1) || 0 }}</small>
+                                            <small style="margin-left: 4px" class="text-muted">
+                                                {{ tutor.overallRate.toFixed(1) || 0 }}
+                                            </small>
                                         </span>
-                                        <small class="text-muted">{{ tutor.enrolledStudent }} Enrolled</small>
+                                        <small class="text-muted"> {{ tutor.enrolledStudent }} Enrolled </small>
                                     </p>
                                 </div>
                             </div>
@@ -69,7 +71,6 @@
                 </button>
             </div>
         </div>
-
         <RouterLink to="/tutor_list" class="btn btn-orange mt-4">
             <button class="btn btn-orange">Browse All Tutor</button>
         </RouterLink>

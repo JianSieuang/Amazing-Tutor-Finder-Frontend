@@ -77,9 +77,9 @@
         </div>
     </div>
 
-    <div class="student-feedback-section mt-4">
+    <div class="container bg-white p-5 my-4">
         <!-- Title -->
-        <h3 class="fw-bold mb-4" style="color: #1d2026">Feedback</h3>
+        <h4>Feedback</h4>
 
         <!-- Feedback List -->
         <div v-if="reviews.length > 0" v-for="review in reviews" :key="review.id" class="feedback-item d-flex flex-column gap-3 border-bottom pb-3 mt-3" style="border-color: #e9eaf0">
@@ -101,7 +101,7 @@
         </div>
     </div>
 
-    <div class="d-flex flex-row-reverse gap-3">
+    <div class="container d-flex flex-row-reverse gap-3">
         <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'approved')">Approve</div>
         <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'rejected')">Reject</div>
     </div>
@@ -128,7 +128,7 @@ const tutor = computed(() => {
 });
 
 onMounted(async () => {
-    await tutorStore.fetchRating(tutor.user_id);
+    await tutorStore.fetchRating(tutor.value.user_id);
     reviews.value = tutorStore.rating;
 });
 </script>
