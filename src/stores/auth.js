@@ -11,6 +11,8 @@ export const useAuthStore = defineStore("auth", {
         image: null,
         tryAuth: false,
         linkAccount: null,
+        otp: null,
+        otpVerified: false,
     }),
 
     actions: {
@@ -53,6 +55,54 @@ export const useAuthStore = defineStore("auth", {
                 alert("Login failed! Pls try again");
             } finally {
                 this.loading = false;
+            }
+        },
+
+        async checkEmail(data) {
+            try {
+                const response = await axios.post("api/getUser", data, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                
+                console.log(response.data);
+                // ramdom otp
+                this.otp = Math.floor(100000 + Math.random() * 900000);
+
+                const title = "Reset Password OTP"; // email title
+                const name = response.data.user.name; // email receive person
+                const mail_to = response.data.user.email; // email to
+                const customTemplate = {
+                    html: 
+                    // otp template for user receive otp
+                    `
+                    <p>OTP: <b>${this.otp}</b></p>
+                    <p>Use this OTP to reset your password</p>
+                    `,
+                };
+
+                await this.sendEmail(title, name, mail_to, customTemplate, null);
+            }
+            catch (error) {
+                this.error = error.response?.data?.message || "Password reset email failed";
+                alert(this.error);
+            }
+        },
+
+        async resetPassword(data, router) {
+            try {
+                await axios.post(`api/resetPassword`, data, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                alert("Password reset successful!");
+                router.push("/");
+            }
+            catch (error) {
+                this.error = error.response?.data?.message || "Password reset failed";
+                alert(this.error);
             }
         },
 

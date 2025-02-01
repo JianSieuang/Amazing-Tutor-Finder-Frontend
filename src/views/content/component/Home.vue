@@ -78,11 +78,9 @@
 
 <script setup>
 import { ref, onMounted, watch } from "vue";
-import { useAuthStore } from "@/stores/auth.js";
 import { useTutorStore } from "@/stores/tutor.js";
 import { RouterLink } from "vue-router";
 
-const authStore = useAuthStore();
 const tutorStore = useTutorStore();
 
 onMounted(async () => {
