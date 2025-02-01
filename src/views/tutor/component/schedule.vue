@@ -12,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(schedule, index) in schedules" :key="index">
+                <tr v-if="schedules.length > 0" v-for="(schedule, index) in schedules" :key="index">
                     <td>{{ schedule.user.name }}</td>
                     <td>{{ schedule.month }}</td>
                     <td>{{ schedule.day }}</td>
@@ -24,6 +24,9 @@
                             <font-awesome-icon icon="fa-solid fa-arrow-right" />
                         </div>
                     </td>
+                </tr>
+                <tr v-else>
+                    <td colspan="6" style="text-align: center">Currently, there are no scheduled sessions booked.</td>
                 </tr>
             </tbody>
         </table>
