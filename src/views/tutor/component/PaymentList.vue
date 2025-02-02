@@ -101,7 +101,7 @@ onMounted(async () => {
 
 const goToDetails = (payment) => {
     router.push({
-        name: "Payment_Details",
+        name: "Tutor_Payment_Details",
         query: {
             data: encodeURIComponent(JSON.stringify(payment)),
         },
