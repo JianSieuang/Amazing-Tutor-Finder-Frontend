@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <nav aria-label="Tutor pagination">
+        <nav aria-label="Tutor pagination" class="d-flex justify-content-center m-3">
             <ul class="pagination">
                 <li class="page-item" :class="{ disabled: tutorStore.currentPage === 1 }">
                     <button class="page-link" @click="changePage(tutorStore.currentPage - 1)" aria-label="Previous">
