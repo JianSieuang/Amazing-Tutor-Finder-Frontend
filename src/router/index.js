@@ -45,6 +45,7 @@ import SettingAndPrivacy from "../views/user/student&parent/component/SettingAnd
 import Status from "../views/Status.vue";
 import PurchaseHistory from "../views/user/student&parent/component/Paymenthistory.vue";
 import Payment from "../views/payment/payment.vue";
+import { f } from "html2pdf.js";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -244,28 +245,41 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
 
+    // first time auth check
     if (!authStore.tryAuth) {
         await authStore.fetchUser();
+        if (!authStore.user) {
+            // No user is logged in, so send them to Home.
+            next({ name: "Home" });
+            return; // Important: exit early.
+        } else {
+            // Use switch-case based on the user's role.
+            switch (authStore.user.role) {
+                case "admin":
+                    next({ name: "Dashboard" });
+                    return;
+                case "tutor":
+                    next({ name: "Tutor_Dashboard" });
+                    return;
+                default:
+                    next({ name: "Home" });
+                    return;
+            }
+        }
     }
 
     if (to.matched.some((record) => record.meta.requiresGuest)) {
         if (authStore.user == null) {
             next();
         } else {
-            next({ name: "Home" });
+            next(from.fullPath);
         }
     } else if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (authStore.user != null) {
-            next();
-        } else {
+        if (authStore.user == null) {
             next({ name: "Sign_up" });
+        } else {
+            next();
         }
-
-        // } else if (
-        //   to.matched.some((record) => record.meta.requiresAdmin) &&
-        //   !authStore.user?.is_admin
-        // ) {
-        //   next({ name: 'Home' })
     } else {
         next();
     }
