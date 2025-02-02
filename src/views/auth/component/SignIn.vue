@@ -31,8 +31,6 @@
                     <RouterLink to="/auth/forgot_password" class="text-decoration-none">Forgot Password?</RouterLink>
                     
                 </div>
-
-                <div v-if="authStore.error" class="text-danger mt-2">{{ authStore.error }}</div>
             </form>
         </div>
     </div>
