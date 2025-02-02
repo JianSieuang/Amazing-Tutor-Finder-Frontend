@@ -34,8 +34,10 @@
                 <div class="col-sm-6 col-md-4">
                     <div class="mb-3">
                         <label for="profile_picture" class="form-label">Profile Picture</label>
-                        <br />
-                        <img v-if="imagePreview" :src="imagePreview" alt="Profile Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
+                        <div class="d-flex flex-column align-items-center">
+                            <img v-if="imagePreview" :src="imagePreview" alt="Profile Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
+                        </div>
+                        
                         <input class="form-control" type="file" id="profile_picture" accept="image/*" @change="handleImageUpload" />
                     </div>
                 </div>
@@ -43,7 +45,7 @@
 
             <div class="mb-3">
                 <label for="teaching_experience" class="form-label">Teaching Experience</label>
-                <textarea class="form-control" id="teaching_experience" v-model="teaching_experience" rows="1" placeholder="Your teaching experience"></textarea>
+                <textarea class="form-control" id="teaching_experience" v-model="teaching_experience" rows="3" placeholder="Your teaching experience"></textarea>
             </div>
             <div>
                 <label for="about_me" class="form-label">About Me</label>
@@ -100,10 +102,10 @@
         </div>
     </form>
 
-    <div class="w-full m-3">
-        <div class="row gap-3">
-            <form class="col p-4 bg-white" @submit.prevent="handleChangePassword">
-                <span class="fs-4 fw-bold">Change password</span>
+    <div class="container bg-white p-5 my-4">
+        <div class="row gap-5">
+            <form class="col" @submit.prevent="handleChangePassword">
+                <h4>Change password</h4>
 
                 <div class="mb-3">
                     <label for="current-password" class="form-label">Current Password</label>
@@ -125,14 +127,16 @@
                 <button class="btn btn-orange" type="submit">Change Password</button>
             </form>
 
-            <form @submit.prevent="handleTitleImage" class="col p-4 bg-white">
+            <form @submit.prevent="handleTitleImage" class="col">
                 <label for="title_image" class="form-label">Cover Image</label>
-                <br />
-                <img v-if="titleImagePreview" :src="titleImagePreview" alt="Title Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
+                <div class="d-flex flex-column align-items-center mb-3">
+                    <img v-if="titleImagePreview" :src="titleImagePreview" alt="Title Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
+                </div>
+                
                 <input class="form-control" type="file" id="title_image" accept="image/*" @change="handleTitleImageUpload" required />
 
                 <button class="btn btn-orange mt-3" type="submit">Save</button>
-            </form>
+            </form>  
         </div>
     </div>
 </template>

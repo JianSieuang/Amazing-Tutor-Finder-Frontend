@@ -58,7 +58,7 @@
 
                 <div class="mb-3">
                     <label for="teaching_experience" class="form-label">Teaching Experience</label>
-                    <textarea class="form-control" id="teaching_experience" v-model="teaching_experience" rows="1" placeholder="Your teaching experience"></textarea>
+                    <textarea class="form-control" id="teaching_experience" v-model="teaching_experience" rows="3" placeholder="Your teaching experience"></textarea>
                 </div>
                 <div>
                     <label for="about_me" class="form-label">About Me</label>
