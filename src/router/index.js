@@ -266,8 +266,10 @@ router.beforeEach(async (to, from, next) => {
                         return;
                     }
                 default:
-                    next();
-                    return;
+                    if(to.matched.some((record) => record.meta.requiresAdmin || to.matched.some((record) => record.meta.requiresTutor))){
+                        next({ name: "Home" });
+                        return;
+                    }
             }
         }
     }
