@@ -257,19 +257,22 @@ router.beforeEach(async (to, from, next) => {
             switch (authStore.user.role) {
                 case "admin":
                     if(!to.matched.some((record) => record.meta.requiresAdmin)){
-                        next({ name: "Dashboard" });
+                        next({ path: "/admin" });
                         return;
                     }
+                    break;
                 case "tutor":
                     if(!to.matched.some((record) => record.meta.requiresTutor)){
-                        next({ name: "Tutor_Dashboard" });
+                        next({ path: "/tutor" });
                         return;
                     }
+                    break;
                 default:
                     if(to.matched.some((record) => record.meta.requiresAdmin || to.matched.some((record) => record.meta.requiresTutor))){
                         next({ name: "Home" });
                         return;
                     }
+                    break;
             }
         }
     }
