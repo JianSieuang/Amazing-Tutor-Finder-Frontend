@@ -119,10 +119,15 @@ const authStore = useAuthStore();
 const tutorId = router.currentRoute.value.params.id;
 const reviews = ref([]);
 
-const tutor = computed(() => {
+const tutor = computed(async() => {
     let found = tutorStore.pendingTutors.find((tutor) => tutor.id === parseInt(tutorId));
     if (!found) {
         found = tutorStore.tutors.find((tutor) => tutor.id === parseInt(tutorId));
+    }
+
+    if(!found) {
+        await tutorStore.fetchTutorDetails(tutorId);
+        found = tutorStore.tutor;
     }
     return found;
 });
