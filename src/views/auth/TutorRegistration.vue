@@ -18,7 +18,7 @@
                                     <option value="+65">+65</option>
                                 </select>
                             </div>
-                            <input type="number" class="form-control" id="phone_number" v-model="phone_number" placeholder="Your phone number" required />
+                            <input type="number" class="form-control" id="phone_number" v-model="phone_number" placeholder="Your phone number" required min="0" />
                         </div>
 
                         <div class="row mb-0 align-items-end flex-wrap">
