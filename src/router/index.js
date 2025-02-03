@@ -199,7 +199,7 @@ const router = createRouter({
                     component: Tutor_Profile,
                 },
             ],
-            meta: { requiresAuth: true },
+            meta: { requiresAuth: true, requiresTutor: true },
         },
         {
             path: "/user",
@@ -250,19 +250,23 @@ router.beforeEach(async (to, from, next) => {
         await authStore.fetchUser();
         if (!authStore.user) {
             // No user is logged in, so send them to Home.
-            next({ name: "Home" });
+            next();
             return; // Important: exit early.
         } else {
             // Use switch-case based on the user's role.
             switch (authStore.user.role) {
                 case "admin":
-                    next({ name: "Dashboard" });
-                    return;
+                    if(!to.matched.some((record) => record.meta.requiresAdmin)){
+                        next({ name: "Dashboard" });
+                        return;
+                    }
                 case "tutor":
-                    next({ name: "Tutor_Dashboard" });
-                    return;
+                    if(!to.matched.some((record) => record.meta.requiresTutor)){
+                        next({ name: "Tutor_Dashboard" });
+                        return;
+                    }
                 default:
-                    next({ name: "Home" });
+                    next();
                     return;
             }
         }
