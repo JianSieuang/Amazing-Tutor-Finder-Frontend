@@ -126,7 +126,6 @@ onMounted(async () => {
     await tutorStore.fetchTutors();
     await tutorStore.fetchPendingTutors();
     
-
     let found = tutorStore.pendingTutors.find((tutor) => tutor.id === parseInt(tutorId));
     if (!found) {
         found = tutorStore.tutors.find((tutor) => tutor.id === parseInt(tutorId));

@@ -55,7 +55,7 @@ export const useTutorStore = defineStore("tutor", {
             }
         },
 
-        async fetchTutors(page = 1) {
+        async fetchTutors(page = this.currentPage) {
             try {
                 const response = await axios.get("api/tutors", {
                     params: { page, perPage: this.perPage },
