@@ -34,7 +34,7 @@
                         <label for="courseLanguage">Course Language</label>
                         <select v-model="courseLanguage" id="courseLanguage" required>
                             <option value="" disabled>Select...</option>
-                            <option value="English">English</option>
+                            <option value="English" default>English</option>
                             <option value="Chinese">Chinese</option>
                             <option value="Malay">Malay</option>
                         </select>
@@ -138,14 +138,18 @@ import { useTutorStore } from "../../../stores/tutor";
 const authStore = useAuthStore();
 const tutorStore = useTutorStore();
 
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const currentMonth = months[new Date().getMonth()];
+
 const title = ref("");
 const description = ref("");
 const courseLanguage = ref("");
 const price = ref("");
-const sessionMonth = ref("");
+const sessionMonth = ref(currentMonth);
 const workingDays = reactive({
     monday: false,
     tuesday: false,
+
     wednesday: false,
     thursday: false,
     friday: false,
@@ -175,7 +179,7 @@ onMounted(async () => {
             description.value = data.description;
             courseLanguage.value = data.course_language;
             price.value = data.price;
-            sessionMonth.value = data.session_month;
+            sessionMonth.value = data.session_month || currentMonth;
 
             workingDays.monday = !!sessionDayObj.monday;
             workingDays.tuesday = !!sessionDayObj.tuesday;

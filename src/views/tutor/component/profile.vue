@@ -37,7 +37,7 @@
                         <div class="d-flex flex-column align-items-center">
                             <img v-if="imagePreview" :src="imagePreview" alt="Profile Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
                         </div>
-                        
+
                         <input class="form-control" type="file" id="profile_picture" accept="image/*" @change="handleImageUpload" />
                     </div>
                 </div>
@@ -132,11 +132,11 @@
                 <div class="d-flex flex-column align-items-center mb-3">
                     <img v-if="titleImagePreview" :src="titleImagePreview" alt="Title Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
                 </div>
-                
+
                 <input class="form-control" type="file" id="title_image" accept="image/*" @change="handleTitleImageUpload" required />
 
                 <button class="btn btn-orange mt-3" type="submit">Save</button>
-            </form>  
+            </form>
         </div>
     </div>
 </template>
@@ -227,7 +227,7 @@ const handleEdit = async () => {
             name: fullname.value,
             email: email.value,
             phone_number: phone_number.value,
-            profile_picture: profile_picture.value,
+            profile_picture: imagePreview.value,
 
             // Tutor
             education_background: education_background.value,

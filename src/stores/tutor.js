@@ -59,6 +59,7 @@ export const useTutorStore = defineStore("tutor", {
             try {
                 const response = await axios.get("api/tutors", {
                     params: { page, perPage: this.perPage },
+                    headers: { "X-Referer": location.href },
                 });
 
                 const tutorsData = response.data?.tutors || [];
@@ -149,10 +150,7 @@ export const useTutorStore = defineStore("tutor", {
         async editTutor(data, id, router) {
             try {
                 this.loading = true;
-
                 await axios.get("/sanctum/csrf-cookie");
-
-                console.log(data.get("title_picture"));
 
                 const response = await axios.post(`api/tutors/${id}/edit`, data, {
                     headers: {
@@ -168,7 +166,7 @@ export const useTutorStore = defineStore("tutor", {
                 } else if (error.request) {
                     alert("No response received from the server. Please check your network connection.");
                 } else {
-                    alert("An unexpected error occurred. Please try again");
+                    alert("An unexpected error occurred. Please try again" + error);
                 }
             } finally {
                 this.loading = false;
