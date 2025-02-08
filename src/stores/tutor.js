@@ -55,10 +55,10 @@ export const useTutorStore = defineStore("tutor", {
             }
         },
 
-        async fetchTutors(page = this.currentPage) {
+        async fetchTutors(page = this.currentPage, sortBy = "", sortOrder = "") {
             try {
                 const response = await axios.get("api/tutors", {
-                    params: { page, perPage: this.perPage },
+                    params: { page, perPage: this.perPage, sortBy, sortOrder },
                     headers: { "X-Referer": location.href },
                 });
 
