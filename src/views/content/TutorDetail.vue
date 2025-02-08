@@ -244,7 +244,8 @@ onMounted(async () => {
         reviews.value = tutorStore.rating;
         overallRate.value = tutorStore.overallRate;
 
-        enrolledStudents.value = (await tutorStore.fetchEnrolledStudents(tutorId)).length;
+        const enrolled = await tutorStore.fetchEnrolledStudents(tutorId);
+        enrolledStudents.value = enrolled.length;
 
         if (tutorDetail && tutorData) {
             fullname.value = tutorData.name;
@@ -284,7 +285,17 @@ onMounted(async () => {
 
                 for (let i = 0; i < dayList.length; i++) {
                     if (dayList[i].includes("true")) {
-                        availabilityList.value.push(dayMapping[Object.keys(dayMapping)[i]] + " " + session.session_time);
+                        if (enrolledStudents.value > 0) {
+                            for (let j = 0; j < enrolled.length; j++) {
+                                if (enrolled[j].day === dayMapping[Object.keys(dayMapping)[i]] && enrolled[j].month === session_month.value && enrolled[j].time_slot === session.session_time) {
+                                    continue;
+                                } else {
+                                    availabilityList.value.push(dayMapping[Object.keys(dayMapping)[i]] + " " + session.session_time);
+                                }
+                            }
+                        } else {
+                            availabilityList.value.push(dayMapping[Object.keys(dayMapping)[i]] + " " + session.session_time);
+                        }
                     }
                 }
             }
