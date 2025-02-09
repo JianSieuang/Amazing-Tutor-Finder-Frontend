@@ -43,6 +43,25 @@
                 </div>
             </div>
             <!-- Pagination (omitted for brevity) -->
+            <nav aria-label="Tutor pagination">
+                <ul class="pagination">
+                    <li class="page-item" :class="{ disabled: tutorStore.currentPage === 1 }">
+                        <button class="page-link" @click="changePage(tutorStore.currentPage - 1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </button>
+                    </li>
+
+                    <li v-for="page in tutorStore.totalPages" :key="page" class="page-item" :class="{ active: page === tutorStore.currentPage }">
+                        <button class="page-link" @click="changePage(page)">{{ page }}</button>
+                    </li>
+
+                    <li class="page-item" :class="{ disabled: tutorStore.currentPage === tutorStore.totalPages }">
+                        <button class="page-link" @click="changePage(tutorStore.currentPage + 1)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </template>
@@ -73,6 +92,12 @@ const getSortParams = () => {
 const applySort = () => {
     const { sortBy, sortOrder } = getSortParams();
     tutorStore.fetchTutors(1, sortBy, sortOrder); // Fetch from page 1 with sort params.
+};
+
+const changePage = (page) => {
+    if (page >= 1 && page <= tutorStore.totalPages) {
+        tutorStore.fetchTutors(page);
+    }
 };
 
 onMounted(async () => {
