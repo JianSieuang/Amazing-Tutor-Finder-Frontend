@@ -102,8 +102,8 @@
         </div>
 
         <div class="container d-flex flex-row-reverse gap-3">
-            <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'approved')">Approve</div>
-            <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'rejected')">Reject</div>
+            <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'approved', email, name)">Approve</div>
+            <div class="btn btn-orange" @click="tutorStore.updateStatus(tutor.id, 'rejected', email, name)">Reject</div>
         </div>
     </div>
 </template>
@@ -121,16 +121,20 @@ const tutorId = router.currentRoute.value.params.id;
 const reviews = ref([]);
 
 const tutor = ref();
+const email = ref("");
+const name = ref("");
 
 onMounted(async () => {
     await tutorStore.fetchTutors();
     await tutorStore.fetchPendingTutors();
-    
+
     let found = tutorStore.pendingTutors.find((tutor) => tutor.id === parseInt(tutorId));
     if (!found) {
         found = tutorStore.tutors.find((tutor) => tutor.id === parseInt(tutorId));
     }
     tutor.value = found;
+    email.value = tutor.value.user.email;
+    name.value = tutor.value.user.name;
 
     await tutorStore.fetchRating(tutor.value.user_id);
     reviews.value = tutorStore.rating;

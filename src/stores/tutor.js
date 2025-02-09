@@ -93,7 +93,7 @@ export const useTutorStore = defineStore("tutor", {
             }
         },
 
-        async updateStatus(id, status) {
+        async updateStatus(id, status, email, name) {
             try {
                 this.loading = true;
                 await axios.get("/sanctum/csrf-cookie");
@@ -101,7 +101,17 @@ export const useTutorStore = defineStore("tutor", {
                     status: status,
                 });
                 alert("Tutor status updated successfully!");
-                location.href = "/admin/tutor_registration_list";
+
+                const title = "Tutor Registration Status Update"; // email title
+                const mail_to = email; // email to
+                const customTemplate = {
+                    html: `
+                    <p>Your registration status has been updated to <strong>${status.charAt(0).toUpperCase() + status.slice(1)}</strong>.</p>
+                    <p>Thank you for your interest in becoming a tutor at our platform.</p>
+                    `,
+                };
+
+                useAuthStore().sendEmail(title, name, mail_to, customTemplate, "admin/tutor");
             } catch (error) {
                 console.error("Error update tutors status: ", error);
             }

@@ -403,6 +403,10 @@ export const useAuthStore = defineStore("auth", {
                             if (type === "close") {
                                 window.close();
                             }
+
+                            if (type === "admin/tutor") {
+                                location.href = "/admin/tutor_registration_list";
+                            }
                         }, 1000);
                     },
                     (error) => {
