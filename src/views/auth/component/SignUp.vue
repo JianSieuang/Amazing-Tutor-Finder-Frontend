@@ -61,7 +61,6 @@
                     </button>
                 </div>
             </div>
-            <div v-if="authStore.error" class="text-danger mt-2">{{ authStore.error }}</div>
         </form>
     </div>
 </template>
