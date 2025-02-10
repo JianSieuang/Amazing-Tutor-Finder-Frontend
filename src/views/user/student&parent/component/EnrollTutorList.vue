@@ -1,51 +1,46 @@
 <template>
-  <div class="container py-4">
-    <h3 class="mb-4">Tutors</h3>
+    <div class="w-75 m-3">
+        <div class="container py-4">
+            <h3 class="mb-4">Tutors</h3>
 
-    <!-- Search Bar -->
-     <div><h4 class="search-title">Search:</h4></div>
-     
-    <div class="search-container d-flex justify-content-start w-50 position-relative mb-4">
-      <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="search-icon"/>
-      <input 
-        type="text" 
-        class="form-control search-input" 
-        placeholder="Search in your tutors..." 
-        v-model="searchQuery"
-      />
-    </div>
+            <!-- Search Bar -->
+            <div><h4 class="search-title">Search:</h4></div>
 
-    <!-- Check if tutors list is empty -->
-  <div v-if="tutors.length === 0" class="no-tutor-message text-center ">
-    No any Tutor are enrolled
-  </div>
+            <div class="search-container d-flex justify-content-start w-50 position-relative mb-4">
+                <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="search-icon" />
+                <input type="text" class="form-control search-input" placeholder="Search in your tutors..." v-model="searchQuery" />
+            </div>
 
-        <!-- Card Grid -->
-        <div class="row">
-            <div class="col-md-3" v-for="tutor in tutors" :key="tutor.id">
-                <div class="card text-center shadow-sm mb-4">
-                    <img :src="tutor.title_image" alt="profile" class="card-img-top" />
-                    <div class="card-body">
-                        <h5 class="card-title">{{ tutor.name }}</h5>
-                        <p class="card-text  pb-3 border-bottom text-muted">{{ tutor.session.title }}</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-warning"> <i class="bi bi-star-fill"></i> {{ tutor?.overallRate?.toFixed(1) }} </span>
+            <!-- Check if tutors list is empty -->
+            <div v-if="tutors.length === 0" class="no-tutor-message text-center">No any Tutor are enrolled</div>
 
-                            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
+            <!-- Card Grid -->
+            <div class="row">
+                <div class="col-md-3" v-for="tutor in tutors" :key="tutor.id">
+                    <div class="card text-center shadow-sm mb-4">
+                        <img :src="tutor.title_image" alt="profile" class="card-img-top" />
+                        <div class="card-body">
+                            <h5 class="card-title">{{ tutor.name }}</h5>
+                            <p class="card-text pb-3 border-bottom text-muted">{{ tutor.session.title }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-warning"> <i class="bi bi-star-fill"></i> {{ tutor?.overallRate?.toFixed(1) }} </span>
 
-                            <span class="text-weight-bold">{{ tutor.enrolledStudent }} <span class="textgrey">students</span></span>
-                        </div>
+                                <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
 
-                        <div class="d-flex flex-column gap-2 mt-3">
-                            <router-link :to="`/tutor_details/${tutor.user_id}`">
-                                <button class="btn btn-detail btn-sm w-100">Detail</button>
-                            </router-link>
+                                <span class="text-weight-bold">{{ tutor.enrolledStudent }} <span class="textgrey">students</span></span>
+                            </div>
 
-                            <button class="btn btn-review btn-outline btn-sm w-100" @click="toggleReviewModal(tutor.user_id)">Review</button>
+                            <div class="d-flex flex-column gap-2 mt-3">
+                                <router-link :to="`/tutor_details/${tutor.user_id}`">
+                                    <button class="btn btn-detail btn-sm w-100">Detail</button>
+                                </router-link>
+
+                                <button class="btn btn-review btn-outline btn-sm w-100" @click="toggleReviewModal(tutor.user_id)">Review</button>
+                            </div>
                         </div>
                     </div>
+                    <ReviewModal style="z-index: 100" v-if="showReviewModal[tutor.user_id]" @close="showReviewModal[tutor.user_id] = false" :rateBy="authStore.user.id" :tutorId="tutor.user_id" />
                 </div>
-                <ReviewModal style="z-index: 100" v-if="showReviewModal[tutor.user_id]" @close="showReviewModal[tutor.user_id] = false" :rateBy="authStore.user.id" :tutorId="tutor.user_id" />
             </div>
         </div>
     </div>
@@ -91,9 +86,9 @@ const toggleReviewModal = (tutorId) => {
 }
 /* No Tutor Message */
 .no-tutor-message {
-    font-size: 1.4rem; 
-    font-weight: 300; 
-    color: #6e7485; 
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: #6e7485;
     background-color: #f5f4f4;
     text-align: center;
     padding: 2rem;
@@ -107,24 +102,24 @@ const toggleReviewModal = (tutorId) => {
 
 .search-icon {
     position: absolute;
-    left: 12px; 
+    left: 12px;
     font-size: 1rem;
     color: #6e7485;
 }
 .search-title {
-    color: #6e7485; 
-    font-size: 0.9rem; 
-    font-weight: normal; 
+    color: #6e7485;
+    font-size: 0.9rem;
+    font-weight: normal;
 }
 .search-input {
     padding-left: 36px;
-    border-radius: 0; 
+    border-radius: 0;
 }
 
 .card {
-  /* border-radius: 15px; */
-  overflow: hidden;
-  transition: transform 0.3s;
+    /* border-radius: 15px; */
+    overflow: hidden;
+    transition: transform 0.3s;
 }
 
 .card:hover {
@@ -138,8 +133,8 @@ const toggleReviewModal = (tutorId) => {
     object-fit: cover;
     margin: auto;
 }
-.textgrey{
-  color: #6e7485;
+.textgrey {
+    color: #6e7485;
 }
 
 /* Pagination Styling */
@@ -169,15 +164,15 @@ const toggleReviewModal = (tutorId) => {
     align-items: center;
 }
 
-  .btn-review {
-  background-color: #ff6600; /* orange */
-  color: white;
+.btn-review {
+    background-color: #ff6600; /* orange */
+    color: white;
 }
 
 .btn-detail {
-  background-color: rgba(255, 102, 0, 0.2); /* light orange */
-  color: #ff6600; /* orange */
-  font-weight: 500;
-  border-radius: 0;
+    background-color: rgba(255, 102, 0, 0.2); /* light orange */
+    color: #ff6600; /* orange */
+    font-weight: 500;
+    border-radius: 0;
 }
 </style>
