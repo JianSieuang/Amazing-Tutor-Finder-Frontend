@@ -41,8 +41,6 @@
                     </div>
                     <ReviewModal style="z-index: 100" v-if="showReviewModal[tutor.user_id]" @close="showReviewModal[tutor.user_id] = false" :rateBy="authStore.user.id" :tutorId="tutor.user_id" />
                 </div>
-
-                {{ enrolledSessions.value }}
             </div>
         </div>
     </div>
@@ -61,13 +59,12 @@ const tutorStore = useTutorStore();
 const showReviewModal = ref({});
 const searchQuery = ref("");
 const tutors = ref([]);
-const enrolledSessions = ref([]);
 
 const fetchTutors = async () => {
     try {
         await tutorStore.fetchEnrolledTutorDetails(authStore.user.id, searchQuery.value);
         tutors.value = tutorStore.tutors;
-        enrolledSessions.value = tutorStore.enrolledSessions;
+        console.log("Tutors:", tutors.value);
     } catch (error) {
         console.error("Error fetching tutors:", error);
     }

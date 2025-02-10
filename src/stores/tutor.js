@@ -19,7 +19,6 @@ export const useTutorStore = defineStore("tutor", {
         perPage: 12,
         totalPages: 1,
         overallRate: 0,
-        enrolledSessions: [],
     }),
     actions: {
         async register(data, router) {
@@ -142,12 +141,13 @@ export const useTutorStore = defineStore("tutor", {
             const tutorSessions = response.data?.sessionsData || [];
             const ratings = response.data?.ratings || [];
             const enrolledStudents = response.data?.enrolledStudents || [];
-            this.enrolledSessions = response.data?.enrolledSessions || [];
+            const enrolledSessions = response.data?.enrolledSessions || [];
 
             this.tutors = tutorsData.map((tutor) => {
                 const tutorRatings = ratings.filter((rating) => rating.tutor_id === tutor.user_id);
                 const overallRate = tutorRatings.length > 0 ? tutorRatings.reduce((sum, r) => sum + r.rate, 0) / tutorRatings.length : 0;
                 const enrolledStudent = enrolledStudents.filter((student) => student.tutor_id === tutor.user_id);
+                const enrolledSession = enrolledSessions.filter((session) => session.tutor_id === tutor.user_id);
 
                 return {
                     ...tutor,
@@ -155,6 +155,7 @@ export const useTutorStore = defineStore("tutor", {
                     session: tutorSessions.find((session) => session.tutor_id === tutor.id),
                     overallRate: overallRate,
                     enrolledStudent: enrolledStudent.length,
+                    enrolledSession: enrolledSession,
                 };
             });
         },
