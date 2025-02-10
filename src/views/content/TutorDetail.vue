@@ -285,16 +285,13 @@ onMounted(async () => {
 
                 for (let i = 0; i < dayList.length; i++) {
                     if (dayList[i].includes("true")) {
-                        if (enrolledStudents.value > 0) {
-                            for (let j = 0; j < enrolled.length; j++) {
-                                if (enrolled[j].day === dayMapping[Object.keys(dayMapping)[i]] && enrolled[j].month === session_month.value && enrolled[j].time_slot === session.session_time) {
-                                    continue;
-                                } else {
-                                    availabilityList.value.push(dayMapping[Object.keys(dayMapping)[i]] + " " + session.session_time);
-                                }
-                            }
-                        } else {
-                            availabilityList.value.push(dayMapping[Object.keys(dayMapping)[i]] + " " + session.session_time);
+                        const dayName = dayMapping[Object.keys(dayMapping)[i]];
+                        const slot = `${dayName} ${session.session_time}`;
+
+                        const isEnrolled = enrolled.some((enroll) => enroll.day === dayName && enroll.month === session_month.value && enroll.time_slot === session.session_time);
+
+                        if (!isEnrolled) {
+                            availabilityList.value.push(slot);
                         }
                     }
                 }
