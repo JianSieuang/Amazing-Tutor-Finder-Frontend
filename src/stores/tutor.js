@@ -19,6 +19,7 @@ export const useTutorStore = defineStore("tutor", {
         perPage: 12,
         totalPages: 1,
         overallRate: 0,
+        enrolledSessions: [],
     }),
     actions: {
         async register(data, router) {
@@ -141,6 +142,7 @@ export const useTutorStore = defineStore("tutor", {
             const tutorSessions = response.data?.sessionsData || [];
             const ratings = response.data?.ratings || [];
             const enrolledStudents = response.data?.enrolledStudents || [];
+            this.enrolledSessions = response.data?.enrolledSessions || [];
 
             this.tutors = tutorsData.map((tutor) => {
                 const tutorRatings = ratings.filter((rating) => rating.tutor_id === tutor.user_id);

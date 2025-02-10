@@ -76,7 +76,7 @@
                             <span class="input-group-text">
                                 <font-awesome-icon icon="fa-brands fa-instagram" style="color: #ff6636" />
                             </span>
-                            <input type="text" class="form-control" id="instagram" v-model="instagram" placeholder="Please put your Instagram link" />
+                            <input type="text" class="form-control" id="instagram" v-model="instagram" placeholder="Please put your Instagram link" required />
                         </div>
                     </div>
                     <div class="col-12 col-md-6 mb-3">
@@ -85,7 +85,7 @@
                             <span class="input-group-text">
                                 <font-awesome-icon icon="fa-brands fa-linkedin-in" style="color: #ff6636" />
                             </span>
-                            <input type="text" class="form-control" id="linkedln" v-model="linkedln" placeholder="Please put your LinkedIn link" />
+                            <input type="text" class="form-control" id="linkedln" v-model="linkedln" placeholder="Please put your LinkedIn link" required />
                         </div>
                     </div>
                     <div class="col-12 col-md-6 mb-3">
@@ -94,7 +94,7 @@
                             <span class="input-group-text">
                                 <font-awesome-icon icon="fa-brands fa-whatsapp" style="color: #ff6636" />
                             </span>
-                            <input type="text" class="form-control" id="whatsapp" v-model="whatsapp" placeholder="Please put your WhatsApp number" />
+                            <input type="text" class="form-control" id="whatsapp" v-model="whatsapp" placeholder="Please put your WhatsApp number" required />
                         </div>
                     </div>
                 </div>

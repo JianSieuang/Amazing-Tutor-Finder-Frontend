@@ -38,7 +38,7 @@
                             <img v-if="imagePreview" :src="imagePreview" alt="Profile Picture Preview" class="img-fluid mt-2" style="max-width: 163px; height: auto" />
                         </div>
 
-                        <input class="form-control" type="file" id="profile_picture" accept="image/*" @change="handleImageUpload" />
+                        <input class="form-control" type="file" id="profile_picture" accept="image/*" @change="handleImageUpload" require/>
                     </div>
                 </div>
             </div>
