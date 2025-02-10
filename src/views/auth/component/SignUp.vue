@@ -18,16 +18,16 @@
             <div class="row mb-3 align-items-end">
                 <div class="col">
                     <label class="form-label">Full Name </label>
-                    <input type="text" class="form-control" id="first_name" placeholder="First name" v-model="first_name"/>
+                    <input type="text" class="form-control" id="first_name" placeholder="First name" v-model="first_name" required />
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" id="last_name" placeholder="Last name" v-model="last_name"/>
+                    <input type="text" class="form-control" id="last_name" placeholder="Last name" v-model="last_name" required />
                 </div>
             </div>
 
             <div class="mb-3">
                 <label for="name" class="form-label">Username</label>
-                <input type="text" class="form-control" id="name" v-model="name" placeholder="Username" />
+                <input type="text" class="form-control" id="name" v-model="name" placeholder="Username" required />
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -106,12 +106,12 @@ const handleSignUp = async () => {
 </script>
 
 <style scoped>
-.text-secondary{
+.text-secondary {
     font-size: 0.8rem !important;
 }
 .btn-orange {
     background-color: #ff6636;
-    color: #FFFFFF;
+    color: #ffffff;
     border-radius: 2px;
 }
 
@@ -122,7 +122,7 @@ const handleSignUp = async () => {
 
 .btn-purple {
     background-color: #564ffd;
-    color: #FFFFFF;
+    color: #ffffff;
     border-radius: 2px;
 }
 
