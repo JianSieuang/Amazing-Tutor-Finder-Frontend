@@ -85,7 +85,7 @@ const showPassword = ref(false);
 
 const handleSignUp = async () => {
     if (password.value !== confirmPassword.value) {
-        authStore.error = "Passwords do not match.";
+        alert("Passwords do not match.");
         return;
     }
 

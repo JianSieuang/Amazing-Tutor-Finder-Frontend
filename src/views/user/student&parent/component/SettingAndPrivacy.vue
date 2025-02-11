@@ -20,10 +20,10 @@
                     <div class="row mb-3 align-items-end">
                         <div class="col">
                             <label class="form-label"> Full Name </label>
-                            <input type="text" class="form-control" id="first-name" placeholder="First name" :readonly="!isEditing" :disabled="!isEditing" v-model="first_name" />
+                            <input type="text" class="form-control" id="first-name" placeholder="First name" :readonly="!isEditing" :disabled="!isEditing" v-model="first_name" required/>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" id="last-name" placeholder="Last name" :readonly="!isEditing" :disabled="!isEditing" v-model="last_name" />
+                            <input type="text" class="form-control" id="last-name" placeholder="Last name" :readonly="!isEditing" :disabled="!isEditing" v-model="last_name" required/>
                         </div>
                     </div>
                     <div class="mb-3">

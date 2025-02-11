@@ -149,7 +149,7 @@ export const useAuthStore = defineStore("auth", {
                 this.user = response.data;
                 alert("Edit successful!");
                 location.reload();
-            } catch (error) {
+            } catch (err) {
                 this.error = err.response?.data?.message || "Edit failed.";
                 alert("Edit failed! Pls try again");
             }
