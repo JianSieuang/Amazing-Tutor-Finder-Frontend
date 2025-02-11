@@ -21,7 +21,10 @@
                         <img :src="tutor.title_image" alt="profile" class="card-img-top" />
                         <div class="card-body">
                             <h5 class="card-title">{{ tutor.name }}</h5>
-                            <p class="card-text pb-3 border-bottom text-muted">{{ tutor.session.title }}</p>
+                            <span class="card-text text-muted">{{ tutor.session.title }}</span>
+                            <div class="card-text pb-3 border-bottom text-muted">
+                                <p class="p-0 m-0" v-for="session in tutor.enrolledSession">{{ session.day }}: {{ session.time_slot }}</p>
+                            </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-warning"> <i class="bi bi-star-fill"></i> {{ tutor?.overallRate?.toFixed(1) }} </span>
 
